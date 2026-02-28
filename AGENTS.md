@@ -1,5 +1,7 @@
 This are the instructions for the Full Stack Test, also read the .github/ folder to follow more instructions and skills each project (Frontend) and (Backend) has their own specific skills and instructions that you as an agent has to follow per each request.
 
+For any changes, you have to documented in the README.md at the root.
+
 # 🧪 Full-Stack Technical Test: Commercial KPI Dashboard  
 **Stack:** Next.js (TypeScript) + Node.js/Express (TypeScript) + PostgreSQL  
 **ORM:** Prisma or TypeORM  
