@@ -1,43 +1,49 @@
 version: "3.9"
 
 services:
-  frontend:
-    container_name: kpi_frontend
-    build: ./frontend
-    image: frontend:latest
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-  backend:
-    container_name: kpi_backend
-    build: ./backend
-    image: backend:latest
-    restart: unless-stopped
-    environment:
-      - DATABASE_URL=postgresql://kpi_user:kpi_pass@db:5432/kpi_db
-    depends_on:
-      db:
-        condition: service_healthy
-    ports:
-      - "8000:8000"
   db:
-    container_name: kpi_db
-    image: dhi/postgres:18-debian13
+    image: postgres:15
+    container_name: postgres_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: kpi_user
       POSTGRES_PASSWORD: kpi_pass
       POSTGRES_DB: kpi_db
-    volumes:
-      - db-data:/var/lib/postgresql/data
-      - ./db/init:/docker-entrypoint-initdb.d:ro
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./data/raw:/data/raw
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U kpi_user"]
+      interval: 5s
       timeout: 5s
       retries: 5
 
+  backend:
+    build: ./backend
+    container_name: node_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://kpi_user:kpi_pass@db:5432/kpi_db
+      NODE_ENV: development
+    ports:
+      - "8000:8000"
+    command: pnpm start
+
+  frontend:
+    build: ./frontend
+    container_name: next_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+
 volumes:
-  db-data:
+  postgres_data:
