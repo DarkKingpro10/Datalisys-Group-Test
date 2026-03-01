@@ -1,1 +1,1 @@
-CREATE SCHEMA IF NOT EXISTS raw, clean, golden;
+CREATE SCHEMA IF NOT EXISTS raw, clean, dwh;

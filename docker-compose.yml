@@ -10,11 +10,27 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./data/raw:/data/raw
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5
+
+  etl: 
+    build:
+      context: ./backend
+      target: dev
+    container_name: etl_job
+    restart: "no"
+    depends_on:
+      db: 
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: pnpm etl:dev
     env_file:
       - .env
 
@@ -33,6 +49,8 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+    environment:
+      NODE_ENV: development
     env_file:
       - .env
 

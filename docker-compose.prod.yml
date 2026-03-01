@@ -1,14 +1,24 @@
 services:
+  etl:
+    build:
+      context: ./backend
+      target: prod
+    command: pnpm etl
+    volumes: []
+    environment:
+      NODE_ENV: production
   backend:
-  build:
-    context: ./backend
-    target: prod
+    build:
+      context: ./backend
+      target: prod
     command: sh -c "pnpm build && pnpm start"
     environment:
       NODE_ENV: production
-    volumes: []
-
+      volumes: []
   frontend:
+    build:
+      context: ./frontend
+      target: prod
     command: sh -c "pnpm build && pnpm start"
     environment:
       NODE_ENV: production

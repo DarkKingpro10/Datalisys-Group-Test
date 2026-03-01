@@ -15,6 +15,7 @@ Este repositorio forma parte de la prueba técnica "Commercial KPI Dashboard". R
 - Arquitectura backend: Hexagonal (Ports & Adapters).
 - Infraestructura: Docker Compose con tres servicios (`frontend`, `backend`, `db`).
 - Modelado analítico: Star Schema; se requieren capas de datos en Postgres: `raw`, `clean`, `gold`.
+ - Modelado analítico: Star Schema; se requieren capas de datos en Postgres: `raw`, `clean`, `dwh`.
 - Dataset: Brazilian E-Commerce Public Dataset by Olist (CSV desde mirror de GitHub).
 
 Regla crítica del enunciado: el backend NO debe consultar las capas `raw` o `clean` directamente. Todas las consultas deben originarse desde `gold.fact_sales` (se permite hacer JOIN con dimensiones, pero la tabla de hecho `gold.fact_sales` debe ser la tabla conductora).
@@ -72,6 +73,29 @@ Artefactos añadidos
 - `docker-compose.yml`: servicios `frontend`, `backend` y `db` con `container_name`, políticas `restart`, variables de entorno mínimas y volúmenes.
 - `frontend/Dockerfile` y `backend/Dockerfile`: basadas en `node:24.14.0-bookworm-slim` con actualización segura del sistema durante la build.
 - `db/init/01_create_schemas.sql`: crea esquemas `raw`, `clean`, `gold` y concede `USAGE` y `CREATE` a `kpi_user`.
+ - `db/init/01_create_schemas.sql`: crea esquemas `raw`, `clean`, `dwh` y concede `USAGE` y `CREATE` a `kpi_user`.
+
+DWH / Star schema
+------------------
+- Esquema: `dwh` (el proyecto usa `dwh` como nombre de capa analítica; en la documentación antigua aparece `gold`/`golden` pero se unificó a `dwh`).
+- Grain: la tabla de hechos `dwh.fact_sales` tiene grano por ítem (1 fila por `order_id + order_item_id`).
+- Dimensiones implementadas: `dwh.dim_date`, `dwh.dim_customer`, `dwh.dim_product`, `dwh.dim_order`.
+- Keys: dimensiones con `PRIMARY KEY` (por ejemplo `dim_product.product_id`, `dim_customer.customer_id`, `dim_date.date`, `dim_order.order_id`). La tabla `dwh.fact_sales` tiene `PRIMARY KEY (order_id, order_item_id)`.
+
+Asignación de `payment_value` a nivel ítem
+-----------------------------------------
+- Problema: en Olist los pagos están a nivel de orden y los items a nivel ítem. Para mantener el grano de hecho (1 fila por item) se aplica una regla documentada y reproducible.
+- Regla aplicada (implementada en `backend/sql/04-dwh_tables.sql`): cada `payment_value` por `order_id` se asigna proporcionalmente a cada item según su `item_price`:
+
+  payment_value_allocated_item = payment_total_order * (item_price / SUM(item_price) por order_id)
+
+- Detalles y excepciones:
+  - Si la suma de `item_price` por orden es 0, se asigna `0` (se evita división por cero usando `NULLIF`).
+  - Si no hay pagos registrados para la orden, `payment_value_allocated` será 0.
+
+Regla crítica del enunciado (recordatorio)
+-----------------------------------------
+- El backend no debe consultar las capas `raw` ni `clean`. Todas las consultas del API deben originarse desde `dwh.fact_sales` (la fact es la tabla conductora). Si se requieren atributos adicionales, se permiten `JOIN` a dimensiones.
 
 Cumplimiento del enunciado
 -------------------------

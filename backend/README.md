@@ -30,3 +30,100 @@ Se definieron las tablas raw en el archivo `backend/sql/raw_tables.sql`, refleja
 ```sql
 COPY raw_customers FROM '/data/raw/olist_customers_dataset.csv' DELIMITER ',' CSV HEADER;
 ```
+
+## Documentación técnica: Data layers y decisiones de modelado
+Esta sección documenta, de forma técnica, las decisiones y el flujo de datos entre las capas `raw`, `clean` y `dwh` implementadas en los scripts SQL de `backend/sql`.
+
+1) Capa `raw` (entrada — réplica del origen)
+- Propósito: almacenar una réplica fiel de los CSV originales sin transformación, con tipos conservadores (TEXT) y sin restricciones que bloqueen la carga.
+- Operación de carga: las tablas `raw.*` se recargan mediante `TRUNCATE` seguido de `COPY` desde `/data/raw/*.csv` para garantizar una recarga limpia y reproducible en entornos de ingestión inicial o refresh.
+- Justificación: al mantener la capa cruda sin constraints se facilita la ingestión masiva y la auditoría; cualquier limpieza o validación se realiza en la capa `clean`.
+
+2) Capa `clean` (conformación — calidad y deduplicación)
+- Propósito: normalizar tipos, limpiar formatos, cast de timestamps, manejo de nulos y deduplicación básica.
+- Transformaciones aplicadas:
+	- Cast de timestamps (por ejemplo `order_purchase_timestamp::timestamp`).
+	- Cast de tipos numéricos (`price::numeric`).
+	- Normalización de texto (`TRIM`, `LOWER`, `UPPER`).
+	- Eliminación de duplicados mediante `SELECT DISTINCT`.
+- Idempotencia y estrategia anti-duplicados:
+	- Para evitar duplicados en `clean.*` se usan `INSERT ... ON CONFLICT (...) DO NOTHING` sobre claves naturales/PRIMARY KEY definidas en las tablas `clean` (por ejemplo `customer_id`, `order_id`, `(order_id, order_item_id)`, `product_id`, `review_id`).
+	- Donde procede, los scripts crean claves primarias o exclusivas antes de insertar para que `ON CONFLICT` funcione correctamente.
+	- Alternativa técnica: cuando se requiere una carga temporal para preprocesamiento, se emplean tablas temporales (`CREATE TEMP TABLE ...`) y luego `INSERT ... ON CONFLICT` desde la temporal.
+
+3) Capa `dwh` (star schema — capa analítica)
+- Propósito: proveer la capa única de consulta para el backend y consumo analítico con modelo estrella (fact + dims).
+- Nomenclatura: el repositorio unifica la capa analítica como `dwh` en el correo al inicio la menciona como gold más sinembargo se dan algunos ejemplos de el nombre dwh por lo que decidi usar dwh
+- Componentes implementados:
+	- `dwh.dim_date` (calendario creado a partir de `order_purchase_timestamp`).
+	- `dwh.dim_customer` (customer + geo mínimo).
+	- `dwh.dim_product` (product_id + categoría).
+	- `dwh.dim_order` (order-level attributes y timestamps).
+	- `dwh.fact_sales` (grain: 1 fila por `order_id + order_item_id`).
+- Keys y grain:
+	- Fact: `PRIMARY KEY (order_id, order_item_id)`.
+	- Dimensiones: `PRIMARY KEY` en sus identificadores naturales.
+
+4) Asignación de `payment_value` (regla documentada y reproducible)
+- Contexto: en el dataset Olist los pagos se registran a nivel de orden, mientras que la fact tiene grano a nivel de item.
+- Regla aplicada (implementada en `backend/sql/04-dwh_tables.sql`):
+
+	payment_value_allocated_item = payment_total_order * (item_price / SUM(item_price) por order_id)
+
+- Consideraciones técnicas:
+	- Se usa `NULLIF(s.order_total_price,0)` para evitar división por cero.
+	- Si no hay pagos registrados (`pay_total` es NULL), se utiliza `COALESCE(pay_total,0)` quedando la asignación en 0.
+	- Tipo: la columna `payment_value_allocated` está definida como `NUMERIC` para preservar precisión monetaria; en entornos productivos se recomienda además aplicar redondeo a 2 decimales y una corrección del residual para que la suma de allocations por orden iguale exactamente `pay_total`.
+
+5) Idempotencia y buenas prácticas de ETL
+- Carga de `raw`: `TRUNCATE` + `COPY` (carga snapshot reproducible).
+- Carga de `clean` y `dwh`: cargas incrementales/idempotentes con tablas temporales + `INSERT ... ON CONFLICT DO NOTHING`.
+- Orden de ejecución recomendado en el job ETL:
+	1. Cargar `raw` (TRUNCATE + COPY).
+	2. Ejecutar transformaciones `clean` (inserciones idempotentes desde `raw`).
+	3. Ejecutar construcción `dwh` (dimensiones luego la `fact_sales`).
+
+6) Reglas de acceso y arquitectura
+- Regla crítica del proyecto: el backend sólo debe consultar `dwh.fact_sales`. Cualquier atributo adicional puede obtenerse mediante JOIN a las dimensiones, pero la consulta debe tener a la fact como tabla conductora.
+- Esto soporta la arquitectura hexagonal requerida: la capa de infraestructura (repositorios/ORM) expone métodos que leen exclusivamente de `dwh`.
+
+7) Notas operativas y mejoras sugeridas
+- Redondeo y residual: para evitar pequeñas diferencias entre `SUM(payment_value_allocated)` y `payment_total_order`, es recomendable aplicar un ajuste (por ejemplo, asignar el residual al último ítem de la orden).
+- Validaciones: añadir un job de QA que verifique que para cada orden `ABS(SUM(payment_value_allocated) - pay_total) < 0.01`.
+- Observabilidad: registrar en logs/metrics el número de filas insertadas por etapa y órdenes sin pagos.
+
+La documentación técnica anterior debe mantenerse sincronizada con los scripts en `backend/sql` y cualquier modificación del ETL.
+
+Ejecución del ETL por separado
+--------------------------------
+Decisión operativa: en desarrollo el `backend` arranca con dependencia únicamente de la base de datos (`db`). El job ETL se ejecuta de forma independiente cuando se desee (por ejemplo, para recargar los datos después de actualizar los CSV). En `docker-compose.yml` el servicio `etl` está configurado con `restart: "no"` para que actúe como un job one-shot y no se reinicie automáticamente.
+
+Comandos rápidos:
+
+- Levantar DB + backend + frontend (en background):
+
+```bash
+docker compose up -d --build db backend frontend
+```
+
+- Ejecutar el job ETL (foreground):
+
+```bash
+docker compose up --build etl
+```
+
+- Ejecutar ETL una sola vez y eliminar contenedor al terminar:
+
+```bash
+docker compose run --rm etl
+```
+
+- Ver logs del ETL:
+
+```bash
+docker compose logs -f etl
+```
+
+Notas:
+
+- Como el servicio `etl` no se reinicia automáticamente (`restart: "no"`), para volver a ejecutar la carga lanza de nuevo `docker compose up --build etl`.

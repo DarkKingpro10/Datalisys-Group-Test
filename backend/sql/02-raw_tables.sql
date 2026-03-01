@@ -90,20 +90,29 @@ CREATE TABLE IF NOT EXISTS raw.product_category_name_translation (
 
 -- 2. Carga de datos desde los CSV
 -- Clientes
+TRUNCATE TABLE raw.customers;
 COPY raw.customers FROM '/data/raw/olist_customers_dataset.csv' DELIMITER ',' CSV HEADER;
 -- Geolocalización
+TRUNCATE TABLE raw.geolocation;
 COPY raw.geolocation FROM '/data/raw/olist_geolocation_dataset.csv' DELIMITER ',' CSV HEADER;
 -- Órdenes
+TRUNCATE TABLE raw.orders;
 COPY raw.orders FROM '/data/raw/olist_orders_dataset.csv' DELIMITER ',' CSV HEADER;
 -- Ítems de orden
+TRUNCATE TABLE raw.order_items;
 COPY raw.order_items FROM '/data/raw/olist_order_items_dataset.csv' DELIMITER ',' CSV HEADER;
 -- Pagos
+TRUNCATE TABLE raw.order_payments;
 COPY raw.order_payments FROM '/data/raw/olist_order_payments_dataset.csv' DELIMITER ',' CSV HEADER;
 -- Reseñas
+TRUNCATE TABLE raw.order_reviews;
 COPY raw.order_reviews FROM '/data/raw/olist_order_reviews_dataset.csv' DELIMITER ',' CSV HEADER;
 -- Productos
+TRUNCATE TABLE raw.products;
 COPY raw.products FROM '/data/raw/olist_products_dataset.csv' DELIMITER ',' CSV HEADER;
 -- Vendedores
+TRUNCATE TABLE raw.sellers;
 COPY raw.sellers FROM '/data/raw/olist_sellers_dataset.csv' DELIMITER ',' CSV HEADER;
 -- Traducción de categorías
+TRUNCATE TABLE raw.product_category_name_translation;
 COPY raw.product_category_name_translation FROM '/data/raw/product_category_name_translation.csv' DELIMITER ',' CSV HEADER;
