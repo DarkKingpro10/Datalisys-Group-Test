@@ -1,3 +1,22 @@
 archive.zip
 
 .github/
+
+# Ignorar node_modules en cualquier nivel
+node_modules/
+
+# Logs
+*.log
+
+# Variables de entorno
+.env
+
+# Build
+dist/
+build/
+
+.agents
+
+.vscode
+
+skills-lock.json
