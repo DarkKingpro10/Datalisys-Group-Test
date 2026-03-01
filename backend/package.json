@@ -10,7 +10,7 @@
 		"dev": "nodemon",
 		"lint": "eslint 'src/**/*.ts'",
 		"etl:dev": "node --loader ts-node/esm src/etl/index.ts",
-    "etl": "node dist/etl/index.js",
+		"etl": "node dist/etl/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
@@ -18,6 +18,8 @@
 	"license": "ISC",
 	"packageManager": "pnpm@10.30.0",
 	"dependencies": {
+		"@prisma/adapter-pg": "7.4.2",
+		"@prisma/client": "7.4.2",
 		"cors": "2.8.6",
 		"dotenv": "17.3.1",
 		"express": "5.2.1",
@@ -34,6 +36,7 @@
 		"@typescript-eslint/parser": "8.56.1",
 		"eslint": "10.0.2",
 		"nodemon": "3.1.14",
+		"prisma": "7.4.2",
 		"ts-node": "10.9.2",
 		"typescript": "5.9.3"
 	},

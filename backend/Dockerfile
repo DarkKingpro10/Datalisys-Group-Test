@@ -45,7 +45,7 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/prisma ./prisma
 
 # Copiando los archivos de generación de Prisma
-COPY --from=build /app/generated ./generated
+COPY --from=build /app/src/generated /app/src/generated
 
 EXPOSE 8000
 

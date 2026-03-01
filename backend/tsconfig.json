@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "module": "nodenext",
+    "module": "ESNext",
     "target": "esnext",
     "lib": ["esnext"],
     "types": ["node", "express"],
@@ -17,7 +17,8 @@
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+    "moduleResolution": "bundler"
   },
   "include": ["src", "src/etl"],
   "exclude": ["node_modules", "dist"]

@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// NOTE: The datasource expects an environment variable `DATABASE_URL_DWH`
+// that points to your Postgres instance and sets the search_path (schema) to the DWH
+// Example: postgres://user:pass@host:5432/dbname?schema=gold
+
+// Minimal star-schema models for the `gold` (DWH) layer.
+model DimDate {
+  id    Int      @id @default(autoincrement())
+  date  DateTime @unique
+  year  Int
+  month Int
+  day   Int
+
+  FactSales FactSales[]
+}
+
+model DimCustomer {
+  customer_id String  @id
+  customer_zip_code_prefix Int?
+  customer_city String?
+  customer_state String?
+
+  FactSales FactSales[]
+}
+
+model DimProduct {
+  product_id String @id
+  product_category_name String?
+  product_name_lenght Int?
+  product_description_lenght Int?
+
+  FactSales FactSales[]
+}
+
+model DimOrder {
+  order_id String @id
+  order_status String?
+  order_purchase_timestamp DateTime?
+  order_approved_at DateTime?
+  order_delivered_customer_date DateTime?
+  order_estimated_delivery_date DateTime?
+
+  FactSales FactSales[]
+}
+
+model FactSales {
+  order_id     String
+  order_item_id Int
+  dateId       Int?
+  customerId   String?
+  productId    String?
+
+  item_price    Decimal? @db.Decimal(12,2)
+  freight_value Decimal? @db.Decimal(12,2)
+  payment_value_allocated Decimal? @db.Decimal(12,2)
+  quantity      Int?     @default(1)
+  is_delivered  Boolean? @default(false)
+  is_canceled   Boolean? @default(false)
+  is_on_time    Boolean? @default(false)
+
+  @@id([order_id, order_item_id])
+
+  @@index([dateId])
+  @@index([customerId])
+  @@index([productId])
+
+  // Relations
+  DimDate   DimDate?   @relation(fields: [dateId], references: [id])
+  DimCustomer DimCustomer? @relation(fields: [customerId], references: [customer_id])
+  DimProduct  DimProduct?  @relation(fields: [productId], references: [product_id])
+  DimOrder    DimOrder?    @relation(fields: [order_id], references: [order_id])
+}
