@@ -2,37 +2,39 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:15
+    image: dhi/postgres:18-debian13
     container_name: postgres_db
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: kpi_user
-      POSTGRES_PASSWORD: kpi_pass
-      POSTGRES_DB: kpi_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./data/raw:/data/raw
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U kpi_user"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5
+    env_file:
+      - .env
 
   backend:
-    build: ./backend
+    build: 
+      context: ./backend
+      target: dev
     container_name: node_backend
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      DATABASE_URL: postgres://kpi_user:kpi_pass@db:5432/kpi_db
-      NODE_ENV: development
     ports:
       - "8000:8000"
-    command: pnpm start
+    command: pnpm dev
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - .env
 
   frontend:
     build: ./frontend
@@ -40,10 +42,14 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
-    environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
     ports:
       - "3000:3000"
+    command: pnpm dev
+    volumes: 
+      - ./frontend:/app
+      - /app/node_modules
+    env_file:
+      - .env
 
 volumes:
   postgres_data:

@@ -1,0 +1,15 @@
+services:
+  backend:
+  build:
+    context: ./backend
+    target: prod
+    command: sh -c "pnpm build && pnpm start"
+    environment:
+      NODE_ENV: production
+    volumes: []
+
+  frontend:
+    command: sh -c "pnpm build && pnpm start"
+    environment:
+      NODE_ENV: production
+    volumes: []

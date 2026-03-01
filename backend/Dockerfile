@@ -1,24 +1,51 @@
-FROM node:24.14.0-bookworm-slim
-# Actualiza el sistema base y limpia caché
-RUN apt-get update \
-	&& apt-get upgrade -y \
-	&& rm -rf /var/lib/apt/lists/*
+# ---------- Dependencias ----------
+FROM node:20-bookworm-slim AS deps
 
-WORKDIR /usr/src/app
-# Activa corepack para soporte nativo de pnpm
+WORKDIR /app
+
+# Habilitar pnpm
 RUN corepack enable
 
-# Copia los archivos de dependencias primero
+# Copiar archivos de dependencias
 COPY package.json pnpm-lock.yaml ./
 
-# Instala dependencias con pnpm
+# Instalar dependencias
 RUN pnpm install --frozen-lockfile
 
-# Copia el resto del código fuente
+# ---------- Build ----------
+FROM node:20-bookworm-slim AS build
+
+WORKDIR /app
+RUN corepack enable
+
+# Copiar node_modules desde deps
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copiar todo el código
 COPY . .
 
-# Genera el cliente de Prisma y corre migraciones
-RUN pnpm prisma generate && pnpm prisma migrate deploy
+# Generar cliente Prisma
+RUN pnpm prisma generate
+
+# Compilar TypeScript
+RUN pnpm build
+
+# ---------- Producción ----------
+FROM node:20-bookworm-slim AS prod
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+RUN corepack enable
+
+# Copiamos solo lo necesario
+COPY --from=build /app/package.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/prisma ./prisma
+
+# Copiando los archivos de generación de Prisma
+COPY --from=build /app/generated ./generated
 
 EXPOSE 8000
 

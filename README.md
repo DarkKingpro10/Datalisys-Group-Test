@@ -29,22 +29,29 @@ Requisitos
 
 Cómo levantar el entorno
 ------------------------
-1. Obtener imágenes y construir servicios:
 
-```powershell
-docker compose pull
-docker compose build --pull
+## Desarrollo
+Para entorno de desarrollo, ejecuta:
+
+```bash
+docker compose up -d --build
 ```
 
-2. Levantar en segundo plano:
+Esto usará únicamente el archivo `docker-compose.yml` y las variables de entorno de `.env`. Los volúmenes locales se montan para desarrollo interactivo y hot reload.
 
-```powershell
-docker compose up -d
+## Producción
+Para entorno de producción, ejecuta:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
 ```
 
-3. Consultar logs del contenedor de base de datos:
+Esto combina la configuración base y la de producción, sobreescribiendo comandos, variables y volúmenes según sea necesario para despliegue. En producción no se montan volúmenes locales y los servicios ejecutan el build y luego el start.
 
-```powershell
+## Logs y verificación
+Para consultar logs del contenedor de base de datos:
+
+```bash
 docker compose logs -f db
 ```
 
@@ -102,5 +109,37 @@ Notas operativas
 Referencias
 ----------
 - DHI Postgres guides: https://hub.docker.com/hardened-images/catalog/dhi/postgres/guides
+
+# Ejecución de entornos con Docker Compose
+
+## Desarrollo
+
+Para levantar el entorno de desarrollo:
+
+```bash
+docker compose up -d --build
+```
+
+Esto usará únicamente el archivo `docker-compose.yml` y las variables de entorno de `.env`. Se montan los volúmenes locales para hot reload y desarrollo interactivo.
+
+## Producción
+
+Para levantar el entorno de producción, se combinan los archivos base y de producción:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+```
+
+Esto aplica las configuraciones adicionales y sobreescribe lo necesario para producción (comandos, variables, volúmenes, etc). En producción, los servicios ejecutan el build y luego el start, y no montan volúmenes locales.
+
+## Estructura recomendada
+- `docker-compose.yml`: archivo base, define servicios y configuración común para todos los entornos.
+- `docker-compose.prod.yml`: archivo de overrides, solo incluye los cambios necesarios para producción (comando de build/start, variables, volúmenes vacíos, etc).
+- `.env`: variables de entorno compartidas, puedes sobreescribirlas en el compose de producción si lo necesitas.
+
+## Notas
+- El backend usa multi-stage build en el Dockerfile para optimizar la imagen final.
+- La forma recomendada para producción es siempre combinar ambos archivos con el comando mostrado arriba.
+- Mantén las credenciales y variables sensibles en `.env` y nunca en los archivos compose directamente.
 
 
