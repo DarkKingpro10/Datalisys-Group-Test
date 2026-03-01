@@ -1,14 +1,12 @@
-version: "3.9"
-
 services:
   db:
-    image: dhi/postgres:18-debian13
+    image: postgres:18
     container_name: postgres_db
     restart: unless-stopped
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
       - ./data/raw:/data/raw
     env_file:
       - .env
@@ -21,7 +19,7 @@ services:
   etl: 
     build:
       context: ./backend
-      target: dev
+      target: deps
     container_name: etl_job
     restart: "no"
     depends_on:
@@ -37,7 +35,7 @@ services:
   backend:
     build: 
       context: ./backend
-      target: dev
+      target: deps
     container_name: node_backend
     restart: unless-stopped
     depends_on:
@@ -51,21 +49,29 @@ services:
       - /app/node_modules
     environment:
       NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "100"
     env_file:
       - .env
 
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      target: deps
     container_name: next_frontend
     restart: unless-stopped
     depends_on:
       - backend
     ports:
       - "3000:3000"
-    command: pnpm dev
+    command: pnpm dev --webpack
     volumes: 
       - ./frontend:/app
       - /app/node_modules
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "100"
+      WATCHPACK_POLLING: "true"
     env_file:
       - .env
 

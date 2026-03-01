@@ -8,9 +8,9 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/DimDate'
-export type * from './models/DimCustomer'
-export type * from './models/DimProduct'
-export type * from './models/DimOrder'
-export type * from './models/FactSales'
-export type * from './commonInputTypes'
+export type * from './models/DimDate.js'
+export type * from './models/DimCustomer.js'
+export type * from './models/DimProduct.js'
+export type * from './models/DimOrder.js'
+export type * from './models/FactSales.js'
+export type * from './commonInputTypes.js'

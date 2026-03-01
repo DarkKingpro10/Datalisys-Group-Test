@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model DimCustomer
@@ -20,68 +20,50 @@ export type DimCustomerModel = runtime.Types.Result.DefaultSelection<Prisma.$Dim
 
 export type AggregateDimCustomer = {
   _count: DimCustomerCountAggregateOutputType | null
-  _avg: DimCustomerAvgAggregateOutputType | null
-  _sum: DimCustomerSumAggregateOutputType | null
   _min: DimCustomerMinAggregateOutputType | null
   _max: DimCustomerMaxAggregateOutputType | null
 }
 
-export type DimCustomerAvgAggregateOutputType = {
-  customer_zip_code_prefix: number | null
-}
-
-export type DimCustomerSumAggregateOutputType = {
-  customer_zip_code_prefix: number | null
-}
-
 export type DimCustomerMinAggregateOutputType = {
   customer_id: string | null
-  customer_zip_code_prefix: number | null
+  customer_unique_id: string | null
   customer_city: string | null
   customer_state: string | null
 }
 
 export type DimCustomerMaxAggregateOutputType = {
   customer_id: string | null
-  customer_zip_code_prefix: number | null
+  customer_unique_id: string | null
   customer_city: string | null
   customer_state: string | null
 }
 
 export type DimCustomerCountAggregateOutputType = {
   customer_id: number
-  customer_zip_code_prefix: number
+  customer_unique_id: number
   customer_city: number
   customer_state: number
   _all: number
 }
 
 
-export type DimCustomerAvgAggregateInputType = {
-  customer_zip_code_prefix?: true
-}
-
-export type DimCustomerSumAggregateInputType = {
-  customer_zip_code_prefix?: true
-}
-
 export type DimCustomerMinAggregateInputType = {
   customer_id?: true
-  customer_zip_code_prefix?: true
+  customer_unique_id?: true
   customer_city?: true
   customer_state?: true
 }
 
 export type DimCustomerMaxAggregateInputType = {
   customer_id?: true
-  customer_zip_code_prefix?: true
+  customer_unique_id?: true
   customer_city?: true
   customer_state?: true
 }
 
 export type DimCustomerCountAggregateInputType = {
   customer_id?: true
-  customer_zip_code_prefix?: true
+  customer_unique_id?: true
   customer_city?: true
   customer_state?: true
   _all?: true
@@ -125,18 +107,6 @@ export type DimCustomerAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: DimCustomerAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: DimCustomerSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: DimCustomerMinAggregateInputType
@@ -167,20 +137,16 @@ export type DimCustomerGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: DimCustomerCountAggregateInputType | true
-  _avg?: DimCustomerAvgAggregateInputType
-  _sum?: DimCustomerSumAggregateInputType
   _min?: DimCustomerMinAggregateInputType
   _max?: DimCustomerMaxAggregateInputType
 }
 
 export type DimCustomerGroupByOutputType = {
   customer_id: string
-  customer_zip_code_prefix: number | null
+  customer_unique_id: string | null
   customer_city: string | null
   customer_state: string | null
   _count: DimCustomerCountAggregateOutputType | null
-  _avg: DimCustomerAvgAggregateOutputType | null
-  _sum: DimCustomerSumAggregateOutputType | null
   _min: DimCustomerMinAggregateOutputType | null
   _max: DimCustomerMaxAggregateOutputType | null
 }
@@ -205,7 +171,7 @@ export type DimCustomerWhereInput = {
   OR?: Prisma.DimCustomerWhereInput[]
   NOT?: Prisma.DimCustomerWhereInput | Prisma.DimCustomerWhereInput[]
   customer_id?: Prisma.StringFilter<"DimCustomer"> | string
-  customer_zip_code_prefix?: Prisma.IntNullableFilter<"DimCustomer"> | number | null
+  customer_unique_id?: Prisma.StringNullableFilter<"DimCustomer"> | string | null
   customer_city?: Prisma.StringNullableFilter<"DimCustomer"> | string | null
   customer_state?: Prisma.StringNullableFilter<"DimCustomer"> | string | null
   FactSales?: Prisma.FactSalesListRelationFilter
@@ -213,7 +179,7 @@ export type DimCustomerWhereInput = {
 
 export type DimCustomerOrderByWithRelationInput = {
   customer_id?: Prisma.SortOrder
-  customer_zip_code_prefix?: Prisma.SortOrderInput | Prisma.SortOrder
+  customer_unique_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_city?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_state?: Prisma.SortOrderInput | Prisma.SortOrder
   FactSales?: Prisma.FactSalesOrderByRelationAggregateInput
@@ -224,7 +190,7 @@ export type DimCustomerWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DimCustomerWhereInput | Prisma.DimCustomerWhereInput[]
   OR?: Prisma.DimCustomerWhereInput[]
   NOT?: Prisma.DimCustomerWhereInput | Prisma.DimCustomerWhereInput[]
-  customer_zip_code_prefix?: Prisma.IntNullableFilter<"DimCustomer"> | number | null
+  customer_unique_id?: Prisma.StringNullableFilter<"DimCustomer"> | string | null
   customer_city?: Prisma.StringNullableFilter<"DimCustomer"> | string | null
   customer_state?: Prisma.StringNullableFilter<"DimCustomer"> | string | null
   FactSales?: Prisma.FactSalesListRelationFilter
@@ -232,14 +198,12 @@ export type DimCustomerWhereUniqueInput = Prisma.AtLeast<{
 
 export type DimCustomerOrderByWithAggregationInput = {
   customer_id?: Prisma.SortOrder
-  customer_zip_code_prefix?: Prisma.SortOrderInput | Prisma.SortOrder
+  customer_unique_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_city?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_state?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DimCustomerCountOrderByAggregateInput
-  _avg?: Prisma.DimCustomerAvgOrderByAggregateInput
   _max?: Prisma.DimCustomerMaxOrderByAggregateInput
   _min?: Prisma.DimCustomerMinOrderByAggregateInput
-  _sum?: Prisma.DimCustomerSumOrderByAggregateInput
 }
 
 export type DimCustomerScalarWhereWithAggregatesInput = {
@@ -247,14 +211,14 @@ export type DimCustomerScalarWhereWithAggregatesInput = {
   OR?: Prisma.DimCustomerScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DimCustomerScalarWhereWithAggregatesInput | Prisma.DimCustomerScalarWhereWithAggregatesInput[]
   customer_id?: Prisma.StringWithAggregatesFilter<"DimCustomer"> | string
-  customer_zip_code_prefix?: Prisma.IntNullableWithAggregatesFilter<"DimCustomer"> | number | null
+  customer_unique_id?: Prisma.StringNullableWithAggregatesFilter<"DimCustomer"> | string | null
   customer_city?: Prisma.StringNullableWithAggregatesFilter<"DimCustomer"> | string | null
   customer_state?: Prisma.StringNullableWithAggregatesFilter<"DimCustomer"> | string | null
 }
 
 export type DimCustomerCreateInput = {
   customer_id: string
-  customer_zip_code_prefix?: number | null
+  customer_unique_id?: string | null
   customer_city?: string | null
   customer_state?: string | null
   FactSales?: Prisma.FactSalesCreateNestedManyWithoutDimCustomerInput
@@ -262,7 +226,7 @@ export type DimCustomerCreateInput = {
 
 export type DimCustomerUncheckedCreateInput = {
   customer_id: string
-  customer_zip_code_prefix?: number | null
+  customer_unique_id?: string | null
   customer_city?: string | null
   customer_state?: string | null
   FactSales?: Prisma.FactSalesUncheckedCreateNestedManyWithoutDimCustomerInput
@@ -270,7 +234,7 @@ export type DimCustomerUncheckedCreateInput = {
 
 export type DimCustomerUpdateInput = {
   customer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_zip_code_prefix?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_unique_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   FactSales?: Prisma.FactSalesUpdateManyWithoutDimCustomerNestedInput
@@ -278,7 +242,7 @@ export type DimCustomerUpdateInput = {
 
 export type DimCustomerUncheckedUpdateInput = {
   customer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_zip_code_prefix?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_unique_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   FactSales?: Prisma.FactSalesUncheckedUpdateManyWithoutDimCustomerNestedInput
@@ -286,52 +250,44 @@ export type DimCustomerUncheckedUpdateInput = {
 
 export type DimCustomerCreateManyInput = {
   customer_id: string
-  customer_zip_code_prefix?: number | null
+  customer_unique_id?: string | null
   customer_city?: string | null
   customer_state?: string | null
 }
 
 export type DimCustomerUpdateManyMutationInput = {
   customer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_zip_code_prefix?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_unique_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DimCustomerUncheckedUpdateManyInput = {
   customer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_zip_code_prefix?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_unique_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DimCustomerCountOrderByAggregateInput = {
   customer_id?: Prisma.SortOrder
-  customer_zip_code_prefix?: Prisma.SortOrder
+  customer_unique_id?: Prisma.SortOrder
   customer_city?: Prisma.SortOrder
   customer_state?: Prisma.SortOrder
 }
 
-export type DimCustomerAvgOrderByAggregateInput = {
-  customer_zip_code_prefix?: Prisma.SortOrder
-}
-
 export type DimCustomerMaxOrderByAggregateInput = {
   customer_id?: Prisma.SortOrder
-  customer_zip_code_prefix?: Prisma.SortOrder
+  customer_unique_id?: Prisma.SortOrder
   customer_city?: Prisma.SortOrder
   customer_state?: Prisma.SortOrder
 }
 
 export type DimCustomerMinOrderByAggregateInput = {
   customer_id?: Prisma.SortOrder
-  customer_zip_code_prefix?: Prisma.SortOrder
+  customer_unique_id?: Prisma.SortOrder
   customer_city?: Prisma.SortOrder
   customer_state?: Prisma.SortOrder
-}
-
-export type DimCustomerSumOrderByAggregateInput = {
-  customer_zip_code_prefix?: Prisma.SortOrder
 }
 
 export type DimCustomerNullableScalarRelationFilter = {
@@ -341,14 +297,6 @@ export type DimCustomerNullableScalarRelationFilter = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -373,14 +321,14 @@ export type DimCustomerUpdateOneWithoutFactSalesNestedInput = {
 
 export type DimCustomerCreateWithoutFactSalesInput = {
   customer_id: string
-  customer_zip_code_prefix?: number | null
+  customer_unique_id?: string | null
   customer_city?: string | null
   customer_state?: string | null
 }
 
 export type DimCustomerUncheckedCreateWithoutFactSalesInput = {
   customer_id: string
-  customer_zip_code_prefix?: number | null
+  customer_unique_id?: string | null
   customer_city?: string | null
   customer_state?: string | null
 }
@@ -403,14 +351,14 @@ export type DimCustomerUpdateToOneWithWhereWithoutFactSalesInput = {
 
 export type DimCustomerUpdateWithoutFactSalesInput = {
   customer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_zip_code_prefix?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_unique_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DimCustomerUncheckedUpdateWithoutFactSalesInput = {
   customer_id?: Prisma.StringFieldUpdateOperationsInput | string
-  customer_zip_code_prefix?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customer_unique_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -448,7 +396,7 @@ export type DimCustomerCountOutputTypeCountFactSalesArgs<ExtArgs extends runtime
 
 export type DimCustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   customer_id?: boolean
-  customer_zip_code_prefix?: boolean
+  customer_unique_id?: boolean
   customer_city?: boolean
   customer_state?: boolean
   FactSales?: boolean | Prisma.DimCustomer$FactSalesArgs<ExtArgs>
@@ -457,26 +405,26 @@ export type DimCustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type DimCustomerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   customer_id?: boolean
-  customer_zip_code_prefix?: boolean
+  customer_unique_id?: boolean
   customer_city?: boolean
   customer_state?: boolean
 }, ExtArgs["result"]["dimCustomer"]>
 
 export type DimCustomerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   customer_id?: boolean
-  customer_zip_code_prefix?: boolean
+  customer_unique_id?: boolean
   customer_city?: boolean
   customer_state?: boolean
 }, ExtArgs["result"]["dimCustomer"]>
 
 export type DimCustomerSelectScalar = {
   customer_id?: boolean
-  customer_zip_code_prefix?: boolean
+  customer_unique_id?: boolean
   customer_city?: boolean
   customer_state?: boolean
 }
 
-export type DimCustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"customer_id" | "customer_zip_code_prefix" | "customer_city" | "customer_state", ExtArgs["result"]["dimCustomer"]>
+export type DimCustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"customer_id" | "customer_unique_id" | "customer_city" | "customer_state", ExtArgs["result"]["dimCustomer"]>
 export type DimCustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   FactSales?: boolean | Prisma.DimCustomer$FactSalesArgs<ExtArgs>
   _count?: boolean | Prisma.DimCustomerCountOutputTypeDefaultArgs<ExtArgs>
@@ -491,7 +439,7 @@ export type $DimCustomerPayload<ExtArgs extends runtime.Types.Extensions.Interna
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     customer_id: string
-    customer_zip_code_prefix: number | null
+    customer_unique_id: string | null
     customer_city: string | null
     customer_state: string | null
   }, ExtArgs["result"]["dimCustomer"]>
@@ -919,7 +867,7 @@ export interface Prisma__DimCustomerClient<T, Null = never, ExtArgs extends runt
  */
 export interface DimCustomerFieldRefs {
   readonly customer_id: Prisma.FieldRef<"DimCustomer", 'String'>
-  readonly customer_zip_code_prefix: Prisma.FieldRef<"DimCustomer", 'Int'>
+  readonly customer_unique_id: Prisma.FieldRef<"DimCustomer", 'String'>
   readonly customer_city: Prisma.FieldRef<"DimCustomer", 'String'>
   readonly customer_state: Prisma.FieldRef<"DimCustomer", 'String'>
 }

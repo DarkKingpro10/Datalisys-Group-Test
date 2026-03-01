@@ -31,6 +31,7 @@ Se definieron las tablas raw en el archivo `backend/sql/raw_tables.sql`, refleja
 COPY raw_customers FROM '/data/raw/olist_customers_dataset.csv' DELIMITER ',' CSV HEADER;
 ```
 
+Los scripts contienen instrucciones `COPY` como ejemplo de cómo cargar CSVs en las tablas `raw`, pero esas instrucciones deben ejecutarse dentro de Postgres (por ejemplo, como scripts de inicialización en el contenedor `db` o mediante un job que ejecute SQL contra la base). El servicio `etl` NO debe montar ni leer los CSVs directamente; su responsabilidad es ejecutar las transformaciones SQL (`clean` y `dwh`) contra la base de datos.
 ## Documentación técnica: Data layers y decisiones de modelado
 Esta sección documenta, de forma técnica, las decisiones y el flujo de datos entre las capas `raw`, `clean` y `dwh` implementadas en los scripts SQL de `backend/sql`.
 
@@ -96,7 +97,7 @@ La documentación técnica anterior debe mantenerse sincronizada con los scripts
 
 Ejecución del ETL por separado
 --------------------------------
-Decisión operativa: en desarrollo el `backend` arranca con dependencia únicamente de la base de datos (`db`). El job ETL se ejecuta de forma independiente cuando se desee (por ejemplo, para recargar los datos después de actualizar los CSV). En `docker-compose.yml` el servicio `etl` está configurado con `restart: "no"` para que actúe como un job one-shot y no se reinicie automáticamente.
+Decisión operativa: en desarrollo el `backend` arranca con dependencia únicamente de la base de datos (`db`). El job ETL se ejecuta de forma independiente cuando se desee (por ejemplo, para ejecutar las transformaciones `clean` y construir `dwh`). Importante: el `etl` está diseñado para ejecutar SQL contra la base de datos; NO debe leer ni montar archivos CSV desde su propio contenedor. Cargas iniciales de `raw` (por ejemplo `COPY` desde CSV) deben realizarse dentro de la instancia de Postgres (scripts de init o un job separado con acceso a los CSV).
 
 Comandos rápidos:
 

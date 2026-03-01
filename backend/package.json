@@ -7,9 +7,9 @@
 	"scripts": {
 		"build": "tsc",
 		"start": "node dist/app.js",
-		"dev": "nodemon",
+		"dev": "tsx watch src/app.ts",
 		"lint": "eslint 'src/**/*.ts'",
-		"etl:dev": "node --loader ts-node/esm src/etl/index.ts",
+		"etl:dev": "tsx src/etl/index.ts",
 		"etl": "node dist/etl/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -28,6 +28,7 @@
 		"pg": "8.19.0"
 	},
 	"devDependencies": {
+		"@types/cors": "2.8.19",
 		"@types/express": "5.0.6",
 		"@types/morgan": "1.9.10",
 		"@types/node": "25.3.3",
@@ -38,13 +39,7 @@
 		"nodemon": "3.1.14",
 		"prisma": "7.4.2",
 		"ts-node": "10.9.2",
+		"tsx": "4.21.0",
 		"typescript": "5.9.3"
-	},
-	"nodemonConfig": {
-		"watch": [
-			"src"
-		],
-		"ext": "ts,json",
-		"exec": "ts-node src/index.ts"
 	}
 }

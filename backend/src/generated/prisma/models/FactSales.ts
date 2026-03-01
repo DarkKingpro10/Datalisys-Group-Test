@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model FactSales
@@ -28,32 +28,28 @@ export type AggregateFactSales = {
 
 export type FactSalesAvgAggregateOutputType = {
   order_item_id: number | null
-  dateId: number | null
   item_price: runtime.Decimal | null
   freight_value: runtime.Decimal | null
   payment_value_allocated: runtime.Decimal | null
-  quantity: number | null
 }
 
 export type FactSalesSumAggregateOutputType = {
   order_item_id: number | null
-  dateId: number | null
   item_price: runtime.Decimal | null
   freight_value: runtime.Decimal | null
   payment_value_allocated: runtime.Decimal | null
-  quantity: number | null
 }
 
 export type FactSalesMinAggregateOutputType = {
   order_id: string | null
   order_item_id: number | null
-  dateId: number | null
-  customerId: string | null
-  productId: string | null
+  purchase_date: Date | null
+  product_id: string | null
+  customer_id: string | null
+  seller_id: string | null
   item_price: runtime.Decimal | null
   freight_value: runtime.Decimal | null
   payment_value_allocated: runtime.Decimal | null
-  quantity: number | null
   is_delivered: boolean | null
   is_canceled: boolean | null
   is_on_time: boolean | null
@@ -62,13 +58,13 @@ export type FactSalesMinAggregateOutputType = {
 export type FactSalesMaxAggregateOutputType = {
   order_id: string | null
   order_item_id: number | null
-  dateId: number | null
-  customerId: string | null
-  productId: string | null
+  purchase_date: Date | null
+  product_id: string | null
+  customer_id: string | null
+  seller_id: string | null
   item_price: runtime.Decimal | null
   freight_value: runtime.Decimal | null
   payment_value_allocated: runtime.Decimal | null
-  quantity: number | null
   is_delivered: boolean | null
   is_canceled: boolean | null
   is_on_time: boolean | null
@@ -77,13 +73,13 @@ export type FactSalesMaxAggregateOutputType = {
 export type FactSalesCountAggregateOutputType = {
   order_id: number
   order_item_id: number
-  dateId: number
-  customerId: number
-  productId: number
+  purchase_date: number
+  product_id: number
+  customer_id: number
+  seller_id: number
   item_price: number
   freight_value: number
   payment_value_allocated: number
-  quantity: number
   is_delivered: number
   is_canceled: number
   is_on_time: number
@@ -93,32 +89,28 @@ export type FactSalesCountAggregateOutputType = {
 
 export type FactSalesAvgAggregateInputType = {
   order_item_id?: true
-  dateId?: true
   item_price?: true
   freight_value?: true
   payment_value_allocated?: true
-  quantity?: true
 }
 
 export type FactSalesSumAggregateInputType = {
   order_item_id?: true
-  dateId?: true
   item_price?: true
   freight_value?: true
   payment_value_allocated?: true
-  quantity?: true
 }
 
 export type FactSalesMinAggregateInputType = {
   order_id?: true
   order_item_id?: true
-  dateId?: true
-  customerId?: true
-  productId?: true
+  purchase_date?: true
+  product_id?: true
+  customer_id?: true
+  seller_id?: true
   item_price?: true
   freight_value?: true
   payment_value_allocated?: true
-  quantity?: true
   is_delivered?: true
   is_canceled?: true
   is_on_time?: true
@@ -127,13 +119,13 @@ export type FactSalesMinAggregateInputType = {
 export type FactSalesMaxAggregateInputType = {
   order_id?: true
   order_item_id?: true
-  dateId?: true
-  customerId?: true
-  productId?: true
+  purchase_date?: true
+  product_id?: true
+  customer_id?: true
+  seller_id?: true
   item_price?: true
   freight_value?: true
   payment_value_allocated?: true
-  quantity?: true
   is_delivered?: true
   is_canceled?: true
   is_on_time?: true
@@ -142,13 +134,13 @@ export type FactSalesMaxAggregateInputType = {
 export type FactSalesCountAggregateInputType = {
   order_id?: true
   order_item_id?: true
-  dateId?: true
-  customerId?: true
-  productId?: true
+  purchase_date?: true
+  product_id?: true
+  customer_id?: true
+  seller_id?: true
   item_price?: true
   freight_value?: true
   payment_value_allocated?: true
-  quantity?: true
   is_delivered?: true
   is_canceled?: true
   is_on_time?: true
@@ -244,13 +236,13 @@ export type FactSalesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type FactSalesGroupByOutputType = {
   order_id: string
   order_item_id: number
-  dateId: number | null
-  customerId: string | null
-  productId: string | null
+  purchase_date: Date | null
+  product_id: string | null
+  customer_id: string | null
+  seller_id: string | null
   item_price: runtime.Decimal | null
   freight_value: runtime.Decimal | null
   payment_value_allocated: runtime.Decimal | null
-  quantity: number | null
   is_delivered: boolean | null
   is_canceled: boolean | null
   is_on_time: boolean | null
@@ -282,13 +274,13 @@ export type FactSalesWhereInput = {
   NOT?: Prisma.FactSalesWhereInput | Prisma.FactSalesWhereInput[]
   order_id?: Prisma.StringFilter<"FactSales"> | string
   order_item_id?: Prisma.IntFilter<"FactSales"> | number
-  dateId?: Prisma.IntNullableFilter<"FactSales"> | number | null
-  customerId?: Prisma.StringNullableFilter<"FactSales"> | string | null
-  productId?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  purchase_date?: Prisma.DateTimeNullableFilter<"FactSales"> | Date | string | null
+  product_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  customer_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  seller_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
   item_price?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.IntNullableFilter<"FactSales"> | number | null
   is_delivered?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
   is_canceled?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
   is_on_time?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
@@ -301,13 +293,13 @@ export type FactSalesWhereInput = {
 export type FactSalesOrderByWithRelationInput = {
   order_id?: Prisma.SortOrder
   order_item_id?: Prisma.SortOrder
-  dateId?: Prisma.SortOrderInput | Prisma.SortOrder
-  customerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  productId?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchase_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  product_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  seller_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_price?: Prisma.SortOrderInput | Prisma.SortOrder
   freight_value?: Prisma.SortOrderInput | Prisma.SortOrder
   payment_value_allocated?: Prisma.SortOrderInput | Prisma.SortOrder
-  quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   is_delivered?: Prisma.SortOrderInput | Prisma.SortOrder
   is_canceled?: Prisma.SortOrderInput | Prisma.SortOrder
   is_on_time?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -324,13 +316,13 @@ export type FactSalesWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.FactSalesWhereInput | Prisma.FactSalesWhereInput[]
   order_id?: Prisma.StringFilter<"FactSales"> | string
   order_item_id?: Prisma.IntFilter<"FactSales"> | number
-  dateId?: Prisma.IntNullableFilter<"FactSales"> | number | null
-  customerId?: Prisma.StringNullableFilter<"FactSales"> | string | null
-  productId?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  purchase_date?: Prisma.DateTimeNullableFilter<"FactSales"> | Date | string | null
+  product_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  customer_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  seller_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
   item_price?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.IntNullableFilter<"FactSales"> | number | null
   is_delivered?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
   is_canceled?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
   is_on_time?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
@@ -343,13 +335,13 @@ export type FactSalesWhereUniqueInput = Prisma.AtLeast<{
 export type FactSalesOrderByWithAggregationInput = {
   order_id?: Prisma.SortOrder
   order_item_id?: Prisma.SortOrder
-  dateId?: Prisma.SortOrderInput | Prisma.SortOrder
-  customerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  productId?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchase_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  product_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  seller_id?: Prisma.SortOrderInput | Prisma.SortOrder
   item_price?: Prisma.SortOrderInput | Prisma.SortOrder
   freight_value?: Prisma.SortOrderInput | Prisma.SortOrder
   payment_value_allocated?: Prisma.SortOrderInput | Prisma.SortOrder
-  quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   is_delivered?: Prisma.SortOrderInput | Prisma.SortOrder
   is_canceled?: Prisma.SortOrderInput | Prisma.SortOrder
   is_on_time?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -366,13 +358,13 @@ export type FactSalesScalarWhereWithAggregatesInput = {
   NOT?: Prisma.FactSalesScalarWhereWithAggregatesInput | Prisma.FactSalesScalarWhereWithAggregatesInput[]
   order_id?: Prisma.StringWithAggregatesFilter<"FactSales"> | string
   order_item_id?: Prisma.IntWithAggregatesFilter<"FactSales"> | number
-  dateId?: Prisma.IntNullableWithAggregatesFilter<"FactSales"> | number | null
-  customerId?: Prisma.StringNullableWithAggregatesFilter<"FactSales"> | string | null
-  productId?: Prisma.StringNullableWithAggregatesFilter<"FactSales"> | string | null
+  purchase_date?: Prisma.DateTimeNullableWithAggregatesFilter<"FactSales"> | Date | string | null
+  product_id?: Prisma.StringNullableWithAggregatesFilter<"FactSales"> | string | null
+  customer_id?: Prisma.StringNullableWithAggregatesFilter<"FactSales"> | string | null
+  seller_id?: Prisma.StringNullableWithAggregatesFilter<"FactSales"> | string | null
   item_price?: Prisma.DecimalNullableWithAggregatesFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.DecimalNullableWithAggregatesFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.DecimalNullableWithAggregatesFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.IntNullableWithAggregatesFilter<"FactSales"> | number | null
   is_delivered?: Prisma.BoolNullableWithAggregatesFilter<"FactSales"> | boolean | null
   is_canceled?: Prisma.BoolNullableWithAggregatesFilter<"FactSales"> | boolean | null
   is_on_time?: Prisma.BoolNullableWithAggregatesFilter<"FactSales"> | boolean | null
@@ -380,10 +372,10 @@ export type FactSalesScalarWhereWithAggregatesInput = {
 
 export type FactSalesCreateInput = {
   order_item_id: number
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -396,13 +388,13 @@ export type FactSalesCreateInput = {
 export type FactSalesUncheckedCreateInput = {
   order_id: string
   order_item_id: number
-  dateId?: number | null
-  customerId?: string | null
-  productId?: string | null
+  purchase_date?: Date | string | null
+  product_id?: string | null
+  customer_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -410,10 +402,10 @@ export type FactSalesUncheckedCreateInput = {
 
 export type FactSalesUpdateInput = {
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -426,13 +418,13 @@ export type FactSalesUpdateInput = {
 export type FactSalesUncheckedUpdateInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  dateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -441,13 +433,13 @@ export type FactSalesUncheckedUpdateInput = {
 export type FactSalesCreateManyInput = {
   order_id: string
   order_item_id: number
-  dateId?: number | null
-  customerId?: string | null
-  productId?: string | null
+  purchase_date?: Date | string | null
+  product_id?: string | null
+  customer_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -455,10 +447,10 @@ export type FactSalesCreateManyInput = {
 
 export type FactSalesUpdateManyMutationInput = {
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -467,13 +459,13 @@ export type FactSalesUpdateManyMutationInput = {
 export type FactSalesUncheckedUpdateManyInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  dateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -497,13 +489,13 @@ export type FactSalesOrder_idOrder_item_idCompoundUniqueInput = {
 export type FactSalesCountOrderByAggregateInput = {
   order_id?: Prisma.SortOrder
   order_item_id?: Prisma.SortOrder
-  dateId?: Prisma.SortOrder
-  customerId?: Prisma.SortOrder
-  productId?: Prisma.SortOrder
+  purchase_date?: Prisma.SortOrder
+  product_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
+  seller_id?: Prisma.SortOrder
   item_price?: Prisma.SortOrder
   freight_value?: Prisma.SortOrder
   payment_value_allocated?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
   is_delivered?: Prisma.SortOrder
   is_canceled?: Prisma.SortOrder
   is_on_time?: Prisma.SortOrder
@@ -511,23 +503,21 @@ export type FactSalesCountOrderByAggregateInput = {
 
 export type FactSalesAvgOrderByAggregateInput = {
   order_item_id?: Prisma.SortOrder
-  dateId?: Prisma.SortOrder
   item_price?: Prisma.SortOrder
   freight_value?: Prisma.SortOrder
   payment_value_allocated?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
 }
 
 export type FactSalesMaxOrderByAggregateInput = {
   order_id?: Prisma.SortOrder
   order_item_id?: Prisma.SortOrder
-  dateId?: Prisma.SortOrder
-  customerId?: Prisma.SortOrder
-  productId?: Prisma.SortOrder
+  purchase_date?: Prisma.SortOrder
+  product_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
+  seller_id?: Prisma.SortOrder
   item_price?: Prisma.SortOrder
   freight_value?: Prisma.SortOrder
   payment_value_allocated?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
   is_delivered?: Prisma.SortOrder
   is_canceled?: Prisma.SortOrder
   is_on_time?: Prisma.SortOrder
@@ -536,13 +526,13 @@ export type FactSalesMaxOrderByAggregateInput = {
 export type FactSalesMinOrderByAggregateInput = {
   order_id?: Prisma.SortOrder
   order_item_id?: Prisma.SortOrder
-  dateId?: Prisma.SortOrder
-  customerId?: Prisma.SortOrder
-  productId?: Prisma.SortOrder
+  purchase_date?: Prisma.SortOrder
+  product_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
+  seller_id?: Prisma.SortOrder
   item_price?: Prisma.SortOrder
   freight_value?: Prisma.SortOrder
   payment_value_allocated?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
   is_delivered?: Prisma.SortOrder
   is_canceled?: Prisma.SortOrder
   is_on_time?: Prisma.SortOrder
@@ -550,11 +540,9 @@ export type FactSalesMinOrderByAggregateInput = {
 
 export type FactSalesSumOrderByAggregateInput = {
   order_item_id?: Prisma.SortOrder
-  dateId?: Prisma.SortOrder
   item_price?: Prisma.SortOrder
   freight_value?: Prisma.SortOrder
   payment_value_allocated?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
 }
 
 export type FactSalesCreateNestedManyWithoutDimDateInput = {
@@ -725,6 +713,14 @@ export type FactSalesUncheckedUpdateManyWithoutDimOrderNestedInput = {
   deleteMany?: Prisma.FactSalesScalarWhereInput | Prisma.FactSalesScalarWhereInput[]
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type NullableDecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -733,16 +729,12 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
-}
-
 export type FactSalesCreateWithoutDimDateInput = {
   order_item_id: number
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -754,12 +746,12 @@ export type FactSalesCreateWithoutDimDateInput = {
 export type FactSalesUncheckedCreateWithoutDimDateInput = {
   order_id: string
   order_item_id: number
-  customerId?: string | null
-  productId?: string | null
+  product_id?: string | null
+  customer_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -797,13 +789,13 @@ export type FactSalesScalarWhereInput = {
   NOT?: Prisma.FactSalesScalarWhereInput | Prisma.FactSalesScalarWhereInput[]
   order_id?: Prisma.StringFilter<"FactSales"> | string
   order_item_id?: Prisma.IntFilter<"FactSales"> | number
-  dateId?: Prisma.IntNullableFilter<"FactSales"> | number | null
-  customerId?: Prisma.StringNullableFilter<"FactSales"> | string | null
-  productId?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  purchase_date?: Prisma.DateTimeNullableFilter<"FactSales"> | Date | string | null
+  product_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  customer_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
+  seller_id?: Prisma.StringNullableFilter<"FactSales"> | string | null
   item_price?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.DecimalNullableFilter<"FactSales"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.IntNullableFilter<"FactSales"> | number | null
   is_delivered?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
   is_canceled?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
   is_on_time?: Prisma.BoolNullableFilter<"FactSales"> | boolean | null
@@ -811,10 +803,10 @@ export type FactSalesScalarWhereInput = {
 
 export type FactSalesCreateWithoutDimCustomerInput = {
   order_item_id: number
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -826,12 +818,12 @@ export type FactSalesCreateWithoutDimCustomerInput = {
 export type FactSalesUncheckedCreateWithoutDimCustomerInput = {
   order_id: string
   order_item_id: number
-  dateId?: number | null
-  productId?: string | null
+  purchase_date?: Date | string | null
+  product_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -865,10 +857,10 @@ export type FactSalesUpdateManyWithWhereWithoutDimCustomerInput = {
 
 export type FactSalesCreateWithoutDimProductInput = {
   order_item_id: number
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -880,12 +872,12 @@ export type FactSalesCreateWithoutDimProductInput = {
 export type FactSalesUncheckedCreateWithoutDimProductInput = {
   order_id: string
   order_item_id: number
-  dateId?: number | null
-  customerId?: string | null
+  purchase_date?: Date | string | null
+  customer_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -919,10 +911,10 @@ export type FactSalesUpdateManyWithWhereWithoutDimProductInput = {
 
 export type FactSalesCreateWithoutDimOrderInput = {
   order_item_id: number
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -933,13 +925,13 @@ export type FactSalesCreateWithoutDimOrderInput = {
 
 export type FactSalesUncheckedCreateWithoutDimOrderInput = {
   order_item_id: number
-  dateId?: number | null
-  customerId?: string | null
-  productId?: string | null
+  purchase_date?: Date | string | null
+  product_id?: string | null
+  customer_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -974,12 +966,12 @@ export type FactSalesUpdateManyWithWhereWithoutDimOrderInput = {
 export type FactSalesCreateManyDimDateInput = {
   order_id: string
   order_item_id: number
-  customerId?: string | null
-  productId?: string | null
+  product_id?: string | null
+  customer_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -987,10 +979,10 @@ export type FactSalesCreateManyDimDateInput = {
 
 export type FactSalesUpdateWithoutDimDateInput = {
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1002,12 +994,12 @@ export type FactSalesUpdateWithoutDimDateInput = {
 export type FactSalesUncheckedUpdateWithoutDimDateInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1016,12 +1008,12 @@ export type FactSalesUncheckedUpdateWithoutDimDateInput = {
 export type FactSalesUncheckedUpdateManyWithoutDimDateInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1030,12 +1022,12 @@ export type FactSalesUncheckedUpdateManyWithoutDimDateInput = {
 export type FactSalesCreateManyDimCustomerInput = {
   order_id: string
   order_item_id: number
-  dateId?: number | null
-  productId?: string | null
+  purchase_date?: Date | string | null
+  product_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -1043,10 +1035,10 @@ export type FactSalesCreateManyDimCustomerInput = {
 
 export type FactSalesUpdateWithoutDimCustomerInput = {
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1058,12 +1050,12 @@ export type FactSalesUpdateWithoutDimCustomerInput = {
 export type FactSalesUncheckedUpdateWithoutDimCustomerInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  dateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1072,12 +1064,12 @@ export type FactSalesUncheckedUpdateWithoutDimCustomerInput = {
 export type FactSalesUncheckedUpdateManyWithoutDimCustomerInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  dateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1086,12 +1078,12 @@ export type FactSalesUncheckedUpdateManyWithoutDimCustomerInput = {
 export type FactSalesCreateManyDimProductInput = {
   order_id: string
   order_item_id: number
-  dateId?: number | null
-  customerId?: string | null
+  purchase_date?: Date | string | null
+  customer_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -1099,10 +1091,10 @@ export type FactSalesCreateManyDimProductInput = {
 
 export type FactSalesUpdateWithoutDimProductInput = {
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1114,12 +1106,12 @@ export type FactSalesUpdateWithoutDimProductInput = {
 export type FactSalesUncheckedUpdateWithoutDimProductInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  dateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1128,12 +1120,12 @@ export type FactSalesUncheckedUpdateWithoutDimProductInput = {
 export type FactSalesUncheckedUpdateManyWithoutDimProductInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  dateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1141,13 +1133,13 @@ export type FactSalesUncheckedUpdateManyWithoutDimProductInput = {
 
 export type FactSalesCreateManyDimOrderInput = {
   order_item_id: number
-  dateId?: number | null
-  customerId?: string | null
-  productId?: string | null
+  purchase_date?: Date | string | null
+  product_id?: string | null
+  customer_id?: string | null
+  seller_id?: string | null
   item_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: number | null
   is_delivered?: boolean | null
   is_canceled?: boolean | null
   is_on_time?: boolean | null
@@ -1155,10 +1147,10 @@ export type FactSalesCreateManyDimOrderInput = {
 
 export type FactSalesUpdateWithoutDimOrderInput = {
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1169,13 +1161,13 @@ export type FactSalesUpdateWithoutDimOrderInput = {
 
 export type FactSalesUncheckedUpdateWithoutDimOrderInput = {
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  dateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1183,13 +1175,13 @@ export type FactSalesUncheckedUpdateWithoutDimOrderInput = {
 
 export type FactSalesUncheckedUpdateManyWithoutDimOrderInput = {
   order_item_id?: Prisma.IntFieldUpdateOperationsInput | number
-  dateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seller_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   item_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   freight_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   payment_value_allocated?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_delivered?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_canceled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_on_time?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1200,13 +1192,13 @@ export type FactSalesUncheckedUpdateManyWithoutDimOrderInput = {
 export type FactSalesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_id?: boolean
   order_item_id?: boolean
-  dateId?: boolean
-  customerId?: boolean
-  productId?: boolean
+  purchase_date?: boolean
+  product_id?: boolean
+  customer_id?: boolean
+  seller_id?: boolean
   item_price?: boolean
   freight_value?: boolean
   payment_value_allocated?: boolean
-  quantity?: boolean
   is_delivered?: boolean
   is_canceled?: boolean
   is_on_time?: boolean
@@ -1219,13 +1211,13 @@ export type FactSalesSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type FactSalesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_id?: boolean
   order_item_id?: boolean
-  dateId?: boolean
-  customerId?: boolean
-  productId?: boolean
+  purchase_date?: boolean
+  product_id?: boolean
+  customer_id?: boolean
+  seller_id?: boolean
   item_price?: boolean
   freight_value?: boolean
   payment_value_allocated?: boolean
-  quantity?: boolean
   is_delivered?: boolean
   is_canceled?: boolean
   is_on_time?: boolean
@@ -1238,13 +1230,13 @@ export type FactSalesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type FactSalesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_id?: boolean
   order_item_id?: boolean
-  dateId?: boolean
-  customerId?: boolean
-  productId?: boolean
+  purchase_date?: boolean
+  product_id?: boolean
+  customer_id?: boolean
+  seller_id?: boolean
   item_price?: boolean
   freight_value?: boolean
   payment_value_allocated?: boolean
-  quantity?: boolean
   is_delivered?: boolean
   is_canceled?: boolean
   is_on_time?: boolean
@@ -1257,19 +1249,19 @@ export type FactSalesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type FactSalesSelectScalar = {
   order_id?: boolean
   order_item_id?: boolean
-  dateId?: boolean
-  customerId?: boolean
-  productId?: boolean
+  purchase_date?: boolean
+  product_id?: boolean
+  customer_id?: boolean
+  seller_id?: boolean
   item_price?: boolean
   freight_value?: boolean
   payment_value_allocated?: boolean
-  quantity?: boolean
   is_delivered?: boolean
   is_canceled?: boolean
   is_on_time?: boolean
 }
 
-export type FactSalesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"order_id" | "order_item_id" | "dateId" | "customerId" | "productId" | "item_price" | "freight_value" | "payment_value_allocated" | "quantity" | "is_delivered" | "is_canceled" | "is_on_time", ExtArgs["result"]["factSales"]>
+export type FactSalesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"order_id" | "order_item_id" | "purchase_date" | "product_id" | "customer_id" | "seller_id" | "item_price" | "freight_value" | "payment_value_allocated" | "is_delivered" | "is_canceled" | "is_on_time", ExtArgs["result"]["factSales"]>
 export type FactSalesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   DimDate?: boolean | Prisma.FactSales$DimDateArgs<ExtArgs>
   DimCustomer?: boolean | Prisma.FactSales$DimCustomerArgs<ExtArgs>
@@ -1300,13 +1292,13 @@ export type $FactSalesPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     order_id: string
     order_item_id: number
-    dateId: number | null
-    customerId: string | null
-    productId: string | null
+    purchase_date: Date | null
+    product_id: string | null
+    customer_id: string | null
+    seller_id: string | null
     item_price: runtime.Decimal | null
     freight_value: runtime.Decimal | null
     payment_value_allocated: runtime.Decimal | null
-    quantity: number | null
     is_delivered: boolean | null
     is_canceled: boolean | null
     is_on_time: boolean | null
@@ -1739,13 +1731,13 @@ export interface Prisma__FactSalesClient<T, Null = never, ExtArgs extends runtim
 export interface FactSalesFieldRefs {
   readonly order_id: Prisma.FieldRef<"FactSales", 'String'>
   readonly order_item_id: Prisma.FieldRef<"FactSales", 'Int'>
-  readonly dateId: Prisma.FieldRef<"FactSales", 'Int'>
-  readonly customerId: Prisma.FieldRef<"FactSales", 'String'>
-  readonly productId: Prisma.FieldRef<"FactSales", 'String'>
+  readonly purchase_date: Prisma.FieldRef<"FactSales", 'DateTime'>
+  readonly product_id: Prisma.FieldRef<"FactSales", 'String'>
+  readonly customer_id: Prisma.FieldRef<"FactSales", 'String'>
+  readonly seller_id: Prisma.FieldRef<"FactSales", 'String'>
   readonly item_price: Prisma.FieldRef<"FactSales", 'Decimal'>
   readonly freight_value: Prisma.FieldRef<"FactSales", 'Decimal'>
   readonly payment_value_allocated: Prisma.FieldRef<"FactSales", 'Decimal'>
-  readonly quantity: Prisma.FieldRef<"FactSales", 'Int'>
   readonly is_delivered: Prisma.FieldRef<"FactSales", 'Boolean'>
   readonly is_canceled: Prisma.FieldRef<"FactSales", 'Boolean'>
   readonly is_on_time: Prisma.FieldRef<"FactSales", 'Boolean'>

@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model DimProduct
@@ -20,74 +20,40 @@ export type DimProductModel = runtime.Types.Result.DefaultSelection<Prisma.$DimP
 
 export type AggregateDimProduct = {
   _count: DimProductCountAggregateOutputType | null
-  _avg: DimProductAvgAggregateOutputType | null
-  _sum: DimProductSumAggregateOutputType | null
   _min: DimProductMinAggregateOutputType | null
   _max: DimProductMaxAggregateOutputType | null
-}
-
-export type DimProductAvgAggregateOutputType = {
-  product_name_lenght: number | null
-  product_description_lenght: number | null
-}
-
-export type DimProductSumAggregateOutputType = {
-  product_name_lenght: number | null
-  product_description_lenght: number | null
 }
 
 export type DimProductMinAggregateOutputType = {
   product_id: string | null
   product_category_name: string | null
-  product_name_lenght: number | null
-  product_description_lenght: number | null
 }
 
 export type DimProductMaxAggregateOutputType = {
   product_id: string | null
   product_category_name: string | null
-  product_name_lenght: number | null
-  product_description_lenght: number | null
 }
 
 export type DimProductCountAggregateOutputType = {
   product_id: number
   product_category_name: number
-  product_name_lenght: number
-  product_description_lenght: number
   _all: number
 }
 
 
-export type DimProductAvgAggregateInputType = {
-  product_name_lenght?: true
-  product_description_lenght?: true
-}
-
-export type DimProductSumAggregateInputType = {
-  product_name_lenght?: true
-  product_description_lenght?: true
-}
-
 export type DimProductMinAggregateInputType = {
   product_id?: true
   product_category_name?: true
-  product_name_lenght?: true
-  product_description_lenght?: true
 }
 
 export type DimProductMaxAggregateInputType = {
   product_id?: true
   product_category_name?: true
-  product_name_lenght?: true
-  product_description_lenght?: true
 }
 
 export type DimProductCountAggregateInputType = {
   product_id?: true
   product_category_name?: true
-  product_name_lenght?: true
-  product_description_lenght?: true
   _all?: true
 }
 
@@ -129,18 +95,6 @@ export type DimProductAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: DimProductAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: DimProductSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: DimProductMinAggregateInputType
@@ -171,8 +125,6 @@ export type DimProductGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: DimProductCountAggregateInputType | true
-  _avg?: DimProductAvgAggregateInputType
-  _sum?: DimProductSumAggregateInputType
   _min?: DimProductMinAggregateInputType
   _max?: DimProductMaxAggregateInputType
 }
@@ -180,11 +132,7 @@ export type DimProductGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type DimProductGroupByOutputType = {
   product_id: string
   product_category_name: string | null
-  product_name_lenght: number | null
-  product_description_lenght: number | null
   _count: DimProductCountAggregateOutputType | null
-  _avg: DimProductAvgAggregateOutputType | null
-  _sum: DimProductSumAggregateOutputType | null
   _min: DimProductMinAggregateOutputType | null
   _max: DimProductMaxAggregateOutputType | null
 }
@@ -210,16 +158,12 @@ export type DimProductWhereInput = {
   NOT?: Prisma.DimProductWhereInput | Prisma.DimProductWhereInput[]
   product_id?: Prisma.StringFilter<"DimProduct"> | string
   product_category_name?: Prisma.StringNullableFilter<"DimProduct"> | string | null
-  product_name_lenght?: Prisma.IntNullableFilter<"DimProduct"> | number | null
-  product_description_lenght?: Prisma.IntNullableFilter<"DimProduct"> | number | null
   FactSales?: Prisma.FactSalesListRelationFilter
 }
 
 export type DimProductOrderByWithRelationInput = {
   product_id?: Prisma.SortOrder
   product_category_name?: Prisma.SortOrderInput | Prisma.SortOrder
-  product_name_lenght?: Prisma.SortOrderInput | Prisma.SortOrder
-  product_description_lenght?: Prisma.SortOrderInput | Prisma.SortOrder
   FactSales?: Prisma.FactSalesOrderByRelationAggregateInput
 }
 
@@ -229,21 +173,15 @@ export type DimProductWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DimProductWhereInput[]
   NOT?: Prisma.DimProductWhereInput | Prisma.DimProductWhereInput[]
   product_category_name?: Prisma.StringNullableFilter<"DimProduct"> | string | null
-  product_name_lenght?: Prisma.IntNullableFilter<"DimProduct"> | number | null
-  product_description_lenght?: Prisma.IntNullableFilter<"DimProduct"> | number | null
   FactSales?: Prisma.FactSalesListRelationFilter
 }, "product_id">
 
 export type DimProductOrderByWithAggregationInput = {
   product_id?: Prisma.SortOrder
   product_category_name?: Prisma.SortOrderInput | Prisma.SortOrder
-  product_name_lenght?: Prisma.SortOrderInput | Prisma.SortOrder
-  product_description_lenght?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DimProductCountOrderByAggregateInput
-  _avg?: Prisma.DimProductAvgOrderByAggregateInput
   _max?: Prisma.DimProductMaxOrderByAggregateInput
   _min?: Prisma.DimProductMinOrderByAggregateInput
-  _sum?: Prisma.DimProductSumOrderByAggregateInput
 }
 
 export type DimProductScalarWhereWithAggregatesInput = {
@@ -252,92 +190,60 @@ export type DimProductScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DimProductScalarWhereWithAggregatesInput | Prisma.DimProductScalarWhereWithAggregatesInput[]
   product_id?: Prisma.StringWithAggregatesFilter<"DimProduct"> | string
   product_category_name?: Prisma.StringNullableWithAggregatesFilter<"DimProduct"> | string | null
-  product_name_lenght?: Prisma.IntNullableWithAggregatesFilter<"DimProduct"> | number | null
-  product_description_lenght?: Prisma.IntNullableWithAggregatesFilter<"DimProduct"> | number | null
 }
 
 export type DimProductCreateInput = {
   product_id: string
   product_category_name?: string | null
-  product_name_lenght?: number | null
-  product_description_lenght?: number | null
   FactSales?: Prisma.FactSalesCreateNestedManyWithoutDimProductInput
 }
 
 export type DimProductUncheckedCreateInput = {
   product_id: string
   product_category_name?: string | null
-  product_name_lenght?: number | null
-  product_description_lenght?: number | null
   FactSales?: Prisma.FactSalesUncheckedCreateNestedManyWithoutDimProductInput
 }
 
 export type DimProductUpdateInput = {
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_category_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_name_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  product_description_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   FactSales?: Prisma.FactSalesUpdateManyWithoutDimProductNestedInput
 }
 
 export type DimProductUncheckedUpdateInput = {
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_category_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_name_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  product_description_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   FactSales?: Prisma.FactSalesUncheckedUpdateManyWithoutDimProductNestedInput
 }
 
 export type DimProductCreateManyInput = {
   product_id: string
   product_category_name?: string | null
-  product_name_lenght?: number | null
-  product_description_lenght?: number | null
 }
 
 export type DimProductUpdateManyMutationInput = {
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_category_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_name_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  product_description_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type DimProductUncheckedUpdateManyInput = {
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_category_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_name_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  product_description_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type DimProductCountOrderByAggregateInput = {
   product_id?: Prisma.SortOrder
   product_category_name?: Prisma.SortOrder
-  product_name_lenght?: Prisma.SortOrder
-  product_description_lenght?: Prisma.SortOrder
-}
-
-export type DimProductAvgOrderByAggregateInput = {
-  product_name_lenght?: Prisma.SortOrder
-  product_description_lenght?: Prisma.SortOrder
 }
 
 export type DimProductMaxOrderByAggregateInput = {
   product_id?: Prisma.SortOrder
   product_category_name?: Prisma.SortOrder
-  product_name_lenght?: Prisma.SortOrder
-  product_description_lenght?: Prisma.SortOrder
 }
 
 export type DimProductMinOrderByAggregateInput = {
   product_id?: Prisma.SortOrder
   product_category_name?: Prisma.SortOrder
-  product_name_lenght?: Prisma.SortOrder
-  product_description_lenght?: Prisma.SortOrder
-}
-
-export type DimProductSumOrderByAggregateInput = {
-  product_name_lenght?: Prisma.SortOrder
-  product_description_lenght?: Prisma.SortOrder
 }
 
 export type DimProductNullableScalarRelationFilter = {
@@ -364,15 +270,11 @@ export type DimProductUpdateOneWithoutFactSalesNestedInput = {
 export type DimProductCreateWithoutFactSalesInput = {
   product_id: string
   product_category_name?: string | null
-  product_name_lenght?: number | null
-  product_description_lenght?: number | null
 }
 
 export type DimProductUncheckedCreateWithoutFactSalesInput = {
   product_id: string
   product_category_name?: string | null
-  product_name_lenght?: number | null
-  product_description_lenght?: number | null
 }
 
 export type DimProductCreateOrConnectWithoutFactSalesInput = {
@@ -394,15 +296,11 @@ export type DimProductUpdateToOneWithWhereWithoutFactSalesInput = {
 export type DimProductUpdateWithoutFactSalesInput = {
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_category_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_name_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  product_description_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type DimProductUncheckedUpdateWithoutFactSalesInput = {
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_category_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_name_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  product_description_lenght?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -439,8 +337,6 @@ export type DimProductCountOutputTypeCountFactSalesArgs<ExtArgs extends runtime.
 export type DimProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   product_id?: boolean
   product_category_name?: boolean
-  product_name_lenght?: boolean
-  product_description_lenght?: boolean
   FactSales?: boolean | Prisma.DimProduct$FactSalesArgs<ExtArgs>
   _count?: boolean | Prisma.DimProductCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dimProduct"]>
@@ -448,25 +344,19 @@ export type DimProductSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type DimProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   product_id?: boolean
   product_category_name?: boolean
-  product_name_lenght?: boolean
-  product_description_lenght?: boolean
 }, ExtArgs["result"]["dimProduct"]>
 
 export type DimProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   product_id?: boolean
   product_category_name?: boolean
-  product_name_lenght?: boolean
-  product_description_lenght?: boolean
 }, ExtArgs["result"]["dimProduct"]>
 
 export type DimProductSelectScalar = {
   product_id?: boolean
   product_category_name?: boolean
-  product_name_lenght?: boolean
-  product_description_lenght?: boolean
 }
 
-export type DimProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"product_id" | "product_category_name" | "product_name_lenght" | "product_description_lenght", ExtArgs["result"]["dimProduct"]>
+export type DimProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"product_id" | "product_category_name", ExtArgs["result"]["dimProduct"]>
 export type DimProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   FactSales?: boolean | Prisma.DimProduct$FactSalesArgs<ExtArgs>
   _count?: boolean | Prisma.DimProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -482,8 +372,6 @@ export type $DimProductPayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     product_id: string
     product_category_name: string | null
-    product_name_lenght: number | null
-    product_description_lenght: number | null
   }, ExtArgs["result"]["dimProduct"]>
   composites: {}
 }
@@ -910,8 +798,6 @@ export interface Prisma__DimProductClient<T, Null = never, ExtArgs extends runti
 export interface DimProductFieldRefs {
   readonly product_id: Prisma.FieldRef<"DimProduct", 'String'>
   readonly product_category_name: Prisma.FieldRef<"DimProduct", 'String'>
-  readonly product_name_lenght: Prisma.FieldRef<"DimProduct", 'Int'>
-  readonly product_description_lenght: Prisma.FieldRef<"DimProduct", 'Int'>
 }
     
 

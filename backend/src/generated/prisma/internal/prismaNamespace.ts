@@ -16,10 +16,10 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "../models"
-import { type PrismaClient } from "./class"
+import type * as Prisma from "../models.js"
+import { type PrismaClient } from "./class.js"
 
-export type * from '../models'
+export type * from '../models.js'
 
 export type DMMF = typeof runtime.DMMF
 
@@ -818,11 +818,13 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const DimDateScalarFieldEnum = {
-  id: 'id',
   date: 'date',
   year: 'year',
   month: 'month',
-  day: 'day'
+  day: 'day',
+  week: 'week',
+  quarter: 'quarter',
+  is_weekend: 'is_weekend'
 } as const
 
 export type DimDateScalarFieldEnum = (typeof DimDateScalarFieldEnum)[keyof typeof DimDateScalarFieldEnum]
@@ -830,7 +832,7 @@ export type DimDateScalarFieldEnum = (typeof DimDateScalarFieldEnum)[keyof typeo
 
 export const DimCustomerScalarFieldEnum = {
   customer_id: 'customer_id',
-  customer_zip_code_prefix: 'customer_zip_code_prefix',
+  customer_unique_id: 'customer_unique_id',
   customer_city: 'customer_city',
   customer_state: 'customer_state'
 } as const
@@ -840,9 +842,7 @@ export type DimCustomerScalarFieldEnum = (typeof DimCustomerScalarFieldEnum)[key
 
 export const DimProductScalarFieldEnum = {
   product_id: 'product_id',
-  product_category_name: 'product_category_name',
-  product_name_lenght: 'product_name_lenght',
-  product_description_lenght: 'product_description_lenght'
+  product_category_name: 'product_category_name'
 } as const
 
 export type DimProductScalarFieldEnum = (typeof DimProductScalarFieldEnum)[keyof typeof DimProductScalarFieldEnum]
@@ -850,6 +850,7 @@ export type DimProductScalarFieldEnum = (typeof DimProductScalarFieldEnum)[keyof
 
 export const DimOrderScalarFieldEnum = {
   order_id: 'order_id',
+  customer_id: 'customer_id',
   order_status: 'order_status',
   order_purchase_timestamp: 'order_purchase_timestamp',
   order_approved_at: 'order_approved_at',
@@ -863,13 +864,13 @@ export type DimOrderScalarFieldEnum = (typeof DimOrderScalarFieldEnum)[keyof typ
 export const FactSalesScalarFieldEnum = {
   order_id: 'order_id',
   order_item_id: 'order_item_id',
-  dateId: 'dateId',
-  customerId: 'customerId',
-  productId: 'productId',
+  purchase_date: 'purchase_date',
+  product_id: 'product_id',
+  customer_id: 'customer_id',
+  seller_id: 'seller_id',
   item_price: 'item_price',
   freight_value: 'freight_value',
   payment_value_allocated: 'payment_value_allocated',
-  quantity: 'quantity',
   is_delivered: 'is_delivered',
   is_canceled: 'is_canceled',
   is_on_time: 'is_on_time'
@@ -886,14 +887,6 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
-} as const
-
-export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
 export const NullsOrder = {
   first: 'first',
   last: 'last'
@@ -902,10 +895,32 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
 
 /**
  * Field references
  */
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
 
 
 /**
@@ -923,16 +938,9 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'DateTime'
+ * Reference to a field of type 'Boolean'
  */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'DateTime[]'
- */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -961,13 +969,6 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

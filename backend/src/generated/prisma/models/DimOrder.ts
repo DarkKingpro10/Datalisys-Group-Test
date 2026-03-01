@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model DimOrder
@@ -26,6 +26,7 @@ export type AggregateDimOrder = {
 
 export type DimOrderMinAggregateOutputType = {
   order_id: string | null
+  customer_id: string | null
   order_status: string | null
   order_purchase_timestamp: Date | null
   order_approved_at: Date | null
@@ -35,6 +36,7 @@ export type DimOrderMinAggregateOutputType = {
 
 export type DimOrderMaxAggregateOutputType = {
   order_id: string | null
+  customer_id: string | null
   order_status: string | null
   order_purchase_timestamp: Date | null
   order_approved_at: Date | null
@@ -44,6 +46,7 @@ export type DimOrderMaxAggregateOutputType = {
 
 export type DimOrderCountAggregateOutputType = {
   order_id: number
+  customer_id: number
   order_status: number
   order_purchase_timestamp: number
   order_approved_at: number
@@ -55,6 +58,7 @@ export type DimOrderCountAggregateOutputType = {
 
 export type DimOrderMinAggregateInputType = {
   order_id?: true
+  customer_id?: true
   order_status?: true
   order_purchase_timestamp?: true
   order_approved_at?: true
@@ -64,6 +68,7 @@ export type DimOrderMinAggregateInputType = {
 
 export type DimOrderMaxAggregateInputType = {
   order_id?: true
+  customer_id?: true
   order_status?: true
   order_purchase_timestamp?: true
   order_approved_at?: true
@@ -73,6 +78,7 @@ export type DimOrderMaxAggregateInputType = {
 
 export type DimOrderCountAggregateInputType = {
   order_id?: true
+  customer_id?: true
   order_status?: true
   order_purchase_timestamp?: true
   order_approved_at?: true
@@ -155,6 +161,7 @@ export type DimOrderGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type DimOrderGroupByOutputType = {
   order_id: string
+  customer_id: string | null
   order_status: string | null
   order_purchase_timestamp: Date | null
   order_approved_at: Date | null
@@ -185,6 +192,7 @@ export type DimOrderWhereInput = {
   OR?: Prisma.DimOrderWhereInput[]
   NOT?: Prisma.DimOrderWhereInput | Prisma.DimOrderWhereInput[]
   order_id?: Prisma.StringFilter<"DimOrder"> | string
+  customer_id?: Prisma.StringNullableFilter<"DimOrder"> | string | null
   order_status?: Prisma.StringNullableFilter<"DimOrder"> | string | null
   order_purchase_timestamp?: Prisma.DateTimeNullableFilter<"DimOrder"> | Date | string | null
   order_approved_at?: Prisma.DateTimeNullableFilter<"DimOrder"> | Date | string | null
@@ -195,6 +203,7 @@ export type DimOrderWhereInput = {
 
 export type DimOrderOrderByWithRelationInput = {
   order_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_status?: Prisma.SortOrderInput | Prisma.SortOrder
   order_purchase_timestamp?: Prisma.SortOrderInput | Prisma.SortOrder
   order_approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -208,6 +217,7 @@ export type DimOrderWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DimOrderWhereInput | Prisma.DimOrderWhereInput[]
   OR?: Prisma.DimOrderWhereInput[]
   NOT?: Prisma.DimOrderWhereInput | Prisma.DimOrderWhereInput[]
+  customer_id?: Prisma.StringNullableFilter<"DimOrder"> | string | null
   order_status?: Prisma.StringNullableFilter<"DimOrder"> | string | null
   order_purchase_timestamp?: Prisma.DateTimeNullableFilter<"DimOrder"> | Date | string | null
   order_approved_at?: Prisma.DateTimeNullableFilter<"DimOrder"> | Date | string | null
@@ -218,6 +228,7 @@ export type DimOrderWhereUniqueInput = Prisma.AtLeast<{
 
 export type DimOrderOrderByWithAggregationInput = {
   order_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   order_status?: Prisma.SortOrderInput | Prisma.SortOrder
   order_purchase_timestamp?: Prisma.SortOrderInput | Prisma.SortOrder
   order_approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -233,6 +244,7 @@ export type DimOrderScalarWhereWithAggregatesInput = {
   OR?: Prisma.DimOrderScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DimOrderScalarWhereWithAggregatesInput | Prisma.DimOrderScalarWhereWithAggregatesInput[]
   order_id?: Prisma.StringWithAggregatesFilter<"DimOrder"> | string
+  customer_id?: Prisma.StringNullableWithAggregatesFilter<"DimOrder"> | string | null
   order_status?: Prisma.StringNullableWithAggregatesFilter<"DimOrder"> | string | null
   order_purchase_timestamp?: Prisma.DateTimeNullableWithAggregatesFilter<"DimOrder"> | Date | string | null
   order_approved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"DimOrder"> | Date | string | null
@@ -242,6 +254,7 @@ export type DimOrderScalarWhereWithAggregatesInput = {
 
 export type DimOrderCreateInput = {
   order_id: string
+  customer_id?: string | null
   order_status?: string | null
   order_purchase_timestamp?: Date | string | null
   order_approved_at?: Date | string | null
@@ -252,6 +265,7 @@ export type DimOrderCreateInput = {
 
 export type DimOrderUncheckedCreateInput = {
   order_id: string
+  customer_id?: string | null
   order_status?: string | null
   order_purchase_timestamp?: Date | string | null
   order_approved_at?: Date | string | null
@@ -262,6 +276,7 @@ export type DimOrderUncheckedCreateInput = {
 
 export type DimOrderUpdateInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_purchase_timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -272,6 +287,7 @@ export type DimOrderUpdateInput = {
 
 export type DimOrderUncheckedUpdateInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_purchase_timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -282,6 +298,7 @@ export type DimOrderUncheckedUpdateInput = {
 
 export type DimOrderCreateManyInput = {
   order_id: string
+  customer_id?: string | null
   order_status?: string | null
   order_purchase_timestamp?: Date | string | null
   order_approved_at?: Date | string | null
@@ -291,6 +308,7 @@ export type DimOrderCreateManyInput = {
 
 export type DimOrderUpdateManyMutationInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_purchase_timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -300,6 +318,7 @@ export type DimOrderUpdateManyMutationInput = {
 
 export type DimOrderUncheckedUpdateManyInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_purchase_timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -309,6 +328,7 @@ export type DimOrderUncheckedUpdateManyInput = {
 
 export type DimOrderCountOrderByAggregateInput = {
   order_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   order_status?: Prisma.SortOrder
   order_purchase_timestamp?: Prisma.SortOrder
   order_approved_at?: Prisma.SortOrder
@@ -318,6 +338,7 @@ export type DimOrderCountOrderByAggregateInput = {
 
 export type DimOrderMaxOrderByAggregateInput = {
   order_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   order_status?: Prisma.SortOrder
   order_purchase_timestamp?: Prisma.SortOrder
   order_approved_at?: Prisma.SortOrder
@@ -327,6 +348,7 @@ export type DimOrderMaxOrderByAggregateInput = {
 
 export type DimOrderMinOrderByAggregateInput = {
   order_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
   order_status?: Prisma.SortOrder
   order_purchase_timestamp?: Prisma.SortOrder
   order_approved_at?: Prisma.SortOrder
@@ -361,6 +383,7 @@ export type DimOrderUpdateOneWithoutFactSalesNestedInput = {
 
 export type DimOrderCreateWithoutFactSalesInput = {
   order_id: string
+  customer_id?: string | null
   order_status?: string | null
   order_purchase_timestamp?: Date | string | null
   order_approved_at?: Date | string | null
@@ -370,6 +393,7 @@ export type DimOrderCreateWithoutFactSalesInput = {
 
 export type DimOrderUncheckedCreateWithoutFactSalesInput = {
   order_id: string
+  customer_id?: string | null
   order_status?: string | null
   order_purchase_timestamp?: Date | string | null
   order_approved_at?: Date | string | null
@@ -395,6 +419,7 @@ export type DimOrderUpdateToOneWithWhereWithoutFactSalesInput = {
 
 export type DimOrderUpdateWithoutFactSalesInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_purchase_timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -404,6 +429,7 @@ export type DimOrderUpdateWithoutFactSalesInput = {
 
 export type DimOrderUncheckedUpdateWithoutFactSalesInput = {
   order_id?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order_purchase_timestamp?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -444,6 +470,7 @@ export type DimOrderCountOutputTypeCountFactSalesArgs<ExtArgs extends runtime.Ty
 
 export type DimOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_id?: boolean
+  customer_id?: boolean
   order_status?: boolean
   order_purchase_timestamp?: boolean
   order_approved_at?: boolean
@@ -455,6 +482,7 @@ export type DimOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type DimOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_id?: boolean
+  customer_id?: boolean
   order_status?: boolean
   order_purchase_timestamp?: boolean
   order_approved_at?: boolean
@@ -464,6 +492,7 @@ export type DimOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 
 export type DimOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_id?: boolean
+  customer_id?: boolean
   order_status?: boolean
   order_purchase_timestamp?: boolean
   order_approved_at?: boolean
@@ -473,6 +502,7 @@ export type DimOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 
 export type DimOrderSelectScalar = {
   order_id?: boolean
+  customer_id?: boolean
   order_status?: boolean
   order_purchase_timestamp?: boolean
   order_approved_at?: boolean
@@ -480,7 +510,7 @@ export type DimOrderSelectScalar = {
   order_estimated_delivery_date?: boolean
 }
 
-export type DimOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"order_id" | "order_status" | "order_purchase_timestamp" | "order_approved_at" | "order_delivered_customer_date" | "order_estimated_delivery_date", ExtArgs["result"]["dimOrder"]>
+export type DimOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"order_id" | "customer_id" | "order_status" | "order_purchase_timestamp" | "order_approved_at" | "order_delivered_customer_date" | "order_estimated_delivery_date", ExtArgs["result"]["dimOrder"]>
 export type DimOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   FactSales?: boolean | Prisma.DimOrder$FactSalesArgs<ExtArgs>
   _count?: boolean | Prisma.DimOrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -495,6 +525,7 @@ export type $DimOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     order_id: string
+    customer_id: string | null
     order_status: string | null
     order_purchase_timestamp: Date | null
     order_approved_at: Date | null
@@ -925,6 +956,7 @@ export interface Prisma__DimOrderClient<T, Null = never, ExtArgs extends runtime
  */
 export interface DimOrderFieldRefs {
   readonly order_id: Prisma.FieldRef<"DimOrder", 'String'>
+  readonly customer_id: Prisma.FieldRef<"DimOrder", 'String'>
   readonly order_status: Prisma.FieldRef<"DimOrder", 'String'>
   readonly order_purchase_timestamp: Prisma.FieldRef<"DimOrder", 'DateTime'>
   readonly order_approved_at: Prisma.FieldRef<"DimOrder", 'DateTime'>

@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model DimDate
@@ -27,81 +27,97 @@ export type AggregateDimDate = {
 }
 
 export type DimDateAvgAggregateOutputType = {
-  id: number | null
   year: number | null
   month: number | null
   day: number | null
+  week: number | null
+  quarter: number | null
 }
 
 export type DimDateSumAggregateOutputType = {
-  id: number | null
   year: number | null
   month: number | null
   day: number | null
+  week: number | null
+  quarter: number | null
 }
 
 export type DimDateMinAggregateOutputType = {
-  id: number | null
   date: Date | null
   year: number | null
   month: number | null
   day: number | null
+  week: number | null
+  quarter: number | null
+  is_weekend: boolean | null
 }
 
 export type DimDateMaxAggregateOutputType = {
-  id: number | null
   date: Date | null
   year: number | null
   month: number | null
   day: number | null
+  week: number | null
+  quarter: number | null
+  is_weekend: boolean | null
 }
 
 export type DimDateCountAggregateOutputType = {
-  id: number
   date: number
   year: number
   month: number
   day: number
+  week: number
+  quarter: number
+  is_weekend: number
   _all: number
 }
 
 
 export type DimDateAvgAggregateInputType = {
-  id?: true
   year?: true
   month?: true
   day?: true
+  week?: true
+  quarter?: true
 }
 
 export type DimDateSumAggregateInputType = {
-  id?: true
   year?: true
   month?: true
   day?: true
+  week?: true
+  quarter?: true
 }
 
 export type DimDateMinAggregateInputType = {
-  id?: true
   date?: true
   year?: true
   month?: true
   day?: true
+  week?: true
+  quarter?: true
+  is_weekend?: true
 }
 
 export type DimDateMaxAggregateInputType = {
-  id?: true
   date?: true
   year?: true
   month?: true
   day?: true
+  week?: true
+  quarter?: true
+  is_weekend?: true
 }
 
 export type DimDateCountAggregateInputType = {
-  id?: true
   date?: true
   year?: true
   month?: true
   day?: true
+  week?: true
+  quarter?: true
+  is_weekend?: true
   _all?: true
 }
 
@@ -192,11 +208,13 @@ export type DimDateGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type DimDateGroupByOutputType = {
-  id: number
   date: Date
-  year: number
-  month: number
-  day: number
+  year: number | null
+  month: number | null
+  day: number | null
+  week: number | null
+  quarter: number | null
+  is_weekend: boolean | null
   _count: DimDateCountAggregateOutputType | null
   _avg: DimDateAvgAggregateOutputType | null
   _sum: DimDateSumAggregateOutputType | null
@@ -223,41 +241,49 @@ export type DimDateWhereInput = {
   AND?: Prisma.DimDateWhereInput | Prisma.DimDateWhereInput[]
   OR?: Prisma.DimDateWhereInput[]
   NOT?: Prisma.DimDateWhereInput | Prisma.DimDateWhereInput[]
-  id?: Prisma.IntFilter<"DimDate"> | number
   date?: Prisma.DateTimeFilter<"DimDate"> | Date | string
-  year?: Prisma.IntFilter<"DimDate"> | number
-  month?: Prisma.IntFilter<"DimDate"> | number
-  day?: Prisma.IntFilter<"DimDate"> | number
+  year?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  month?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  day?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  week?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  quarter?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  is_weekend?: Prisma.BoolNullableFilter<"DimDate"> | boolean | null
   FactSales?: Prisma.FactSalesListRelationFilter
 }
 
 export type DimDateOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  year?: Prisma.SortOrder
-  month?: Prisma.SortOrder
-  day?: Prisma.SortOrder
+  year?: Prisma.SortOrderInput | Prisma.SortOrder
+  month?: Prisma.SortOrderInput | Prisma.SortOrder
+  day?: Prisma.SortOrderInput | Prisma.SortOrder
+  week?: Prisma.SortOrderInput | Prisma.SortOrder
+  quarter?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_weekend?: Prisma.SortOrderInput | Prisma.SortOrder
   FactSales?: Prisma.FactSalesOrderByRelationAggregateInput
 }
 
 export type DimDateWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
   date?: Date | string
   AND?: Prisma.DimDateWhereInput | Prisma.DimDateWhereInput[]
   OR?: Prisma.DimDateWhereInput[]
   NOT?: Prisma.DimDateWhereInput | Prisma.DimDateWhereInput[]
-  year?: Prisma.IntFilter<"DimDate"> | number
-  month?: Prisma.IntFilter<"DimDate"> | number
-  day?: Prisma.IntFilter<"DimDate"> | number
+  year?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  month?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  day?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  week?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  quarter?: Prisma.IntNullableFilter<"DimDate"> | number | null
+  is_weekend?: Prisma.BoolNullableFilter<"DimDate"> | boolean | null
   FactSales?: Prisma.FactSalesListRelationFilter
-}, "id" | "date">
+}, "date">
 
 export type DimDateOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  year?: Prisma.SortOrder
-  month?: Prisma.SortOrder
-  day?: Prisma.SortOrder
+  year?: Prisma.SortOrderInput | Prisma.SortOrder
+  month?: Prisma.SortOrderInput | Prisma.SortOrder
+  day?: Prisma.SortOrderInput | Prisma.SortOrder
+  week?: Prisma.SortOrderInput | Prisma.SortOrder
+  quarter?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_weekend?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DimDateCountOrderByAggregateInput
   _avg?: Prisma.DimDateAvgOrderByAggregateInput
   _max?: Prisma.DimDateMaxOrderByAggregateInput
@@ -269,106 +295,133 @@ export type DimDateScalarWhereWithAggregatesInput = {
   AND?: Prisma.DimDateScalarWhereWithAggregatesInput | Prisma.DimDateScalarWhereWithAggregatesInput[]
   OR?: Prisma.DimDateScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DimDateScalarWhereWithAggregatesInput | Prisma.DimDateScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"DimDate"> | number
   date?: Prisma.DateTimeWithAggregatesFilter<"DimDate"> | Date | string
-  year?: Prisma.IntWithAggregatesFilter<"DimDate"> | number
-  month?: Prisma.IntWithAggregatesFilter<"DimDate"> | number
-  day?: Prisma.IntWithAggregatesFilter<"DimDate"> | number
+  year?: Prisma.IntNullableWithAggregatesFilter<"DimDate"> | number | null
+  month?: Prisma.IntNullableWithAggregatesFilter<"DimDate"> | number | null
+  day?: Prisma.IntNullableWithAggregatesFilter<"DimDate"> | number | null
+  week?: Prisma.IntNullableWithAggregatesFilter<"DimDate"> | number | null
+  quarter?: Prisma.IntNullableWithAggregatesFilter<"DimDate"> | number | null
+  is_weekend?: Prisma.BoolNullableWithAggregatesFilter<"DimDate"> | boolean | null
 }
 
 export type DimDateCreateInput = {
   date: Date | string
-  year: number
-  month: number
-  day: number
+  year?: number | null
+  month?: number | null
+  day?: number | null
+  week?: number | null
+  quarter?: number | null
+  is_weekend?: boolean | null
   FactSales?: Prisma.FactSalesCreateNestedManyWithoutDimDateInput
 }
 
 export type DimDateUncheckedCreateInput = {
-  id?: number
   date: Date | string
-  year: number
-  month: number
-  day: number
+  year?: number | null
+  month?: number | null
+  day?: number | null
+  week?: number | null
+  quarter?: number | null
+  is_weekend?: boolean | null
   FactSales?: Prisma.FactSalesUncheckedCreateNestedManyWithoutDimDateInput
 }
 
 export type DimDateUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  month?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  week?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  quarter?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_weekend?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   FactSales?: Prisma.FactSalesUpdateManyWithoutDimDateNestedInput
 }
 
 export type DimDateUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  month?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  week?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  quarter?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_weekend?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   FactSales?: Prisma.FactSalesUncheckedUpdateManyWithoutDimDateNestedInput
 }
 
 export type DimDateCreateManyInput = {
-  id?: number
   date: Date | string
-  year: number
-  month: number
-  day: number
+  year?: number | null
+  month?: number | null
+  day?: number | null
+  week?: number | null
+  quarter?: number | null
+  is_weekend?: boolean | null
 }
 
 export type DimDateUpdateManyMutationInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  month?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  week?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  quarter?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_weekend?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type DimDateUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  month?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  week?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  quarter?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_weekend?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type DimDateCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   date?: Prisma.SortOrder
   year?: Prisma.SortOrder
   month?: Prisma.SortOrder
   day?: Prisma.SortOrder
+  week?: Prisma.SortOrder
+  quarter?: Prisma.SortOrder
+  is_weekend?: Prisma.SortOrder
 }
 
 export type DimDateAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   year?: Prisma.SortOrder
   month?: Prisma.SortOrder
   day?: Prisma.SortOrder
+  week?: Prisma.SortOrder
+  quarter?: Prisma.SortOrder
 }
 
 export type DimDateMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   date?: Prisma.SortOrder
   year?: Prisma.SortOrder
   month?: Prisma.SortOrder
   day?: Prisma.SortOrder
+  week?: Prisma.SortOrder
+  quarter?: Prisma.SortOrder
+  is_weekend?: Prisma.SortOrder
 }
 
 export type DimDateMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   date?: Prisma.SortOrder
   year?: Prisma.SortOrder
   month?: Prisma.SortOrder
   day?: Prisma.SortOrder
+  week?: Prisma.SortOrder
+  quarter?: Prisma.SortOrder
+  is_weekend?: Prisma.SortOrder
 }
 
 export type DimDateSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
   year?: Prisma.SortOrder
   month?: Prisma.SortOrder
   day?: Prisma.SortOrder
+  week?: Prisma.SortOrder
+  quarter?: Prisma.SortOrder
 }
 
 export type DimDateNullableScalarRelationFilter = {
@@ -380,12 +433,16 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
 }
 
 export type DimDateCreateNestedOneWithoutFactSalesInput = {
@@ -406,17 +463,22 @@ export type DimDateUpdateOneWithoutFactSalesNestedInput = {
 
 export type DimDateCreateWithoutFactSalesInput = {
   date: Date | string
-  year: number
-  month: number
-  day: number
+  year?: number | null
+  month?: number | null
+  day?: number | null
+  week?: number | null
+  quarter?: number | null
+  is_weekend?: boolean | null
 }
 
 export type DimDateUncheckedCreateWithoutFactSalesInput = {
-  id?: number
   date: Date | string
-  year: number
-  month: number
-  day: number
+  year?: number | null
+  month?: number | null
+  day?: number | null
+  week?: number | null
+  quarter?: number | null
+  is_weekend?: boolean | null
 }
 
 export type DimDateCreateOrConnectWithoutFactSalesInput = {
@@ -437,17 +499,22 @@ export type DimDateUpdateToOneWithWhereWithoutFactSalesInput = {
 
 export type DimDateUpdateWithoutFactSalesInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  month?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  week?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  quarter?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_weekend?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type DimDateUncheckedUpdateWithoutFactSalesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  day?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  month?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  day?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  week?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  quarter?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_weekend?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 
@@ -482,40 +549,48 @@ export type DimDateCountOutputTypeCountFactSalesArgs<ExtArgs extends runtime.Typ
 
 
 export type DimDateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   date?: boolean
   year?: boolean
   month?: boolean
   day?: boolean
+  week?: boolean
+  quarter?: boolean
+  is_weekend?: boolean
   FactSales?: boolean | Prisma.DimDate$FactSalesArgs<ExtArgs>
   _count?: boolean | Prisma.DimDateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dimDate"]>
 
 export type DimDateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   date?: boolean
   year?: boolean
   month?: boolean
   day?: boolean
+  week?: boolean
+  quarter?: boolean
+  is_weekend?: boolean
 }, ExtArgs["result"]["dimDate"]>
 
 export type DimDateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
   date?: boolean
   year?: boolean
   month?: boolean
   day?: boolean
+  week?: boolean
+  quarter?: boolean
+  is_weekend?: boolean
 }, ExtArgs["result"]["dimDate"]>
 
 export type DimDateSelectScalar = {
-  id?: boolean
   date?: boolean
   year?: boolean
   month?: boolean
   day?: boolean
+  week?: boolean
+  quarter?: boolean
+  is_weekend?: boolean
 }
 
-export type DimDateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "year" | "month" | "day", ExtArgs["result"]["dimDate"]>
+export type DimDateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"date" | "year" | "month" | "day" | "week" | "quarter" | "is_weekend", ExtArgs["result"]["dimDate"]>
 export type DimDateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   FactSales?: boolean | Prisma.DimDate$FactSalesArgs<ExtArgs>
   _count?: boolean | Prisma.DimDateCountOutputTypeDefaultArgs<ExtArgs>
@@ -529,11 +604,13 @@ export type $DimDatePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     FactSales: Prisma.$FactSalesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
     date: Date
-    year: number
-    month: number
-    day: number
+    year: number | null
+    month: number | null
+    day: number | null
+    week: number | null
+    quarter: number | null
+    is_weekend: boolean | null
   }, ExtArgs["result"]["dimDate"]>
   composites: {}
 }
@@ -617,8 +694,8 @@ export interface DimDateDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * // Get first 10 DimDates
    * const dimDates = await prisma.dimDate.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const dimDateWithIdOnly = await prisma.dimDate.findMany({ select: { id: true } })
+   * // Only select the `date`
+   * const dimDateWithDateOnly = await prisma.dimDate.findMany({ select: { date: true } })
    * 
    */
   findMany<T extends DimDateFindManyArgs>(args?: Prisma.SelectSubset<T, DimDateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DimDatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -662,9 +739,9 @@ export interface DimDateDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    *   ]
    * })
    * 
-   * // Create many DimDates and only return the `id`
-   * const dimDateWithIdOnly = await prisma.dimDate.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many DimDates and only return the `date`
+   * const dimDateWithDateOnly = await prisma.dimDate.createManyAndReturn({
+   *   select: { date: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -753,9 +830,9 @@ export interface DimDateDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    *   ]
    * })
    * 
-   * // Update zero or more DimDates and only return the `id`
-   * const dimDateWithIdOnly = await prisma.dimDate.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more DimDates and only return the `date`
+   * const dimDateWithDateOnly = await prisma.dimDate.updateManyAndReturn({
+   *   select: { date: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -958,11 +1035,13 @@ export interface Prisma__DimDateClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the DimDate model
  */
 export interface DimDateFieldRefs {
-  readonly id: Prisma.FieldRef<"DimDate", 'Int'>
   readonly date: Prisma.FieldRef<"DimDate", 'DateTime'>
   readonly year: Prisma.FieldRef<"DimDate", 'Int'>
   readonly month: Prisma.FieldRef<"DimDate", 'Int'>
   readonly day: Prisma.FieldRef<"DimDate", 'Int'>
+  readonly week: Prisma.FieldRef<"DimDate", 'Int'>
+  readonly quarter: Prisma.FieldRef<"DimDate", 'Int'>
+  readonly is_weekend: Prisma.FieldRef<"DimDate", 'Boolean'>
 }
     
 

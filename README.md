@@ -60,13 +60,12 @@ Servicios implementados
 -----------------------
 - `frontend`: imagen construida desde `./frontend`. Puerto expuesto: `3000`.
 - `backend`: imagen construida desde `./backend`. Puerto expuesto: `8000`. Variable `DATABASE_URL` configurada en `docker-compose.yml`.
-- `db`: Postgres sobre imagen DHI hardened (`dhi/postgres:18-debian13`). Volumen persistente `db-data` y carpeta `db/init` montada en `/docker-entrypoint-initdb.d`.
+- `db`: Postgres oficial (`postgres:18`). Volumen persistente `postgres_data` y la carpeta local `./data/raw` se monta en el contenedor en `/data/raw` para facilitar la carga de CSVs.
 
 Decisión sobre la base de datos
 ------------------------------
-- Imagen elegida: `dhi/postgres:18-debian13`.
-- Razonamiento: balance entre compatibilidad (Debian) y hardening integrado proporcionado por DHI.
-- Inicialización: los archivos en `db/init/` se ejecutan automáticamente la primera vez que se crea el volumen de datos.
+- Imagen elegida: `postgres:18` (imagen oficial).
+- Razonamiento: la imagen oficial de Postgres está públicamente disponible y evita problemas al intentar acceder a imágenes privadas; mantiene compatibilidad con Postgres 18.
 
 Artefactos añadidos
 -------------------
@@ -116,11 +115,13 @@ Comprobar usuario de sesión:
 docker compose exec db psql -U kpi_user -d kpi_db -c "SELECT current_user, session_user;"
 ```
 
-Estado actual (resumen)
+- Estado actual (resumen)
 -----------------------
 - Infra básica en `docker-compose.yml` y Dockerfiles para frontend/backend.
-- Servicio Postgres DHI configurado con inicialización de esquemas.
+- Servicio Postgres (imagen oficial `postgres:18`) configurado; la inicialización de esquemas se gestiona mediante migraciones/ETL o scripts montados en `/docker-entrypoint-initdb.d`.
 - No se incluyeron datos (CSV) ni un job de carga; esos artefactos se generarán cuando se disponga de los CSV.
+ - No se incluyeron datos (CSV) ni un job de carga; esos artefactos se generarán cuando se disponga de los CSV.
+ - Nota sobre `etl`: el servicio `etl` ejecuta las transformaciones y migraciones mediante SQL contra la base de datos (`dwh`/`gold`), no debe leer los CSV desde el contenedor. Los CSV deben estar disponibles en la instancia de Postgres (montados en `/data/raw`) o cargados en la tabla `raw` por procesos de inicialización fuera del contenedor `etl`.
 
 Notas operativas
 ----------------
@@ -130,9 +131,33 @@ Notas operativas
   - Base: `kpi_db`
 - Las agregue por ser una prueba técnica deberian de estar en un archivo .env
 
+Nota sobre Postgres 18+ y montaje de datos
+----------------------------------------
+- A partir de Postgres 18 la imagen oficial almacena datos en subdirectorios específicos por versión (p. ej. `/var/lib/postgresql/18`). Para evitar problemas de compatibilidad y facilitar actualizaciones con `pg_upgrade`, se recomienda montar el directorio padre `/var/lib/postgresql` en lugar de `/var/lib/postgresql/data`.
+- Si ya existe un volumen creado con datos antiguos montados en `/var/lib/postgresql/data`, ese contenido puede quedar fuera del nuevo layout y provocar fallos al arrancar. Opciones:
+  - Hacer backup del volumen antes de cualquier cambio.
+  - Reprovisionar (eliminar y recrear) el volumen si no necesitas conservar los datos.
+  - Realizar una migración con `pg_upgrade` si necesitas preservar datos entre versiones (requiere ambos binarios/contenedores de versión y pasos adicionales).
+- Comando rápido para recrear el stack (esto BORRA datos del volumen):
+
+```powershell
+docker compose down
+docker volume rm postgres_data
+docker compose up -d --build
+```
+
+Ejemplo para hacer backup del volumen antes (Linux/macOS example — en Windows adapta paths):
+
+```bash
+docker run --rm -v postgres_data:/var/lib/postgresql -v "$PWD"/backup:/backup alpine \
+  tar -czf /backup/postgres_data-backup.tar -C /var/lib/postgresql .
+```
+
+Si los datos son críticos, haz un backup y considera seguir un flujo de `pg_upgrade` en lugar de eliminar el volumen.
+
 Referencias
 ----------
-- DHI Postgres guides: https://hub.docker.com/hardened-images/catalog/dhi/postgres/guides
+- Postgres official image: https://hub.docker.com/_/postgres
 
 # Ejecución de entornos con Docker Compose
 

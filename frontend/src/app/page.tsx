@@ -36,7 +36,7 @@ export default function Home() {
 
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            Prueba de conexión con el backend
+            Prueba de conexión con el backend haber no creo 
           </h1>
             <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
             Pulsa el botón para verificar que el backend responde en <code>{backendUrl + "/health"}</code>.
@@ -44,7 +44,7 @@ export default function Home() {
           <div className="flex flex-col items-start gap-3">
             <button
               onClick={checkBackend}
-              className="rounded-md bg-black px-4 py-2 text-white hover:opacity-90"
+              className="rounded-md bg-black px-4 py-2 text-white hover:opacity-90 border-indigo-500"
               disabled={loading}
             >
               {loading ? "Comprobando..." : "Comprobar backend"}
