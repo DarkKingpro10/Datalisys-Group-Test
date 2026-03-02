@@ -95,6 +95,52 @@ Esta sección documenta, de forma técnica, las decisiones y el flujo de datos e
 
 La documentación técnica anterior debe mantenerse sincronizada con los scripts en `backend/sql` y cualquier modificación del ETL.
 
+## Política de rango de fechas y utilidades compartidas
+
+Sección añadida: documentación sobre cómo el backend maneja parámetros de rango de fechas recibidos desde el frontend.
+
+- Ubicación de la utilidad: `backend/src/shared/utils/dateRange.ts`.
+- Propósito: centralizar la lógica de defaults y validaciones para rangos de fecha (`from`, `to`).
+
+Comportamiento por defecto implementado:
+
+- Si `to` no se proporciona, se asume `to = ahora` (fecha actual en la máquina que ejecuta el backend).
+- Si `from` no se proporciona, se asume `from = to - 30 días`.
+- Si ambos faltan, el rango por defecto es últimos 30 días.
+- La función valida que `from <= to` y aplica un límite máximo configurable (por defecto 365 días). Si el rango excede el máximo, se lanza un error de validación.
+
+Interfaz y opciones:
+
+- `normalizeDateRange(from?: unknown, to?: unknown, opts?: { defaultDays?: number; maxDays?: number })` → `{ from: Date; to: Date }`.
+- `from` y `to` aceptan `unknown` porque los valores vienen de `req.query`; la función hace parsing seguro y devuelve objetos `Date` o lanza errores claros.
+
+Responsabilidad por capas:
+
+- Validación ligera de tipos (p. ej. que `from` y `to` sean fechas parseables) se realiza con Zod en `backend/src/shared/validation/kpis.schema.ts`.
+- Decisiones de negocio (defaults, límites de rango) se implementan en la utilidad `dateRange.ts` y son aplicadas por los controladores (`kpis.controller.ts`, `trend.controller.ts`, `rankings.controller.ts`).
+- Si se requiere garantía adicional, el caso de uso (`application`) puede volver a aplicar la misma utilidad antes de llamar al repositorio.
+
+Notas sobre tipado y seguridad del código
+
+- No se usa `any` en la implementación de la utilidad: se acepta `unknown` y se valida/parsea explícitamente.
+- El esquema Zod valida y normaliza inputs básicos; la utilidad aplica los defaults y lanza errores de negocio si el rango es inválido o demasiado grande.
+- Documentar la zona horaria: por defecto se usan objetos `Date` del entorno del servidor; recomendamos documentar y acordar usar UTC si la consistencia es importante entre frontend/backend.
+
+Ejemplo de uso (controlador):
+
+```ts
+const parsed = KpisQuerySchema.parse(req.query)
+const range = normalizeDateRange(parsed.from, parsed.to)
+// range.from y range.to son objetos Date listos para pasar a la capa de aplicación
+```
+
+Cambios realizados en el repositorio:
+
+- Añadida `backend/src/shared/utils/dateRange.ts` con la implementación y documentación en español.
+- Actualizados controladores para usar `normalizeDateRange` en lugar de normalizadores dispersos.
+- `backend/src/shared/validation/kpis.schema.ts` revertido a validación pura (sin defaults).
+
+ 
 Ejecución del ETL por separado
 --------------------------------
 Decisión operativa: en desarrollo el `backend` arranca con dependencia únicamente de la base de datos (`db`). El job ETL se ejecuta de forma independiente cuando se desee (por ejemplo, para ejecutar las transformaciones `clean` y construir `dwh`). Importante: el `etl` está diseñado para ejecutar SQL contra la base de datos; NO debe leer ni montar archivos CSV desde su propio contenedor. Cargas iniciales de `raw` (por ejemplo `COPY` desde CSV) deben realizarse dentro de la instancia de Postgres (scripts de init o un job separado con acceso a los CSV).

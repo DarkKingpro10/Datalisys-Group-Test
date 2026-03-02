@@ -18,7 +18,8 @@ export class GetKpis {
     const orders = agg.orders || 0
     const revenue = agg.revenue || 0
     const aov = orders === 0 ? 0 : revenue / orders
-    const ipo = orders === 0 ? 0 : (agg.gmv || 0) / orders
+    const items = agg.items || 0
+    const ipo = orders === 0 ? 0 : items / orders
 
     return {
       gmv: agg.gmv || 0,

@@ -10,6 +10,7 @@ export type KpiResult = {
   orders: number
   aov: number
   ipo: number
+  items?: number
   cancel_rate: number
   on_time_rate: number
 }
