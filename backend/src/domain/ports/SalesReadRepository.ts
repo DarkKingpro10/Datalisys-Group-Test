@@ -1,4 +1,4 @@
-import type { Filters, KpiResult, TimeSeriesPoint, TopProduct } from '../domain/types.js'
+import type { Filters, KpiResult, TimeSeriesPoint, TopProduct } from '../models/SalesModel.js'
 
 export interface SalesReadRepository {
   aggregateSalesMetrics(params: { from: Date; to: Date; filters?: Filters }): Promise<KpiResult>

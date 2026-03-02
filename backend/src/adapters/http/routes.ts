@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { GetKpis } from '../../application/GetKpis.js'
-import type { SalesReadRepository } from '../../ports/SalesReadRepository.js'
+import type { SalesReadRepository } from '../../domain/ports/SalesReadRepository.js'
 import { SalesPrismaRepository } from '../../infrastructure/prisma/SalesPrismaRepository.js'
 import { kpisHandler } from './kpis.controller.js'
 

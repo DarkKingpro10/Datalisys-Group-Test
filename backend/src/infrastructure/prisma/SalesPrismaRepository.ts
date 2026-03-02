@@ -1,6 +1,7 @@
 import { getPrisma } from './client.js'
-import type { Filters, KpiResult, TimeSeriesPoint, TopProduct } from '../../domain/types.js'
-import type { SalesReadRepository } from '../../ports/SalesReadRepository.js'
+import type { Filters, KpiResult, TimeSeriesPoint, TopProduct } from '../../domain/models/SalesModel.js'
+import type { SalesReadRepository } from '../../domain/ports/SalesReadRepository.js'
+import type { Prisma } from '../../generated/prisma/client.js'
 
 function buildWhere(filters?: Filters) {
   const where: any = {}
@@ -22,6 +23,10 @@ export class SalesPrismaRepository implements SalesReadRepository {
     const prisma = getPrisma()
     const { from, to, filters } = params
     const whereBase = { purchase_date: { gte: from, lt: to } as any, ...buildWhere(filters) }
+
+    const where: Prisma.FactSalesWhereInput = {
+      
+    }
 
     const sums = await prisma.factSales.aggregate({
       where: whereBase,
@@ -74,48 +79,10 @@ export class SalesPrismaRepository implements SalesReadRepository {
   }
 
   async getTimeSeries(params: { from: Date; to: Date; grain: 'day' | 'week'; filters?: Filters }): Promise<TimeSeriesPoint[]> {
-    const prisma = getPrisma()
-    const { from, to, grain, filters } = params
-    const whereBase = { purchase_date: { gte: from, lt: to } as any, ...buildWhere(filters) }
-
-    // Posible solución TODO VERLO DSP DE CLASES LUNES
-    const trunc = grain === 'week' ? "date_trunc('week', purchase_date)" : "date_trunc('day', purchase_date)"
-    const sql = `
-      SELECT ${trunc} as period, SUM(payment_value_allocated)::double precision as revenue, COUNT(DISTINCT order_id) as orders
-      FROM dwh."FactSales"
-      WHERE purchase_date >= $1 AND purchase_date < $2
-      GROUP BY period
-      ORDER BY period asc
-    `
-    const res: any = await prisma.$queryRawUnsafe(sql, from.toISOString(), to.toISOString())
-    return res.map((r: any) => ({ date: r.period.toISOString().slice(0, 10), revenue: Number(r.revenue || 0), orders: Number(r.orders || 0) }))
+    throw new Error('Not implemented yet')
   }
 
   async getTopProducts(params: { from: Date; to: Date; metric: 'gmv' | 'revenue'; limit: number; filters?: Filters }): Promise<TopProduct[]> {
-    const prisma = getPrisma()
-    const { from, to, metric, limit, filters } = params
-    const whereBase = { purchase_date: { gte: from, lt: to } as any, ...buildWhere(filters) }
-
-    // Agrupando por product_id con prisma
-    const group = await prisma.factSales.groupBy({
-      by: ['product_id'],
-      where: whereBase,
-      _sum: { item_price: true, payment_value_allocated: true },
-      _count: { order_id: true },
-      orderBy: { _sum: metric === 'revenue' ? { payment_value_allocated: 'desc' } : { item_price: 'desc' } },
-      take: limit,
-    })
-
-    const productIds = group.map((g) => g.product_id).filter(Boolean) as string[]
-    const products = await prisma.dimProduct.findMany({ where: { product_id: { in: productIds } } })
-    const prodMap = new Map(products.map((p) => [p.product_id, p.product_category_name]))
-
-    return group.map((g) => ({
-      product_id: g.product_id as string,
-      product_category_name: prodMap.get(g.product_id as string) ?? null,
-      gmv: Number(g._sum.item_price ?? 0),
-      revenue: Number(g._sum.payment_value_allocated ?? 0),
-      orders: Number(g._count.order_id ?? 0),
-    }))
+    throw new Error('Not implemented yet')
   }
 }

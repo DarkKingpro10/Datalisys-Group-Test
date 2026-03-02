@@ -1,5 +1,5 @@
-import type { SalesReadRepository } from '../ports/SalesReadRepository.js'
-import type { KpiResult, Filters } from '../domain/types.js'
+import type { SalesReadRepository } from '../domain/ports/SalesReadRepository.js'
+import type { Filters, KpiResult} from '../domain/models/SalesModel.js'
 
 export type GetKpisParams = {
   from: Date
