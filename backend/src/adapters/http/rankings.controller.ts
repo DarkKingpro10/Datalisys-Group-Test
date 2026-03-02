@@ -7,6 +7,78 @@ import { safeParse } from '../../shared/validation/safeParse.js'
 
 // Controller for GET /rankings/products
 // KPI: Top products by GMV or Revenue
+/**
+ * @openapi
+ * /rankings/products:
+ *   get:
+ *     summary: Ranking de productos por GMV o Revenue
+ *     tags:
+ *       - Rankings
+ *     parameters:
+ *       - in: query
+ *         name: from
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: to
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: metric
+ *         schema:
+ *           type: string
+ *           enum: [gmv, revenue]
+ *         description: Métrica para ordenar el ranking
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *       - in: query
+ *         name: order_status
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
+ *         style: form
+ *         explode: true
+ *       - in: query
+ *         name: product_category_name
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
+ *         style: form
+ *         explode: true
+ *       - in: query
+ *         name: customer_state
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
+ *         style: form
+ *         explode: true
+ *     responses:
+ *       '200':
+ *         description: Lista de productos ordenados por la métrica solicitada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   product_id:
+ *                     type: string
+ *                   product_name:
+ *                     type: string
+ *                   value:
+ *                     type: number
+ *                   rank:
+ *                     type: integer
+ */
 export function rankingsHandler(getTopProducts: GetTopProducts) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {

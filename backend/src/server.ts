@@ -1,5 +1,6 @@
 import { createApp } from './createApp.js'
 import { connectPrisma, disconnectPrisma } from './infrastructure/prisma/client.js'
+import { fileURLToPath } from 'url'
 
 const PORT = Number(process.env.PORT || 8000)
 
@@ -26,7 +27,9 @@ export async function startServer() {
   process.on('SIGTERM', shutdown)
 }
 
-if (require.main === module) {
+// Ejecutar automáticamente cuando se invoca este archivo directamente en ESM
+const __filename = fileURLToPath(import.meta.url)
+if (process.argv[1] === __filename) {
   startServer().catch((err) => {
     // eslint-disable-next-line no-console
     console.error('Failed to start server', err)

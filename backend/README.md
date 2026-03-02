@@ -174,3 +174,12 @@ docker compose logs -f etl
 Notas:
 
 - Como el servicio `etl` no se reinicia automáticamente (`restart: "no"`), para volver a ejecutar la carga lanza de nuevo `docker compose up --build etl`.
+
+## Swagger / OpenAPI
+
+Se añadió documentación interactiva OpenAPI usando `swagger-jsdoc` + `swagger-ui-express`.
+
+- URL local (development): `http://localhost:8000/api/docs`
+- La UI carga un spec generado por JSDoc/`swagger-jsdoc`. Para añadir descripciones por endpoint, puede colocarse JSDoc compatible en los controladores en `src/adapters/http/`.
+
+Nota: la documentación muestra las rutas registradas y cualquier anotación OpenAPI encontrada en los controladores. Es recomendable añadir JSDoc para los parámetros y respuestas críticas.
