@@ -2,7 +2,23 @@ This are the instructions for the Full Stack Test, also read the .github/ folder
 
 For any changes, you have to documented in the README.md at the root.
 
-Here is the full English translation:
+ALSO IN THE .agents THEIR IS SKILLS THAT YOU HAVE TO USE DEPENDS ON THE USER REQUEST
+
+# SKILLS INDEX
+
+- **backend-patterns**: Estructura y patrones para backend; usar al diseñar arquitectura hexagonal, puertos/adapters y diseño de APIs. Ruta: [.agents/skills/backend-patterns/SKILL.md](.agents/skills/backend-patterns/SKILL.md)
+
+- **etl-sync-job-builder**: Patrones para ETL y sincronización (idempotencia, watermark, retries); llamar al diseñar o implementar jobs ETL y orquestación. Ruta: [.agents/skills/etl-sync-job-builder/SKILL.md](.agents/skills/etl-sync-job-builder/SKILL.md)
+
+- **express-typescript**: Buenas prácticas para Express + TypeScript (middleware, routing, validación); usar al implementar controladores y adapters HTTP. Ruta: [.agents/skills/express-typescript/SKILL.md](.agents/skills/express-typescript/SKILL.md)
+
+- **find-skills**: Guía para descubrir o instalar otras skills; usar cuando necesites localizar una skill adecuada. Ruta: [.agents/skills/find-skills/SKILL.md](.agents/skills/find-skills/SKILL.md)
+
+- **prisma-client-api**: Referencia de Prisma Client (consultas, filtros, transacciones); usar al escribir queries o repositorios ORM. Ruta: [.agents/skills/prisma-client-api/SKILL.md](.agents/skills/prisma-client-api/SKILL.md) — referencias adicionales en [.agents/skills/prisma-client-api/references](.agents/skills/prisma-client-api/references)
+
+- **vercel-react-best-practices**: Reglas y optimizaciones para Next.js/React; usar al optimizar rendimiento, data-fetching y componentes. Ruta: [.agents/skills/vercel-react-best-practices/SKILL.md](.agents/skills/vercel-react-best-practices/SKILL.md)
+
+- **web-design-guidelines**: Directrices de UI/UX y accesibilidad; usar al revisar la interfaz y la experiencia de usuario. Ruta: [.agents/skills/web-design-guidelines/SKILL.md](.agents/skills/web-design-guidelines/SKILL.md)
 
 ---
 
