@@ -55,7 +55,7 @@ export function DashboardShell({ children }: Props) {
 				>
 					<div
 						className={clsx(
-							"md:sticky md:top-4 md:h-[calc(100vh-2rem)] transition-all duration-200",
+							"md:sticky md:h-[calc(100vh-2rem)] transition-all duration-200",
 							isSidebarOpen
 								? "translate-x-0 opacity-100"
 								: "-translate-x-2 opacity-0",
@@ -110,7 +110,7 @@ export function DashboardShell({ children }: Props) {
 				</div>
 
 				<main className="min-w-0 space-y-4">
-					<header className="flex items-start gap-3 rounded-2xl border border-border bg-surface px-4 py-3 sm:items-center flex-col lg:flex-row">
+					<header className="flex items-start gap-3 rounded-2xl border border-border bg-surface px-4 py-3 flex-col lg:flex-row">
 						<section className="min-w-0 flex-1 flex gap-1 flex-row">
 							<button
 								type="button"
