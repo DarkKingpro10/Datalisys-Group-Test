@@ -45,7 +45,7 @@ export function normalizeDateRange(
   maxToDate.setUTCFullYear(maxToDate.getUTCFullYear() + maxYears)
 
   if (effectiveTo.getTime() > maxToDate.getTime()) {
-    throw new Error(`Range too large (max ${maxYears} years)`)
+    throw new Error(`Rango  muy grande (max ${maxYears} años DATA DESDE 2016)`)
   }
 
   return { from: fromDate, to: effectiveTo }

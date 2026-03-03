@@ -9,6 +9,8 @@
   --muted: #5b6678;
   --primary: #4f46e5;
   --primary-foreground: #eef2ff;
+
+  interpolate-size: allow-keywords;
 }
 
 .dark {
