@@ -125,6 +125,8 @@ Comportamiento global entre rutas:
 - Se reforzó responsive global del dashboard en móvil: header adaptable, toggle de tema sin desborde y encabezados de bloques (tendencia/rankings) apilables.
 - Se corrigió y reaplicó el layout responsive del dashboard (`app/(dashboard)/layout.tsx`) con contención horizontal (`overflow-x-clip`) y `min-w-0` en el contenedor principal.
 - Se corrigió el error de navegación bloqueada en Next.js envolviendo `DashboardSidebar` en `Suspense` con fallback en `app/(dashboard)/layout.tsx`.
+- Se mejoró la distribución de filtros en tablet (`md/lg`) y se corrigió el toggle de expandir/ocultar filtros para evitar doble disparo de eventos.
+- Se unificó el formulario de filtros en una sola grilla (sin separación por secciones) para mantener continuidad visual en tablet y evitar cortes de layout.
 
 Los filtros de catálogo se renderizan con `select` y usan `code` como valor enviado al backend:
 

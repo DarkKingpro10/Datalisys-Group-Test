@@ -18,6 +18,8 @@ Actualización frontend (marzo 2026)
 - Se aplicaron ajustes responsive globales en frontend (header, selector de tema y cabeceras de secciones) para estabilizar la experiencia en pantallas pequeñas.
 - Se reaplicó el fix en el layout del dashboard con contención de overflow horizontal para evitar regresiones de responsive en móvil.
 - Se resolvió el error `Data that blocks navigation was accessed outside of <Suspense>` en el layout del dashboard envolviendo el sidebar en `Suspense`.
+- Se ajustó la experiencia de filtros en tablet (mejor balance de grilla y acciones) y se corrigió el comportamiento del colapsado/expandido de filtros.
+- Se unificó la grilla del formulario de filtros para evitar cortes visuales en breakpoints de tablet.
 - Se aplicó render con `Suspense` y skeletons (sin texto "cargando") para KPIs, tendencia y ranking.
 - Se cambió `frontend/src/app/page.tsx` a redirección server-side hacia `/overview`.
 - Se unificaron las pantallas de `overview` y `rankings` dentro del feature `dashboard` para reflejar que son vistas del mismo dominio y evitar fragmentación artificial de módulos.

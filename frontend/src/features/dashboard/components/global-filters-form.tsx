@@ -102,23 +102,28 @@ export function GlobalFiltersForm({
 	return (
 		<form
 			onSubmit={onSubmit}
-			className="rounded-2xl border border-border bg-surface p-4"
+			className="rounded-2xl border border-border bg-surface p-4 "
 		>
-			<div onClick={() => setShowFilters((value) => !value)} className="flex justify-between items-center">
+			<button
+				onClick={() => setShowFilters((value) => !value)}
+				title={showFilters ? "Ocultar filtros" : "Expandir filtros"}
+				aria-label={showFilters ? "Ocultar filtros" : "Expandir filtros"}
+				type="button"
+				className="flex w-full items-center justify-between"
+			>
 				<h1 className="text-lg font-semibold">Filtros globales</h1>
-				<button
-					onClick={() => setShowFilters((value) => !value)}
-					title={showFilters ? "Expandir filtros" : "Ocultar filtros"}
-					aria-label={showFilters ? "Expandir filtros" : "Ocultar filtros"}
-					type="button"
-					className="text-sm text-muted-foreground hover:text-primary cursor-pointer"
-				>
-					{showFilters ? <IconChevronDown /> : <IconChevronUp />}
-				</button>
-			</div>
+				<span className="text-sm text-muted hover:text-primary">
+					{showFilters ? <IconChevronUp /> : <IconChevronDown />}
+				</span>
+			</button>
 
-			<div className={clsx("transition-all overflow-hidden", showFilters ? "h-auto" : "h-0")}>
-				<section className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+			<div
+				className={clsx(
+					"overflow-hidden p-0.5 transition-all",
+					showFilters ? "h-auto" : "h-0",
+				)}
+			>
+				<section className="mt-1 grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
 					<label className="flex flex-col gap-1 text-sm">
 						<span className="text-muted">Desde</span>
 						<input
@@ -210,9 +215,6 @@ export function GlobalFiltersForm({
 							))}
 						</select>
 					</label>
-				</section>
-
-				<section className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
 					<label className="flex flex-col gap-1 text-sm">
 						<span className="text-muted">Grano</span>
 						<select
@@ -267,24 +269,21 @@ export function GlobalFiltersForm({
 							</label>
 						</>
 					) : null}
-
-					<div className="flex flex-col gap-2 self-end sm:flex-row sm:items-center">
-						<button
-							type="button"
-							className="inline-flex h-11 w-full items-center justify-center rounded-lg border border-border bg-surface-soft px-4 text-sm font-medium text-foreground transition hover:bg-surface-soft/70 disabled:opacity-60 sm:w-auto"
-							onClick={onResetFilters}
-							disabled={pending}
-						>
-							Reiniciar filtros
-						</button>
-						<button
-							type="submit"
-							className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60 sm:w-auto"
-							disabled={pending}
-						>
-							{pending ? "Aplicando..." : "Aplicar filtros"}
-						</button>
-					</div>
+					<button
+						type="button"
+						className="inline-flex py-2 w-full items-center justify-center rounded-lg border border-border bg-surface-soft px-4 text-sm font-medium text-foreground transition hover:bg-surface-soft/70 disabled:opacity-60 sm:w-auto self-end hover:scale-[1.03]"
+						onClick={onResetFilters}
+						disabled={pending}
+					>
+						Reiniciar filtros
+					</button>
+					<button
+						type="submit"
+						className="inline-flex py-2 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60 sm:w-auto self-end hover:scale-[1.03]"
+						disabled={pending}
+					>
+						{pending ? "Aplicando..." : "Aplicar filtros"}
+					</button>
 				</section>
 			</div>
 		</form>
