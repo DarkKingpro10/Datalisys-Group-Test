@@ -1,7 +1,7 @@
 /**
  * Utilidad para normalizar y validar rangos de fecha recibidos desde query params.
  * - Acepta valores opcionales (unknown) y aplica defaults: `to = ahora`, `from = to - 30d`.
- * - Valida que `from <= to` y aplica un límite máximo configurable (por defecto 365 días).
+ * - Valida que `from <= to` y aplica un límite máximo configurable (por defecto 11 años).
  * - Devuelve objetos `Date` listos para pasarse al caso de uso / repositorio.
  *
  * Diseño: la validación ligera de tipos debe mantenerse en Zod (esquema),
@@ -10,10 +10,10 @@
 export function normalizeDateRange(
   from?: unknown,
   to?: unknown,
-  opts?: { defaultDays?: number; maxDays?: number }
+  opts?: { defaultDays?: number; maxYears?: number }
 ): { from: Date; to: Date } {
   const defaultDays = opts?.defaultDays ?? 30
-  const maxDays = opts?.maxDays ?? 365
+  const maxYears = opts?.maxYears ?? 11
 
   const now = new Date()
 
@@ -41,9 +41,12 @@ export function normalizeDateRange(
     effectiveTo = new Date(Date.UTC(toDate.getUTCFullYear(), toDate.getUTCMonth(), toDate.getUTCDate() + 1))
   }
 
-  const diffMs = effectiveTo.getTime() - fromDate.getTime()
-  const diffDays = diffMs / (1000 * 60 * 60 * 24)
-  if (diffDays > maxDays) throw new Error(`Range too large (max ${maxDays} days)`) 
+  const maxToDate = new Date(fromDate)
+  maxToDate.setUTCFullYear(maxToDate.getUTCFullYear() + maxYears)
+
+  if (effectiveTo.getTime() > maxToDate.getTime()) {
+    throw new Error(`Range too large (max ${maxYears} years)`)
+  }
 
   return { from: fromDate, to: effectiveTo }
 }

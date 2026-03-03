@@ -2,6 +2,9 @@
 -- Esquema: dwh
 CREATE SCHEMA IF NOT EXISTS dwh;
 
+-- Extensión para generación de UUIDs
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
 -- Dimensión de fechas
 CREATE TABLE IF NOT EXISTS dwh.dim_date (
     date DATE PRIMARY KEY,
@@ -158,4 +161,40 @@ SELECT
 FROM items
 ON CONFLICT (order_id, order_item_id) DO NOTHING;
 
+
+-- Lookup tables normalizadas (surrogate UUID keys)
+-- Order statuses
+CREATE TABLE IF NOT EXISTS dwh.dim_order_status (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    code VARCHAR(50) UNIQUE NOT NULL,
+    display_name VARCHAR(200)
+);
+INSERT INTO dwh.dim_order_status (code, display_name)
+SELECT DISTINCT order_status AS code, order_status AS display_name
+FROM clean.orders
+WHERE order_status IS NOT NULL
+ON CONFLICT (code) DO NOTHING;
+
+-- Customer states lookup
+CREATE TABLE IF NOT EXISTS dwh.dim_customer_state (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    code VARCHAR(2) UNIQUE NOT NULL
+);
+INSERT INTO dwh.dim_customer_state (code)
+SELECT DISTINCT customer_state AS code
+FROM clean.customers
+WHERE customer_state IS NOT NULL
+ON CONFLICT (code) DO NOTHING;
+
+-- Product categories lookup
+CREATE TABLE IF NOT EXISTS dwh.dim_product_category (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    code VARCHAR(200) UNIQUE NOT NULL,
+    display_name VARCHAR(200)
+);
+INSERT INTO dwh.dim_product_category (code, display_name)
+SELECT DISTINCT product_category_name AS code, product_category_name AS display_name
+FROM clean.products
+WHERE product_category_name IS NOT NULL
+ON CONFLICT (code) DO NOTHING;
 -- Fin 04-dwh_tables.sql

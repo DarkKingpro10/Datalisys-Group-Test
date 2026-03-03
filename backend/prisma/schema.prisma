@@ -99,3 +99,29 @@ model FactSales {
   @@schema("dwh")
   @@map("fact_sales")
 }
+
+model DimOrderStatus {
+  id           String  @id @default(uuid()) @db.Uuid
+  code         String  @unique
+  display_name String?
+
+  @@schema("dwh")
+  @@map("dim_order_status")
+}
+
+model DimCustomerState {
+  id   String @id @default(uuid()) @db.Uuid
+  code String @unique
+
+  @@schema("dwh")
+  @@map("dim_customer_state")
+}
+
+model DimProductCategory {
+  id           String @id @default(uuid()) @db.Uuid
+  code         String @unique
+  display_name String?
+
+  @@schema("dwh")
+  @@map("dim_product_category")
+}

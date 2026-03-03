@@ -55,7 +55,10 @@ export const ModelName = {
   DimCustomer: 'DimCustomer',
   DimProduct: 'DimProduct',
   DimOrder: 'DimOrder',
-  FactSales: 'FactSales'
+  FactSales: 'FactSales',
+  DimOrderStatus: 'DimOrderStatus',
+  DimCustomerState: 'DimCustomerState',
+  DimProductCategory: 'DimProductCategory'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -134,6 +137,32 @@ export const FactSalesScalarFieldEnum = {
 } as const
 
 export type FactSalesScalarFieldEnum = (typeof FactSalesScalarFieldEnum)[keyof typeof FactSalesScalarFieldEnum]
+
+
+export const DimOrderStatusScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  display_name: 'display_name'
+} as const
+
+export type DimOrderStatusScalarFieldEnum = (typeof DimOrderStatusScalarFieldEnum)[keyof typeof DimOrderStatusScalarFieldEnum]
+
+
+export const DimCustomerStateScalarFieldEnum = {
+  id: 'id',
+  code: 'code'
+} as const
+
+export type DimCustomerStateScalarFieldEnum = (typeof DimCustomerStateScalarFieldEnum)[keyof typeof DimCustomerStateScalarFieldEnum]
+
+
+export const DimProductCategoryScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  display_name: 'display_name'
+} as const
+
+export type DimProductCategoryScalarFieldEnum = (typeof DimProductCategoryScalarFieldEnum)[keyof typeof DimProductCategoryScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -1,8 +1,13 @@
-import { getPrisma } from './client.js'
-import type { Filters, KpiResult, TimeSeriesPoint, TopProduct } from '../../domain/models/SalesModel.js'
-import type { SalesReadRepository } from '../../domain/ports/SalesReadRepository.js'
-import { Prisma } from '../../generated/prisma/client.js'
-import {buildSqlFilterFragments } from '../../shared/utils/filters.js'
+import { getPrisma } from "./client.js";
+import type {
+	Filters,
+	KpiResult,
+	TimeSeriesPoint,
+	TopProduct,
+} from "../../domain/models/SalesModel.js";
+import type { SalesReadRepository } from "../../domain/ports/SalesReadRepository.js";
+import { Prisma, type DimCustomerState, type DimOrderStatus, type DimProductCategory } from "../../generated/prisma/client.js";
+import { buildSqlFilterFragments } from "../../shared/utils/filters.js";
 
 /**
  * Repositorio de lectura de ventas (implementación Prisma + SQL)
@@ -14,33 +19,37 @@ import {buildSqlFilterFragments } from '../../shared/utils/filters.js'
  *   parametrizadas con `Prisma.sql` para obtener buena performance y seguridad.
  */
 export class SalesPrismaRepository implements SalesReadRepository {
-  /**
-   * Calcula las métricas principales (KPIs) en una sola consulta.
-   * KPIs devueltos:
-   * - GMV: SUM(item_price)
-   * - Revenue: SUM(payment_value_allocated)
-   * - Orders: COUNT(DISTINCT order_id)
-   * - Items: COUNT(*) (número de filas en fact_sales)
-   * - Cancel rate: cancelled_orders / orders (cancelled_orders = orders con order_status='canceled')
-   * - On-time rate: delivered_on_time / delivered_total
-   *
-   * Implementación:
-   * - Ejecuta una única consulta SQL parametrizada que agrega condicionalmente
-   *   para evitar múltiples `groupBy` que originarían varias consultas a la DB.
-   * - Usa `buildSqlFilterFragments` para aplicar filtros seguros sobre dimensiones
-   *   (`order_status`, `product_category_name`, `customer_state`).
-   * - Filtra por `f.purchase_date` (esta columna se genera desde `order_purchase_timestamp`
-   *   durante el ETL que puebla `dwh.fact_sales`).
-   */
-  async aggregateSalesMetrics(params: { from: Date; to: Date; filters?: Filters }): Promise<KpiResult> {
-    const prisma = getPrisma()
-    const { from, to, filters } = params
-    // Usamos una sola consulta SQL con agregaciones condicionales para
-    // calcular todas las métricas en una sola llamada y evitar múltiples
-    // groupBy (mejora de performance en tablas grandes).
-    const filterFragments = buildSqlFilterFragments(filters)
+	/**
+	 * Calcula las métricas principales (KPIs) en una sola consulta.
+	 * KPIs devueltos:
+	 * - GMV: SUM(item_price)
+	 * - Revenue: SUM(payment_value_allocated)
+	 * - Orders: COUNT(DISTINCT order_id)
+	 * - Items: COUNT(*) (número de filas en fact_sales)
+	 * - Cancel rate: cancelled_orders / orders (cancelled_orders = orders con order_status='canceled')
+	 * - On-time rate: delivered_on_time / delivered_total
+	 *
+	 * Implementación:
+	 * - Ejecuta una única consulta SQL parametrizada que agrega condicionalmente
+	 *   para evitar múltiples `groupBy` que originarían varias consultas a la DB.
+	 * - Usa `buildSqlFilterFragments` para aplicar filtros seguros sobre dimensiones
+	 *   (`order_status`, `product_category_name`, `customer_state`).
+	 * - Filtra por `f.purchase_date` (esta columna se genera desde `order_purchase_timestamp`
+	 *   durante el ETL que puebla `dwh.fact_sales`).
+	 */
+	async aggregateSalesMetrics(params: {
+		from: Date;
+		to: Date;
+		filters?: Filters;
+	}): Promise<KpiResult> {
+		const prisma = getPrisma();
+		const { from, to, filters } = params;
+		// Usamos una sola consulta SQL con agregaciones condicionales para
+		// calcular todas las métricas en una sola llamada y evitar múltiples
+		// groupBy (mejora de performance en tablas grandes).
+		const filterFragments = buildSqlFilterFragments(filters);
 
-    const sql = Prisma.sql`
+		const sql = Prisma.sql`
       SELECT
         COALESCE(SUM(f.item_price),0) AS gmv,
         COALESCE(SUM(f.payment_value_allocated),0) AS revenue,
@@ -53,61 +62,78 @@ export class SalesPrismaRepository implements SalesReadRepository {
       LEFT JOIN dwh.dim_order o ON f.order_id = o.order_id
       LEFT JOIN dwh.dim_product p ON f.product_id = p.product_id
       LEFT JOIN dwh.dim_customer c ON f.customer_id = c.customer_id
-      WHERE f.purchase_date >= ${from} AND f.purchase_date < ${to} ${Prisma.join(filterFragments, ' ')}
-    `
+      WHERE f.purchase_date >= ${from} AND f.purchase_date < ${to} ${filterFragments.length ? Prisma.join(filterFragments, " ") : Prisma.sql``}
+    `;
 
-    const rows: {
-      gmv: string
-      revenue: string
-      orders: string
-      items: string
-      cancelled_orders: string
-      delivered_total: string
-      delivered_on_time: string
-    }[] = await prisma.$queryRaw(sql)
+		const rows: {
+			gmv: string;
+			revenue: string;
+			orders: string;
+			items: string;
+			cancelled_orders: string;
+			delivered_total: string;
+			delivered_on_time: string;
+		}[] = await prisma.$queryRaw(sql);
 
-    const r = rows[0] ?? { gmv: '0', revenue: '0', orders: '0', items: '0', cancelled_orders: '0', delivered_total: '0', delivered_on_time: '0' }
+		const r = rows[0] ?? {
+			gmv: "0",
+			revenue: "0",
+			orders: "0",
+			items: "0",
+			cancelled_orders: "0",
+			delivered_total: "0",
+			delivered_on_time: "0",
+		};
 
-    const gmv = Number(r.gmv)
-    const revenue = Number(r.revenue)
-    const orders = Number(r.orders)
-    const items_count = Number(r.items)
-    const cancelled_orders = Number(r.cancelled_orders)
-    const delivered_total = Number(r.delivered_total)
-    const delivered_on_time = Number(r.delivered_on_time)
+		const gmv = Number(r.gmv);
+		const revenue = Number(r.revenue);
+		const orders = Number(r.orders);
+		const items_count = Number(r.items);
+		const cancelled_orders = Number(r.cancelled_orders);
+		const delivered_total = Number(r.delivered_total);
+		const delivered_on_time = Number(r.delivered_on_time);
 
-    const cancel_rate = orders === 0 ? 0 : cancelled_orders / orders
-    const on_time_rate = delivered_total === 0 ? 0 : delivered_on_time / delivered_total
+		const cancel_rate = orders === 0 ? 0 : cancelled_orders / orders;
+		const on_time_rate =
+			delivered_total === 0 ? 0 : delivered_on_time / delivered_total;
 
-    return {
-      gmv,
-      revenue,
-      orders,
-      aov: revenue,
-      ipo: items_count === 0 ? 0 : items_count / (orders || 1),
-      items: items_count,
-      cancel_rate,
-      on_time_rate,
-    }
-  }
+		return {
+			gmv,
+			revenue,
+			orders,
+			aov: revenue,
+			ipo: items_count === 0 ? 0 : items_count / (orders || 1),
+			items: items_count,
+			cancel_rate,
+			on_time_rate,
+		};
+	}
 
-  /**
-   * KPI: Revenue Trend (GET /trend/revenue)
-   * Devuelve puntos temporales: date, revenue (SUM payment_value_allocated), orders (COUNT DISTINCT order_id)
-   *
-   * Implementación:
-   * - Usa `date_trunc('day'|'week', purchase_date)` en SQL para bucketizar fechas.
-   * - Usa COUNT(DISTINCT order_id) para contar órdenes únicas por bucket.
-   * - Consulta parametrizada con `Prisma.sql` + `buildSqlFilterFragments`.
-   */
-  async getTimeSeries(params: { from: Date; to: Date; grain: 'day' | 'week'; filters?: Filters }): Promise<TimeSeriesPoint[]> {
-    const prisma = getPrisma()
-    const { from, to, grain, filters } = params
-    const dateBucket = grain === 'week' ? `date_trunc('week', f.purchase_date)::date` : `date_trunc('day', f.purchase_date)::date`
+	/**
+	 * KPI: Revenue Trend (GET /trend/revenue)
+	 * Devuelve puntos temporales: date, revenue (SUM payment_value_allocated), orders (COUNT DISTINCT order_id)
+	 *
+	 * Implementación:
+	 * - Usa `date_trunc('day'|'week', purchase_date)` en SQL para bucketizar fechas.
+	 * - Usa COUNT(DISTINCT order_id) para contar órdenes únicas por bucket.
+	 * - Consulta parametrizada con `Prisma.sql` + `buildSqlFilterFragments`.
+	 */
+	async getTimeSeries(params: {
+		from: Date;
+		to: Date;
+		grain: "day" | "week";
+		filters?: Filters;
+	}): Promise<TimeSeriesPoint[]> {
+		const prisma = getPrisma();
+		const { from, to, grain, filters } = params;
+		const dateBucket =
+			grain === "week"
+				? `date_trunc('week', f.purchase_date)::date`
+				: `date_trunc('day', f.purchase_date)::date`;
 
-    const filterFragments = buildSqlFilterFragments(filters)
+		const filterFragments = buildSqlFilterFragments(filters);
 
-        const sql = Prisma.sql`
+		const sql = Prisma.sql`
       SELECT ${Prisma.raw(dateBucket)} AS date,
              COALESCE(SUM(f.payment_value_allocated),0) AS revenue,
              COUNT(DISTINCT f.order_id) AS orders
@@ -115,36 +141,54 @@ export class SalesPrismaRepository implements SalesReadRepository {
       LEFT JOIN dwh.dim_order o ON f.order_id = o.order_id
       LEFT JOIN dwh.dim_product p ON f.product_id = p.product_id
       LEFT JOIN dwh.dim_customer c ON f.customer_id = c.customer_id
-      WHERE f.purchase_date >= ${from} AND f.purchase_date < ${to} ${Prisma.join(filterFragments, ' ')}
+      WHERE f.purchase_date >= ${from} AND f.purchase_date < ${to} ${filterFragments.length ? Prisma.join(filterFragments, " ") : Prisma.sql``}
       GROUP BY date
       ORDER BY date ASC
-    `
+    `;
 
-    const rows: { date: any; revenue: string; orders: string }[] = await prisma.$queryRaw(sql)
-    return rows.map((r) => ({ date: (r.date instanceof Date) ? r.date.toISOString().slice(0,10) : String(r.date), revenue: Number(r.revenue), orders: Number(r.orders) }))
-  }
+		const rows: { date: any; revenue: string; orders: string }[] =
+			await prisma.$queryRaw(sql);
+		return rows.map((r) => ({
+			date:
+				r.date instanceof Date
+					? r.date.toISOString().slice(0, 10)
+					: String(r.date),
+			revenue: Number(r.revenue),
+			orders: Number(r.orders),
+		}));
+	}
 
-  /**
-   * KPI: Top Products (GET /rankings/products)
-   * Devuelve top N productos por GMV o Revenue: product_id, product_category_name, gmv, revenue, orders
-   *
-   * Implementación:
-   * - Agrupa por producto y calcula SUM(item_price), SUM(payment_value_allocated).
-   * - Usa COUNT(DISTINCT order_id) para contar órdenes únicas por producto.
-   * - Ordena por la métrica solicitada y aplica un `LIMIT` seguro.
-   */
-  async getTopProducts(params: { from: Date; to: Date; metric: 'gmv' | 'revenue'; limit: number; filters?: Filters }): Promise<TopProduct[]> {
-    const prisma = getPrisma()
-    const { from, to, metric, limit, filters } = params
-    // Defensive validation
-    if (!(metric === 'gmv' || metric === 'revenue')) throw new Error('Invalid metric')
-    const safeLimit = Math.min(Math.max(Number.isFinite(limit) ? limit : 10, 1), 100)
+	/**
+	 * KPI: Top Products (GET /rankings/products)
+	 * Devuelve top N productos por GMV o Revenue: product_id, product_category_name, gmv, revenue, orders
+	 *
+	 * Implementación:
+	 * - Agrupa por producto y calcula SUM(item_price), SUM(payment_value_allocated).
+	 * - Usa COUNT(DISTINCT order_id) para contar órdenes únicas por producto.
+	 * - Ordena por la métrica solicitada y aplica un `LIMIT` seguro.
+	 */
+	async getTopProducts(params: {
+		from: Date;
+		to: Date;
+		metric: "gmv" | "revenue";
+		limit: number;
+		filters?: Filters;
+	}): Promise<TopProduct[]> {
+		const prisma = getPrisma();
+		const { from, to, metric, limit, filters } = params;
+		// Defensive validation
+		if (!(metric === "gmv" || metric === "revenue"))
+			throw new Error("Invalid metric");
+		const safeLimit = Math.min(
+			Math.max(Number.isFinite(limit) ? limit : 10, 1),
+			100,
+		);
 
-    const orderBy = metric === 'revenue' ? 'revenue' : 'gmv'
+		const orderBy = metric === "revenue" ? "revenue" : "gmv";
 
-    const filterFragments2 = buildSqlFilterFragments(filters)
+		const filterFragments2 = buildSqlFilterFragments(filters);
 
-    const sql2 = Prisma.sql`
+		const sql2 = Prisma.sql`
       SELECT f.product_id,
              p.product_category_name,
              COALESCE(SUM(f.item_price),0) AS gmv,
@@ -154,13 +198,54 @@ export class SalesPrismaRepository implements SalesReadRepository {
       LEFT JOIN dwh.dim_product p ON f.product_id = p.product_id
       LEFT JOIN dwh.dim_order o ON f.order_id = o.order_id
       LEFT JOIN dwh.dim_customer c ON f.customer_id = c.customer_id
-      WHERE f.purchase_date >= ${from} AND f.purchase_date < ${to} ${Prisma.join(filterFragments2, ' ')}
+      WHERE f.purchase_date >= ${from} AND f.purchase_date < ${to} ${filterFragments2.length ? Prisma.join(filterFragments2, " ") : Prisma.sql``}
       GROUP BY f.product_id, p.product_category_name
       ORDER BY ${Prisma.raw(orderBy)} DESC
       LIMIT ${safeLimit}
-    `
+    `;
 
-    const rows: { product_id: string; product_category_name?: string | null; gmv: string; revenue: string; orders: string }[] = await prisma.$queryRaw(sql2)
-    return rows.map((r) => ({ product_id: r.product_id, product_category_name: r.product_category_name ?? null, gmv: Number(r.gmv), revenue: Number(r.revenue), orders: Number(r.orders) }))
-  }
+		const rows: {
+			product_id: string;
+			product_category_name?: string | null;
+			gmv: string;
+			revenue: string;
+			orders: string;
+		}[] = await prisma.$queryRaw(sql2);
+		return rows.map((r) => ({
+			product_id: r.product_id,
+			product_category_name: r.product_category_name ?? null,
+			gmv: Number(r.gmv),
+			revenue: Number(r.revenue),
+			orders: Number(r.orders),
+		}));
+	}
+
+	// Metadata methods
+	async listOrderStatuses(): Promise<
+		DimOrderStatus[]
+	> {
+		const prisma = getPrisma();
+		return prisma.dimOrderStatus.findMany({
+			select: { id: true, code: true, display_name: true },
+			orderBy: { code: "asc" },
+		});
+	}
+
+	async listCustomerStates(): Promise<DimCustomerState[]> {
+		const prisma = getPrisma();
+		return prisma.dimCustomerState.findMany({
+			select: { id: true, code: true },
+			orderBy: { code: "asc" },
+		});
+	}
+
+	async listProductCategories(): Promise<
+		DimProductCategory[]
+	> {
+		const prisma = getPrisma();
+		return prisma.dimProductCategory.findMany({
+			select: { id: true, code: true, display_name: true },
+			orderBy: { code: "asc" },
+		});
+	}
 }

@@ -66,3 +66,18 @@ export type DimOrder = Prisma.DimOrderModel
  * 
  */
 export type FactSales = Prisma.FactSalesModel
+/**
+ * Model DimOrderStatus
+ * 
+ */
+export type DimOrderStatus = Prisma.DimOrderStatusModel
+/**
+ * Model DimCustomerState
+ * 
+ */
+export type DimCustomerState = Prisma.DimCustomerStateModel
+/**
+ * Model DimProductCategory
+ * 
+ */
+export type DimProductCategory = Prisma.DimProductCategoryModel
