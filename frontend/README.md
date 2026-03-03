@@ -33,12 +33,15 @@ src/
       theme-toggle.tsx
     config/
       env.ts
+    store/
+      dashboard-ui.store.ts
   features/
     dashboard/
       api/
         dashboard-api.ts
       components/
         api-debug-panel.tsx
+        dashboard-shell.tsx
         dashboard-sidebar.tsx
         data-block-error.tsx
         global-filters-form.tsx
@@ -127,6 +130,9 @@ Comportamiento global entre rutas:
 - Se corrigió el error de navegación bloqueada en Next.js envolviendo `DashboardSidebar` en `Suspense` con fallback en `app/(dashboard)/layout.tsx`.
 - Se mejoró la distribución de filtros en tablet (`md/lg`) y se corrigió el toggle de expandir/ocultar filtros para evitar doble disparo de eventos.
 - Se unificó el formulario de filtros en una sola grilla (sin separación por secciones) para mantener continuidad visual en tablet y evitar cortes de layout.
+- Se implementó sidebar colapsable global con Zustand para móvil y desktop, con botón en header y expansión del contenido al ocultar el menú.
+- Se ajustó el sidebar para UX de urgencia: toggle ícono-only a la izquierda del header, drawer overlay en móvil con backdrop y cierre, y ocultado desktop sin parpadeo.
+- Se corrigió el warning de `blocking-route` envolviendo también en `Suspense` el `DashboardSidebar` del drawer móvil.
 
 Los filtros de catálogo se renderizan con `select` y usan `code` como valor enviado al backend:
 

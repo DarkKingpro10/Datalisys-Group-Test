@@ -10,7 +10,7 @@ export function DashboardSidebar() {
 	const queryString = searchParams.toString();
 
 	return (
-		<aside className="h-full rounded-2xl border border-border bg-surface p-4">
+		<aside className="h-full rounded-2xl lg:border lg:border-border bg-surface lg:p-4">
 			<div className="mb-6 border-b border-border pb-4">
 				<p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Comercial</p>
 				<h2 className="mt-2 text-lg font-semibold">KPI Dashboard</h2>
