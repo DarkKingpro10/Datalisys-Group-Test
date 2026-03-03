@@ -222,10 +222,10 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 					</>
 				) : null}
 
-				<div className="flex items-center gap-2 self-end">
+				<div className="flex flex-col gap-2 self-end sm:flex-row sm:items-center">
 					<button
 						type="button"
-						className="inline-flex h-11 items-center justify-center whitespace-nowrap rounded-lg border border-border bg-surface-soft px-4 text-sm font-medium text-foreground transition hover:bg-surface-soft/70 disabled:opacity-60"
+						className="inline-flex h-11 w-full items-center justify-center rounded-lg border border-border bg-surface-soft px-4 text-sm font-medium text-foreground transition hover:bg-surface-soft/70 disabled:opacity-60 sm:w-auto"
 						onClick={onResetFilters}
 						disabled={pending}
 					>
@@ -233,7 +233,7 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 					</button>
 					<button
 						type="submit"
-						className="inline-flex h-11 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60"
+						className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60 sm:w-auto"
 						disabled={pending}
 					>
 						{pending ? "Aplicando..." : "Aplicar filtros"}

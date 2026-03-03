@@ -16,7 +16,7 @@ export function RouteErrorPanel({ error, onRetry, title = "No pudimos cargar est
 		return (
 			<section className="rounded-2xl border border-border bg-surface p-4">
 				<p className="text-sm text-muted">El aviso de error está oculto.</p>
-				<div className="mt-3 flex gap-2">
+				<div className="mt-3 flex flex-wrap gap-2">
 					<button
 						type="button"
 						onClick={() => setHidden(false)}

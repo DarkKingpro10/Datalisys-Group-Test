@@ -127,6 +127,10 @@ Comportamiento global entre rutas:
 - La navegación del sidebar preserva los query params actuales, por lo que los filtros se comparten entre `/overview` y `/rankings`.
 - Se añadió botón `Reiniciar filtros globales` en el formulario para volver al estado inicial (rango default + filtros extra vacíos + controles de ranking por defecto).
 - El formulario de filtros se sincroniza visualmente con la URL al navegar o cambiar query params (evita desalineación entre estado visible y estado aplicado).
+- Se corrigió el bloque de acciones del formulario para móvil (botones en columna con ancho completo) evitando overflow horizontal.
+- Se reforzó responsive global del dashboard en móvil: header adaptable, toggle de tema sin desborde y encabezados de bloques (tendencia/rankings) apilables.
+- Se corrigió y reaplicó el layout responsive del dashboard (`app/(dashboard)/layout.tsx`) con contención horizontal (`overflow-x-clip`) y `min-w-0` en el contenedor principal.
+- Se corrigió el error de navegación bloqueada en Next.js envolviendo `DashboardSidebar` en `Suspense` con fallback en `app/(dashboard)/layout.tsx`.
 
 Los filtros de catálogo se renderizan con `select` y usan `code` como valor enviado al backend:
 

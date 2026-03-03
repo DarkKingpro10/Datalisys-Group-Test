@@ -27,7 +27,7 @@ export async function RankingTable({ filters }: Props) {
 
 	return (
 		<section className="rounded-2xl border border-border bg-surface p-4">
-			<div className="mb-3 flex items-center justify-between">
+			<div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
 				<h2 className="text-base font-semibold">Top productos</h2>
 				<span className="text-xs text-muted">Ordenado por {filters.metric.toUpperCase()}</span>
 			</div>
