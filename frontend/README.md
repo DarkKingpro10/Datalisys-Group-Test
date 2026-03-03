@@ -33,12 +33,6 @@ src/
       theme-toggle.tsx
     config/
       env.ts
-    hooks/
-      use-store.ts
-    providers/
-      theme-provider.tsx
-    store/
-      theme.store.ts
   features/
     dashboard/
       api/
@@ -191,7 +185,7 @@ Debug temporal de API (inspección de payload):
 - Selección manual: claro/oscuro/sistema
 - Persistencia en `localStorage`
 - Script temprano en layout para evitar flash visual
-- Hook `use-store` para evitar desajustes de hidratación con Zustand
+- Lógica local en `theme-toggle` (sin store/provider global)
 
 ## Variables de entorno
 

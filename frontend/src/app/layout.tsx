@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { ThemeProvider } from "@/shared/providers/theme-provider";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -40,7 +39,7 @@ export default function RootLayout({
 				<script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
 			</head>
 			<body suppressHydrationWarning className={`antialiased ${poppins.className}`}>
-				<ThemeProvider>{children}</ThemeProvider>
+				{children}
 			</body>
 		</html>
 	);

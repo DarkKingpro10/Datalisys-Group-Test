@@ -3,9 +3,7 @@ Proyecto: Commercial KPI Dashboard — inicialización Docker
 Actualización frontend (marzo 2026)
 ----------------------------------
 - Se implementó dark mode profesional y escalable en el frontend (`light` / `dark` / `system`).
-- Se usa Zustand para el estado global de tema y persistencia de preferencia en `localStorage`.
-- Se añadió un hook compartido `use-store` para evitar desajustes de hidratación de Zustand en componentes cliente renderizados por Next.js.
-- Se añadió un `ThemeProvider` para hidratar estado, aplicar clase de tema en `html` y sincronizar cambios del sistema cuando el modo es `system`.
+- Se simplificó el dark mode eliminando estado global: el switcher aplica clase en `html` + persistencia en `localStorage`, manteniendo script inicial anti-flash.
 - Se migraron estilos globales a tokens semánticos en `frontend/src/app/globals.css` para facilitar consistencia visual futura en sidebar, cards, tablas y charts.
 - Se creó un selector de tema reusable con Tabler Icons en `frontend/src/shared/components/theme-toggle.tsx`.
 - Se actualizó `frontend/src/app/layout.tsx` para inicializar tema antes de hidratar y minimizar parpadeo visual.
