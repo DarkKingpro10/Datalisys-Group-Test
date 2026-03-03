@@ -122,6 +122,12 @@ Se aplican por query string y se envían al backend:
 - `metric`
 - `limit`
 
+Comportamiento global entre rutas:
+
+- La navegación del sidebar preserva los query params actuales, por lo que los filtros se comparten entre `/overview` y `/rankings`.
+- Se añadió botón `Reiniciar filtros globales` en el formulario para volver al estado inicial (rango default + filtros extra vacíos + controles de ranking por defecto).
+- El formulario de filtros se sincroniza visualmente con la URL al navegar o cambiar query params (evita desalineación entre estado visible y estado aplicado).
+
 Los filtros de catálogo se renderizan con `select` y usan `code` como valor enviado al backend:
 
 - Estado de orden (`order_status`)
@@ -138,6 +144,7 @@ Este rango inicial asegura que la primera carga muestre datos históricos del da
 Formulario implementado con `useActionState` (sin `useState` para submit de formulario):
 
 - `src/features/dashboard/components/global-filters-form.tsx`
+- Utilidad de query unificada: `filtersToQuery` en `src/features/dashboard/lib/dashboard-filters.ts`.
 
 ## Loading UX
 

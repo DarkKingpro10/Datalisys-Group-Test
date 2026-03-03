@@ -13,6 +13,9 @@ Actualización frontend (marzo 2026)
 - Se creó archivo central de rutas frontend en `frontend/src/features/dashboard/config/routes.ts`.
 - Se agregó capa API tipada en `frontend/src/features/dashboard/api/dashboard-api.ts` para consumir `/kpis`, `/trend/revenue`, `/rankings/products`.
 - Se implementaron filtros globales (rango de fechas + `customer_state` + `order_status`) con query params y `useActionState`.
+- Se ajustó la navegación del dashboard para conservar filtros al cambiar entre `/overview` y `/rankings`, y se añadió botón de reinicio de filtros globales al estado inicial.
+- Se simplificó la utilidad de serialización de filtros en frontend a una única función (`filtersToQuery`) usada tanto para navegación como para llamadas a API.
+- Se corrigió la sincronización visual del formulario de filtros con los query params de la URL y se ajustó el estilo del botón de reinicio para mejorar legibilidad.
 - Se aplicó render con `Suspense` y skeletons (sin texto "cargando") para KPIs, tendencia y ranking.
 - Se cambió `frontend/src/app/page.tsx` a redirección server-side hacia `/overview`.
 - Se unificaron las pantallas de `overview` y `rankings` dentro del feature `dashboard` para reflejar que son vistas del mismo dominio y evitar fragmentación artificial de módulos.

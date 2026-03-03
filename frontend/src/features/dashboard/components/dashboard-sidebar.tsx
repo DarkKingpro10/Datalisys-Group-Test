@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { dashboardSidebarRoutes } from "@/features/dashboard/config/routes";
 
 export function DashboardSidebar() {
 	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const queryString = searchParams.toString();
 
 	return (
 		<aside className="h-full rounded-2xl border border-border bg-surface p-4">
@@ -16,11 +18,12 @@ export function DashboardSidebar() {
 			<nav className="space-y-2">
 				{dashboardSidebarRoutes.map((route) => {
 					const isActive = pathname === route.href;
+					const href = queryString ? `${route.href}?${queryString}` : route.href;
 
 					return (
 						<Link
 							key={route.key}
-							href={route.href}
+							href={href}
 							className={`block rounded-lg px-3 py-2 text-sm font-medium transition ${
 								isActive
 									? "bg-primary text-primary-foreground"

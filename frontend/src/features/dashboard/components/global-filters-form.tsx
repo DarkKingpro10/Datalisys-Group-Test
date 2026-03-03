@@ -1,8 +1,11 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { filtersToUrlQuery } from "@/features/dashboard/lib/dashboard-filters";
+import {
+	filtersToQuery,
+	getDefaultDashboardFilters,
+} from "@/features/dashboard/lib/dashboard-filters";
 import type { DashboardFilters, MetadataItem } from "@/features/dashboard/types/dashboard";
 
 type Props = {
@@ -15,53 +18,85 @@ type Props = {
 	showRankingControls?: boolean;
 };
 
-type FormActionState = {
-	nextUrl: string;
+type FilterFormState = {
+	from: string;
+	to: string;
+	customerState: string;
+	orderStatus: string;
+	productCategoryName: string;
+	grain: string;
+	metric: string;
+	limit: string;
 };
 
-const initialActionState: FormActionState = {
-	nextUrl: "",
-};
+function toFormState(filters: DashboardFilters): FilterFormState {
+	return {
+		from: filters.from,
+		to: filters.to,
+		customerState: filters.customerState ?? "",
+		orderStatus: filters.orderStatus ?? "",
+		productCategoryName: filters.productCategoryName ?? "",
+		grain: filters.grain,
+		metric: filters.metric,
+		limit: String(filters.limit),
+	};
+}
 
 export function GlobalFiltersForm({ filters, metadata, showRankingControls = false }: Props) {
 	const pathname = usePathname();
 	const router = useRouter();
-
-	const [state, formAction, pending] = useActionState(async (_prev: FormActionState, formData: FormData) => {
-		const nextFilters: DashboardFilters = {
-			from: String(formData.get("from") || filters.from),
-			to: String(formData.get("to") || filters.to),
-			customerState: String(formData.get("customer_state") || "") || undefined,
-			orderStatus: String(formData.get("order_status") || "") || undefined,
-			productCategoryName: String(formData.get("product_category_name") || "") || undefined,
-			grain: (String(formData.get("grain") || filters.grain) === "week" ? "week" : "day"),
-			metric: (String(formData.get("metric") || filters.metric) === "revenue" ? "revenue" : "gmv"),
-			limit: Number(formData.get("limit") || filters.limit),
-		};
-
-		const queryString = filtersToUrlQuery(nextFilters).toString();
-		return { nextUrl: `${pathname}?${queryString}` };
-	}, initialActionState);
+	const [pending, startTransition] = useTransition();
+	const [formState, setFormState] = useState<FilterFormState>(() => toFormState(filters));
 
 	useEffect(() => {
-		if (state.nextUrl) {
-			router.push(state.nextUrl);
-		}
-	}, [router, state.nextUrl]);
+		setFormState(toFormState(filters));
+	}, [filters]);
 
 	const orderStatuses = metadata?.orderStatuses ?? [];
 	const customerStates = metadata?.customerStates ?? [];
 	const productCategories = metadata?.productCategories ?? [];
 
+	function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+
+		const parsedLimit = Number(formState.limit);
+		const nextFilters: DashboardFilters = {
+			from: formState.from || filters.from,
+			to: formState.to || filters.to,
+			customerState: formState.customerState || undefined,
+			orderStatus: formState.orderStatus || undefined,
+			productCategoryName: formState.productCategoryName || undefined,
+			grain: formState.grain === "week" ? "week" : "day",
+			metric: formState.metric === "revenue" ? "revenue" : "gmv",
+			limit: Number.isNaN(parsedLimit) ? 10 : Math.min(Math.max(parsedLimit, 1), 100),
+		};
+
+		const nextUrl = `${pathname}?${filtersToQuery(nextFilters).toString()}`;
+		startTransition(() => {
+			router.push(nextUrl);
+		});
+	}
+
+	function onResetFilters() {
+		const defaultFilters = getDefaultDashboardFilters();
+		setFormState(toFormState(defaultFilters));
+		startTransition(() => {
+			router.push(`${pathname}?${filtersToQuery(defaultFilters).toString()}`);
+		});
+	}
+
 	return (
-		<form action={formAction} className="rounded-2xl border border-border bg-surface p-4">
+		<form onSubmit={onSubmit} className="rounded-2xl border border-border bg-surface p-4">
 			<div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
 				<label className="flex flex-col gap-1 text-sm">
 					<span className="text-muted">Desde</span>
 					<input
 						name="from"
 						type="date"
-						defaultValue={filters.from}
+						value={formState.from}
+						onChange={(event) =>
+							setFormState((prev) => ({ ...prev, from: event.target.value }))
+						}
 						className="rounded-lg border border-border bg-background px-3 py-2 outline-none ring-primary focus:ring-2"
 					/>
 				</label>
@@ -71,7 +106,10 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 					<input
 						name="to"
 						type="date"
-						defaultValue={filters.to}
+						value={formState.to}
+						onChange={(event) =>
+							setFormState((prev) => ({ ...prev, to: event.target.value }))
+						}
 						className="rounded-lg border border-border bg-background px-3 py-2 outline-none ring-primary focus:ring-2"
 					/>
 				</label>
@@ -80,7 +118,10 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 					<span className="text-muted">Estado cliente</span>
 					<select
 						name="customer_state"
-						defaultValue={filters.customerState ?? ""}
+						value={formState.customerState}
+						onChange={(event) =>
+							setFormState((prev) => ({ ...prev, customerState: event.target.value }))
+						}
 						className="rounded-lg border border-border bg-background px-3 py-2 outline-none ring-primary focus:ring-2"
 					>
 						<option value="">Todos</option>
@@ -96,7 +137,10 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 					<span className="text-muted">Estado orden</span>
 					<select
 						name="order_status"
-						defaultValue={filters.orderStatus ?? ""}
+						value={formState.orderStatus}
+						onChange={(event) =>
+							setFormState((prev) => ({ ...prev, orderStatus: event.target.value }))
+						}
 						className="rounded-lg border border-border bg-background px-3 py-2 outline-none ring-primary focus:ring-2"
 					>
 						<option value="">Todos</option>
@@ -112,7 +156,10 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 					<span className="text-muted">Categoría</span>
 					<select
 						name="product_category_name"
-						defaultValue={filters.productCategoryName ?? ""}
+						value={formState.productCategoryName}
+						onChange={(event) =>
+							setFormState((prev) => ({ ...prev, productCategoryName: event.target.value }))
+						}
 						className="rounded-lg border border-border bg-background px-3 py-2 outline-none ring-primary focus:ring-2"
 					>
 						<option value="">Todas</option>
@@ -130,7 +177,10 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 					<span className="text-muted">Grano</span>
 					<select
 						name="grain"
-						defaultValue={filters.grain}
+						value={formState.grain}
+						onChange={(event) =>
+							setFormState((prev) => ({ ...prev, grain: event.target.value }))
+						}
 						className="rounded-lg border border-border bg-background px-3 py-2 outline-none ring-primary focus:ring-2"
 					>
 						<option value="day">Día</option>
@@ -144,7 +194,10 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 							<span className="text-muted">Métrica ranking</span>
 							<select
 								name="metric"
-								defaultValue={filters.metric}
+								value={formState.metric}
+								onChange={(event) =>
+									setFormState((prev) => ({ ...prev, metric: event.target.value }))
+								}
 								className="rounded-lg border border-border bg-background px-3 py-2 outline-none ring-primary focus:ring-2"
 							>
 								<option value="gmv">GMV</option>
@@ -159,25 +212,33 @@ export function GlobalFiltersForm({ filters, metadata, showRankingControls = fal
 								type="number"
 								min={1}
 								max={100}
-								defaultValue={filters.limit}
+								value={formState.limit}
+								onChange={(event) =>
+									setFormState((prev) => ({ ...prev, limit: event.target.value }))
+								}
 								className="rounded-lg border border-border bg-background px-3 py-2 outline-none ring-primary focus:ring-2"
 							/>
 						</label>
 					</>
-				) : (
-					<>
-						<input type="hidden" name="metric" value={filters.metric} />
-						<input type="hidden" name="limit" value={filters.limit} />
-					</>
-				)}
+				) : null}
 
-				<button
-					type="submit"
-					className="inline-flex h-11 items-center justify-center self-end rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60"
-					disabled={pending}
-				>
-					{pending ? "Aplicando..." : "Aplicar filtros"}
-				</button>
+				<div className="flex items-center gap-2 self-end">
+					<button
+						type="button"
+						className="inline-flex h-11 items-center justify-center whitespace-nowrap rounded-lg border border-border bg-surface-soft px-4 text-sm font-medium text-foreground transition hover:bg-surface-soft/70 disabled:opacity-60"
+						onClick={onResetFilters}
+						disabled={pending}
+					>
+						Reiniciar filtros
+					</button>
+					<button
+						type="submit"
+						className="inline-flex h-11 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60"
+						disabled={pending}
+					>
+						{pending ? "Aplicando..." : "Aplicar filtros"}
+					</button>
+				</div>
 			</div>
 		</form>
 	);

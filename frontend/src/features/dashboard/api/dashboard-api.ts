@@ -1,4 +1,4 @@
-import { filtersToApiQuery } from "@/features/dashboard/lib/dashboard-filters";
+import { filtersToQuery } from "@/features/dashboard/lib/dashboard-filters";
 import { cacheLife, cacheTag } from "next/cache";
 import { dashboardCacheTags } from "@/features/dashboard/config/cache-tags";
 import type {
@@ -56,17 +56,17 @@ async function fetchApi<T>(path: string, options?: FetchOptions): Promise<T> {
 }
 
 export async function getKpis(filters: DashboardFilters): Promise<KpiResult> {
-	const params = filtersToApiQuery(filters);
+	const params = filtersToQuery(filters);
 	return fetchApi<KpiResult>(`/kpis?${params.toString()}`, { revalidate: 60 });
 }
 
 export async function getRevenueTrend(filters: DashboardFilters): Promise<TimeSeriesPoint[]> {
-	const params = filtersToApiQuery(filters);
+	const params = filtersToQuery(filters);
 	return fetchApi<TimeSeriesPoint[]>(`/trend/revenue?${params.toString()}`, { revalidate: 60 });
 }
 
 export async function getTopProducts(filters: DashboardFilters): Promise<TopProduct[]> {
-	const params = filtersToApiQuery(filters);
+	const params = filtersToQuery(filters);
 	return fetchApi<TopProduct[]>(`/rankings/products?${params.toString()}`, { revalidate: 60 });
 }
 

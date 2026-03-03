@@ -1,6 +1,6 @@
 import { getKpis, getRevenueTrend } from "@/features/dashboard/api/dashboard-api";
 import { ApiDebugPanel } from "@/features/dashboard/components/api-debug-panel";
-import { filtersToApiQuery } from "@/features/dashboard/lib/dashboard-filters";
+import { filtersToQuery } from "@/features/dashboard/lib/dashboard-filters";
 import type { DashboardFilters, KpiResult, TimeSeriesPoint } from "@/features/dashboard/types/dashboard";
 import { envConfig } from "@/shared/config/env";
 
@@ -32,7 +32,7 @@ async function resolveTrend(filters: DashboardFilters): Promise<DebugResult<Time
 }
 
 export async function OverviewApiDebug({ filters }: Props) {
-	const query = filtersToApiQuery(filters).toString();
+	const query = filtersToQuery(filters).toString();
 	const kpisUrl = `${envConfig.API_URL}/kpis?${query}`;
 	const trendUrl = `${envConfig.API_URL}/trend/revenue?${query}`;
 
