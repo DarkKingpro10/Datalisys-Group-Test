@@ -49,6 +49,16 @@ src/
         data-block-error.tsx
         global-filters-form.tsx
         global-filters-skeleton.tsx
+        overview/
+          kpi-section.tsx
+          kpi-section-skeleton.tsx
+          trend-section.tsx
+          trend-section-skeleton.tsx
+          overview-api-debug.tsx
+        rankings/
+          ranking-table.tsx
+          ranking-table-skeleton.tsx
+          rankings-api-debug.tsx
       config/
         routes.ts
       lib/
@@ -56,16 +66,6 @@ src/
         format.ts
       types/
         dashboard.ts
-    overview/
-      components/
-        kpi-section.tsx
-        kpi-section-skeleton.tsx
-        trend-section.tsx
-        trend-section-skeleton.tsx
-    rankings/
-      components/
-        ranking-table.tsx
-        ranking-table-skeleton.tsx
 ```
 
 ## Rutas implementadas
@@ -107,13 +107,7 @@ Tags usadas:
 - `dashboard:meta:customer-states`
 - `dashboard:meta:product-categories`
 
-Revalidación on-demand:
-
-- Endpoint: `POST /api/revalidate/dashboard-meta`
-- Header opcional de seguridad: `x-revalidate-token` (si defines `NEXT_REVALIDATE_TOKEN`).
-- Body opcional: `{ "tags": ["dashboard:meta:order-statuses"] }`
-- Si no envías `tags`, revalida todas las tags de metadata.
-- Internamente usa `revalidateTag(tag, "max")`.
+No se expone endpoint de revalidación on-demand en el frontend en esta versión; la metadata se refresca por política de `cacheLife("hours")`.
 
 ## Filtros globales
 
@@ -165,7 +159,7 @@ Nota de criterio arquitectónico:
 
 Tolerancia a fallos de API por bloque:
 
-- Los componentes de `features/overview/components` y `features/rankings/components` encapsulan su `try/catch`.
+- Los componentes de `features/dashboard/components/overview` y `features/dashboard/components/rankings` encapsulan su `try/catch`.
 - Si un endpoint falla, se muestra estado de error en el bloque (`DataBlockError`) sin romper la ruta completa.
 
 Manejo de error por ruta:

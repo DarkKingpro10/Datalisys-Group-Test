@@ -15,7 +15,7 @@ Actualización frontend (marzo 2026)
 - Se implementaron filtros globales (rango de fechas + `customer_state` + `order_status`) con query params y `useActionState`.
 - Se aplicó render con `Suspense` y skeletons (sin texto "cargando") para KPIs, tendencia y ranking.
 - Se cambió `frontend/src/app/page.tsx` a redirección server-side hacia `/overview`.
-- Se refactorizó la UI del dashboard a componentes por feature (`frontend/src/features/overview` y `frontend/src/features/rankings`) para mejorar screaming architecture.
+- Se unificaron las pantallas de `overview` y `rankings` dentro del feature `dashboard` para reflejar que son vistas del mismo dominio y evitar fragmentación artificial de módulos.
 - Se añadió tolerancia a fallos de API por bloque: si falla backend se muestra estado de error local sin tumbar toda la ruta.
 - Se integró manejo de error por ruta en el segmento `frontend/src/app/(dashboard)/error.tsx` con panel ocultable y acción de reintento.
 - Se ajustó el rango inicial de filtros del frontend para cargar datos desde `2016-08-31` hasta la fecha actual en la primera visita.
@@ -23,7 +23,7 @@ Actualización frontend (marzo 2026)
 - Se añadió modo de depuración temporal de API en frontend activable con `debug_api=1` para visualizar payload/error real de endpoints.
 - Se integraron endpoints de metadata (`/meta/order-statuses`, `/meta/customer-states`, `/meta/product-categories`) para poblar selects de filtros y enviar `code` como valor.
 - Se refactorizó frontend para screaming architecture más estricta: módulos de dominio en `frontend/src/features/dashboard/*` y `shared` solo para piezas transversales.
-- Se implementó `use cache` + `cacheLife` + `cacheTag` para metadata de filtros y revalidación on-demand con `revalidateTag` mediante `POST /api/revalidate/dashboard-meta`.
+- Se implementó `use cache` + `cacheLife` + `cacheTag` para metadata de filtros con expiración por perfil (`hours`) en Cache Components.
 - Se unificó la estrategia de caché de metadata: `use cache` + `cacheLife` + `cacheTag` sin combinar `fetch(...next.revalidate)` en esas funciones para evitar políticas ambiguas.
 - Se añadió soporte de URL interna de backend para SSR en frontend (`NEXT_SERVER_API_URL`) para evitar errores al usar `localhost` cuando el frontend corre en Docker.
 - Se corrigió la resolución de base URL en frontend para SSR/CSR (evitando lógica invertida server/client y URLs con doble `/`), eliminando fallos de conexión falsos hacia `localhost`.

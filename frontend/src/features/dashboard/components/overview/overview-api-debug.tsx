@@ -1,8 +1,8 @@
-import { envConfig } from "@/shared/config/env";
 import { getKpis, getRevenueTrend } from "@/features/dashboard/api/dashboard-api";
 import { ApiDebugPanel } from "@/features/dashboard/components/api-debug-panel";
 import { filtersToApiQuery } from "@/features/dashboard/lib/dashboard-filters";
 import type { DashboardFilters, KpiResult, TimeSeriesPoint } from "@/features/dashboard/types/dashboard";
+import { envConfig } from "@/shared/config/env";
 
 type Props = {
 	filters: DashboardFilters;
@@ -39,7 +39,7 @@ export async function OverviewApiDebug({ filters }: Props) {
 	const [kpisResult, trendResult] = await Promise.all([resolveKpis(filters), resolveTrend(filters)]);
 	return (
 		<div className="space-y-3">
-      <ApiDebugPanel
+			<ApiDebugPanel
 				title="Respuesta /kpis"
 				url={kpisUrl}
 				payload={kpisResult.payload}

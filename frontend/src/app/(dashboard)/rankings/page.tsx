@@ -2,10 +2,10 @@ import { Suspense } from "react";
 import { getFiltersMetadata } from "@/features/dashboard/api/dashboard-api";
 import { GlobalFiltersForm } from "@/features/dashboard/components/global-filters-form";
 import { GlobalFiltersSkeleton } from "@/features/dashboard/components/global-filters-skeleton";
+import { RankingTable } from "@/features/dashboard/components/rankings/ranking-table";
+import { RankingsApiDebug } from "@/features/dashboard/components/rankings/rankings-api-debug";
+import { RankingTableSkeleton } from "@/features/dashboard/components/rankings/ranking-table-skeleton";
 import { parseDashboardFilters } from "@/features/dashboard/lib/dashboard-filters";
-import { RankingTable } from "@/features/rankings/components/ranking-table";
-import { RankingsApiDebug } from "@/features/rankings/components/rankings-api-debug";
-import { RankingTableSkeleton } from "@/features/rankings/components/ranking-table-skeleton";
 
 type PageProps = {
 	searchParams: Promise<Record<string, string | string[] | undefined>>;

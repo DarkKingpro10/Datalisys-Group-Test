@@ -1,8 +1,8 @@
-import { envConfig } from "@/shared/config/env";
 import { getTopProducts } from "@/features/dashboard/api/dashboard-api";
 import { ApiDebugPanel } from "@/features/dashboard/components/api-debug-panel";
 import { filtersToApiQuery } from "@/features/dashboard/lib/dashboard-filters";
 import type { DashboardFilters, TopProduct } from "@/features/dashboard/types/dashboard";
+import { envConfig } from "@/shared/config/env";
 
 type Props = {
 	filters: DashboardFilters;

@@ -2,12 +2,12 @@ import { Suspense } from "react";
 import { getFiltersMetadata } from "@/features/dashboard/api/dashboard-api";
 import { GlobalFiltersForm } from "@/features/dashboard/components/global-filters-form";
 import { GlobalFiltersSkeleton } from "@/features/dashboard/components/global-filters-skeleton";
+import { KpiSection } from "@/features/dashboard/components/overview/kpi-section";
+import { KpiSectionSkeleton } from "@/features/dashboard/components/overview/kpi-section-skeleton";
+import { OverviewApiDebug } from "@/features/dashboard/components/overview/overview-api-debug";
+import { TrendSection } from "@/features/dashboard/components/overview/trend-section";
+import { TrendSectionSkeleton } from "@/features/dashboard/components/overview/trend-section-skeleton";
 import { parseDashboardFilters } from "@/features/dashboard/lib/dashboard-filters";
-import { KpiSection } from "@/features/overview/components/kpi-section";
-import { KpiSectionSkeleton } from "@/features/overview/components/kpi-section-skeleton";
-import { OverviewApiDebug } from "@/features/overview/components/overview-api-debug";
-import { TrendSection } from "@/features/overview/components/trend-section";
-import { TrendSectionSkeleton } from "@/features/overview/components/trend-section-skeleton";
 
 type PageProps = {
 	searchParams: Promise<Record<string, string | string[] | undefined>>;
