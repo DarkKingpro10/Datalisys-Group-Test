@@ -23,6 +23,8 @@ Actualización frontend (marzo 2026)
 - Se añadió estado global de UI en frontend (Zustand) para controlar sidebar colapsable en móvil/desktop y permitir que el contenido ocupe todo el ancho al ocultarlo.
 - Se refinó el comportamiento del sidebar: botón icon-only en header, overlay móvil con backdrop y transición estable al ocultar en desktop.
 - Se resolvió el warning de navegación bloqueada en el drawer móvil envolviendo el sidebar en `Suspense`.
+- Se incorporó un selector de tendencia con vista `Gráfico` por defecto y opción `Tabla` para Revenue + Orders.
+- Se migró la vista de tendencia a un chart combinado con Recharts (Revenue + Orders en el mismo gráfico con doble eje Y) para comparación directa.
 - Se aplicó render con `Suspense` y skeletons (sin texto "cargando") para KPIs, tendencia y ranking.
 - Se cambió `frontend/src/app/page.tsx` a redirección server-side hacia `/overview`.
 - Se unificaron las pantallas de `overview` y `rankings` dentro del feature `dashboard` para reflejar que son vistas del mismo dominio y evitar fragmentación artificial de módulos.

@@ -133,6 +133,8 @@ Comportamiento global entre rutas:
 - Se implementó sidebar colapsable global con Zustand para móvil y desktop, con botón en header y expansión del contenido al ocultar el menú.
 - Se ajustó el sidebar para UX de urgencia: toggle ícono-only a la izquierda del header, drawer overlay en móvil con backdrop y cierre, y ocultado desktop sin parpadeo.
 - Se corrigió el warning de `blocking-route` envolviendo también en `Suspense` el `DashboardSidebar` del drawer móvil.
+- Se añadió selector de visualización en tendencia (`Gráfico | Tabla`) con `Gráfico` por defecto y tabla disponible como vista alternativa.
+- La vista `Gráfico` ahora usa Recharts en un chart combinado (Revenue + Orders) con doble eje Y para comparación directa.
 
 Los filtros de catálogo se renderizan con `select` y usan `code` como valor enviado al backend:
 
@@ -222,8 +224,3 @@ pnpm lint
 pnpm build
 ```
 
-## Siguiente fase sugerida
-
-- Integrar librería de gráfico (Recharts) para reemplazar tabla de tendencia por chart dual
-- Integrar TanStack Table para sorting/filtering/paginación avanzada en rankings
-- Añadir estados empty/error por widget con UX final de producto
