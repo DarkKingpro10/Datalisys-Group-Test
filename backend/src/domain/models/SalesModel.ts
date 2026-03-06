@@ -28,3 +28,23 @@ export type TopProduct = {
   revenue: number
   orders: number
 }
+
+export type PaymentAudit = {
+  id: string; 
+  order_id: string;
+  total_payments: number;
+  payments_count: number;
+  detected_at: Date;
+  reason?: string;
+}
+
+export type PaginatorParams = {
+  page?: number;
+  pageSize?: number;
+}
+
+export type PaymentQueryParams = PaginatorParams & {
+  sortBy?: 'detected_at' | 'total_payments' | 'payments_count';
+  sortDirection?: 'asc' | 'desc';
+  search?: string;
+}

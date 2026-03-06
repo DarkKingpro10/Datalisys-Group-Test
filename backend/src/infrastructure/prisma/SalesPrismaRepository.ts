@@ -2,11 +2,19 @@ import { getPrisma } from "./client.js";
 import type {
 	Filters,
 	KpiResult,
+	PaginatorParams,
+	PaymentAudit,
+	PaymentQueryParams,
 	TimeSeriesPoint,
 	TopProduct,
 } from "../../domain/models/SalesModel.js";
 import type { SalesReadRepository } from "../../domain/ports/SalesReadRepository.js";
-import { Prisma, type DimCustomerState, type DimOrderStatus, type DimProductCategory } from "../../generated/prisma/client.js";
+import {
+	Prisma,
+	type DimCustomerState,
+	type DimOrderStatus,
+	type DimProductCategory,
+} from "../../generated/prisma/client.js";
 import { buildSqlFilterFragments } from "../../shared/utils/filters.js";
 
 /**
@@ -223,10 +231,11 @@ export class SalesPrismaRepository implements SalesReadRepository {
 		}));
 	}
 
-	// Metadata methods
-	async listOrderStatuses(): Promise<
-		DimOrderStatus[]
-	> {
+	/**
+	 * Método para listar estados de orden (GET /metadata/order-statuses)
+	 * @returns DimOrderStatus que corresponde al estado de las ordenes
+	 */
+	async listOrderStatuses(): Promise<DimOrderStatus[]> {
 		const prisma = getPrisma();
 		return prisma.dimOrderStatus.findMany({
 			select: { id: true, code: true, display_name: true },
@@ -234,6 +243,10 @@ export class SalesPrismaRepository implements SalesReadRepository {
 		});
 	}
 
+	/**
+	 * Método para listar estados de clientes (GET /metadata/customer-states)
+	 * @returns Arreglo de DimCustomerState que refleja el estado de los clientes
+	 */
 	async listCustomerStates(): Promise<DimCustomerState[]> {
 		const prisma = getPrisma();
 		return prisma.dimCustomerState.findMany({
@@ -242,13 +255,86 @@ export class SalesPrismaRepository implements SalesReadRepository {
 		});
 	}
 
-	async listProductCategories(): Promise<
-		DimProductCategory[]
-	> {
+	/**
+	 * Método para listar categorias de productos (GET /metadata/product-categories)
+	 * @returns Arreglo que devuelve las categorias de los productos
+	 */
+	async listProductCategories(): Promise<DimProductCategory[]> {
 		const prisma = getPrisma();
 		return prisma.dimProductCategory.findMany({
 			select: { id: true, code: true, display_name: true },
 			orderBy: { code: "asc" },
 		});
+	}
+
+	async getAuditPaymentsWithoutItems(params: PaymentQueryParams): Promise<{
+		data: PaymentAudit[];
+		total: number;
+		page: number;
+		pageSize: number;
+	}> {
+		const prisma = getPrisma();
+
+		const pageSize = Math.min(params.pageSize ?? 10, 100);
+
+		const sortBy = params.sortBy ?? "total_payments";
+		const sortDirection = params.sortDirection ?? "desc";
+		const page = Math.max(params.page ?? 1, 1);
+		const skip = (page - 1) * pageSize;
+
+		const where: Prisma.AuditPaymentsWithoutItemsWhereInput = {};
+
+		const numericSearch = Number(params.search);
+		const isNumeric = !Number.isNaN(numericSearch);
+
+		if (params.search !== undefined && params.search !== null && params.search !== "") {
+			const dateSearch = new Date(params.search);
+			const isValidDate = !isNaN(dateSearch.getTime());
+			where.OR = [
+				{ order_id: { contains: params.search, mode: "insensitive" } },
+				...(isValidDate
+					? [
+							{
+								detected_at: {
+									gte: dateSearch,
+									lt: new Date(dateSearch.getTime() + 24 * 60 * 60 * 1000), // siguiente día
+								},
+							},
+						]
+					: []),
+				...(isNumeric
+					? [
+							{ total_payments: numericSearch },
+							{ payments_count: numericSearch },
+						]
+					: []),
+			];
+		}
+		console.log(where)
+
+		const [rows, total] = await prisma.$transaction([
+			prisma.auditPaymentsWithoutItems.findMany({
+				where,
+				orderBy: {
+					[sortBy]: sortDirection,
+				},
+				skip,
+				take: pageSize,
+			}),
+			prisma.auditPaymentsWithoutItems.count({
+				where,
+			}),
+		]);
+
+		return {
+			data: rows.map((d) => ({
+				...d,
+				id: d.id.toString(),
+				total_payments: d.total_payments.toNumber(),
+			})),
+			total,
+			page,
+			pageSize,
+		};
 	}
 }

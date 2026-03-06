@@ -391,7 +391,8 @@ export const ModelName = {
   FactSales: 'FactSales',
   DimOrderStatus: 'DimOrderStatus',
   DimCustomerState: 'DimCustomerState',
-  DimProductCategory: 'DimProductCategory'
+  DimProductCategory: 'DimProductCategory',
+  AuditPaymentsWithoutItems: 'AuditPaymentsWithoutItems'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "dimDate" | "dimCustomer" | "dimProduct" | "dimOrder" | "factSales" | "dimOrderStatus" | "dimCustomerState" | "dimProductCategory"
+    modelProps: "dimDate" | "dimCustomer" | "dimProduct" | "dimOrder" | "factSales" | "dimOrderStatus" | "dimCustomerState" | "dimProductCategory" | "auditPaymentsWithoutItems"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1003,6 +1004,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AuditPaymentsWithoutItems: {
+      payload: Prisma.$AuditPaymentsWithoutItemsPayload<ExtArgs>
+      fields: Prisma.AuditPaymentsWithoutItemsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuditPaymentsWithoutItemsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuditPaymentsWithoutItemsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>
+        }
+        findFirst: {
+          args: Prisma.AuditPaymentsWithoutItemsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuditPaymentsWithoutItemsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>
+        }
+        findMany: {
+          args: Prisma.AuditPaymentsWithoutItemsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>[]
+        }
+        create: {
+          args: Prisma.AuditPaymentsWithoutItemsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>
+        }
+        createMany: {
+          args: Prisma.AuditPaymentsWithoutItemsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuditPaymentsWithoutItemsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>[]
+        }
+        delete: {
+          args: Prisma.AuditPaymentsWithoutItemsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>
+        }
+        update: {
+          args: Prisma.AuditPaymentsWithoutItemsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuditPaymentsWithoutItemsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuditPaymentsWithoutItemsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuditPaymentsWithoutItemsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuditPaymentsWithoutItemsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditPaymentsWithoutItemsPayload>
+        }
+        aggregate: {
+          args: Prisma.AuditPaymentsWithoutItemsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuditPaymentsWithoutItems>
+        }
+        groupBy: {
+          args: Prisma.AuditPaymentsWithoutItemsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditPaymentsWithoutItemsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuditPaymentsWithoutItemsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditPaymentsWithoutItemsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1130,6 +1205,18 @@ export const DimProductCategoryScalarFieldEnum = {
 export type DimProductCategoryScalarFieldEnum = (typeof DimProductCategoryScalarFieldEnum)[keyof typeof DimProductCategoryScalarFieldEnum]
 
 
+export const AuditPaymentsWithoutItemsScalarFieldEnum = {
+  id: 'id',
+  order_id: 'order_id',
+  total_payments: 'total_payments',
+  payments_count: 'payments_count',
+  detected_at: 'detected_at',
+  reason: 'reason'
+} as const
+
+export type AuditPaymentsWithoutItemsScalarFieldEnum = (typeof AuditPaymentsWithoutItemsScalarFieldEnum)[keyof typeof AuditPaymentsWithoutItemsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1220,6 +1307,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -1339,6 +1440,7 @@ export type GlobalOmitConfig = {
   dimOrderStatus?: Prisma.DimOrderStatusOmit
   dimCustomerState?: Prisma.DimCustomerStateOmit
   dimProductCategory?: Prisma.DimProductCategoryOmit
+  auditPaymentsWithoutItems?: Prisma.AuditPaymentsWithoutItemsOmit
 }
 
 /* Types for Logging */

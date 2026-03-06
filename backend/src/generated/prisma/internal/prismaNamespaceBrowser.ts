@@ -58,7 +58,8 @@ export const ModelName = {
   FactSales: 'FactSales',
   DimOrderStatus: 'DimOrderStatus',
   DimCustomerState: 'DimCustomerState',
-  DimProductCategory: 'DimProductCategory'
+  DimProductCategory: 'DimProductCategory',
+  AuditPaymentsWithoutItems: 'AuditPaymentsWithoutItems'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -163,6 +164,18 @@ export const DimProductCategoryScalarFieldEnum = {
 } as const
 
 export type DimProductCategoryScalarFieldEnum = (typeof DimProductCategoryScalarFieldEnum)[keyof typeof DimProductCategoryScalarFieldEnum]
+
+
+export const AuditPaymentsWithoutItemsScalarFieldEnum = {
+  id: 'id',
+  order_id: 'order_id',
+  total_payments: 'total_payments',
+  payments_count: 'payments_count',
+  detected_at: 'detected_at',
+  reason: 'reason'
+} as const
+
+export type AuditPaymentsWithoutItemsScalarFieldEnum = (typeof AuditPaymentsWithoutItemsScalarFieldEnum)[keyof typeof AuditPaymentsWithoutItemsScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -57,3 +57,8 @@ export type DimCustomerState = Prisma.DimCustomerStateModel
  * 
  */
 export type DimProductCategory = Prisma.DimProductCategoryModel
+/**
+ * Model AuditPaymentsWithoutItems
+ * 
+ */
+export type AuditPaymentsWithoutItems = Prisma.AuditPaymentsWithoutItemsModel
