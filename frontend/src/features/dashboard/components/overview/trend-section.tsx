@@ -16,7 +16,6 @@ export async function TrendSection({ filters }: Props) {
 		return <DataBlockError title="No se pudo cargar la tendencia" />;
 	}
 
-	const latestPoints = series.slice(-14);
 
-	return <TrendSectionView series={latestPoints} grain={filters.grain} />;
+	return <TrendSectionView series={series} grain={filters.grain} />;
 }

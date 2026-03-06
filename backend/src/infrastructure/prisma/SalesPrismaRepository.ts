@@ -97,12 +97,15 @@ export class SalesPrismaRepository implements SalesReadRepository {
 		const on_time_rate =
 			delivered_total === 0 ? 0 : delivered_on_time / delivered_total;
 
+		const aov = orders === 0 ? 0 : revenue / orders;
+		const ipo = orders === 0 ? 0 : items_count / orders;
+
 		return {
 			gmv,
 			revenue,
 			orders,
-			aov: revenue,
-			ipo: items_count === 0 ? 0 : items_count / (orders || 1),
+			aov,
+			ipo,
 			items: items_count,
 			cancel_rate,
 			on_time_rate,

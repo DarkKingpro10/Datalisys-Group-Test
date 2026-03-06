@@ -17,16 +17,13 @@ export class GetKpis {
     const agg = await this.repo.aggregateSalesMetrics(repoParams)
     const orders = agg.orders || 0
     const revenue = agg.revenue || 0
-    const aov = orders === 0 ? 0 : revenue / orders
-    const items = agg.items || 0
-    const ipo = orders === 0 ? 0 : items / orders
 
     return {
       gmv: agg.gmv || 0,
       revenue,
       orders,
-      aov,
-      ipo,
+      aov: agg.aov ?? (orders === 0 ? 0 : revenue / orders),
+      ipo: agg.ipo ?? (orders === 0 ? 0 : (agg.items || 0) / orders),
       cancel_rate: agg.cancel_rate || 0,
       on_time_rate: agg.on_time_rate || 0,
     }
