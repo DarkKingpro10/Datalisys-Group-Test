@@ -115,7 +115,7 @@ export function DashboardShell({ children }: Props) {
 							<button
 								type="button"
 								onClick={toggleSidebar}
-								className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-soft text-foreground transition hover:bg-surface"
+								className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-soft text-foreground transition hover:bg-surface cursor-ew-resize"
 								aria-label={
 									isSidebarOpen ? "Ocultar sidebar" : "Mostrar sidebar"
 								}

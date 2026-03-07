@@ -18,7 +18,11 @@ export function DashboardSidebar() {
 			<nav className="space-y-2">
 				{dashboardSidebarRoutes.map((route) => {
 					const isActive = pathname === route.href;
-					const href = queryString ? `${route.href}?${queryString}` : route.href;
+					let href = queryString ? `${route.href}?${queryString}` : route.href;
+
+					if (route.resetFilters) {
+						href = route.href;
+					}
 
 					return (
 						<Link

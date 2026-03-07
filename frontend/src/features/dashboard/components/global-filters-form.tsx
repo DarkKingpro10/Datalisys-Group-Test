@@ -109,7 +109,7 @@ export function GlobalFiltersForm({
 				title={showFilters ? "Ocultar filtros" : "Expandir filtros"}
 				aria-label={showFilters ? "Ocultar filtros" : "Expandir filtros"}
 				type="button"
-				className="flex w-full items-center justify-between"
+				className="flex w-full items-center justify-between cursor-pointer"
 			>
 				<h1 className="text-lg font-semibold">Filtros globales</h1>
 				<span className="text-sm text-muted hover:text-primary">
