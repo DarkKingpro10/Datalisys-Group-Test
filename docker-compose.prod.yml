@@ -3,7 +3,7 @@ services:
     build:
       context: ./backend
       target: prod
-    command: pnpm etl
+    command: sh -c "pnpm build && pnpm etl"
     volumes: []
     environment:
       NODE_ENV: production

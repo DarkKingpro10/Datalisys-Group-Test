@@ -23,6 +23,7 @@ COPY --from=deps /app/node_modules ./node_modules
 
 # Copiar todo el código
 COPY . .
+COPY .env .env
 
 # Generar cliente Prisma
 RUN pnpm prisma generate
