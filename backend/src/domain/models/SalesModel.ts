@@ -44,7 +44,7 @@ export type PaginatorParams = {
 }
 
 export type PaymentQueryParams = PaginatorParams & {
-  sortBy?: 'detected_at' | 'total_payments' | 'payments_count';
+  sortBy?: 'detected_at' | 'total_payments' | 'payments_count' | 'order_id';
   sortDirection?: 'asc' | 'desc';
   search?: string;
 }

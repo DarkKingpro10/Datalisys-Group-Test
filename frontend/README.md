@@ -1,226 +1,78 @@
+
 # Frontend — Commercial KPI Dashboard
 
-Frontend en Next.js 16 + TypeScript + Tailwind v4 para visualizar KPIs comerciales desde el backend.
+## Propósito
 
-## Fase implementada
+Este frontend implementa un dashboard comercial para visualizar KPIs, tendencias y rankings, consumiendo exclusivamente la API del backend. El objetivo es ofrecer una interfaz clara, responsiva y robusta para la toma de decisiones basada en datos.
 
-Se completó la base funcional del dashboard con enfoque de arquitectura screaming:
+## Stack Tecnológico
 
-- Shell principal con sidebar y navegación
-- Rutas de negocio separadas (`Overview` y `Rankings`)
-- Capa de acceso a datos tipada para API backend
-- Filtros globales por URL
-- Render con `Suspense` + skeletons (sin texto de "cargando" en bloques)
-- Dark mode (`light` / `dark` / `system`) con persistencia
+- **Next.js 16**: Framework React para SSR y SSG, con soporte para Cache Components.
+- **TypeScript**: Tipado estático y contratos robustos.
+- **Tailwind CSS v4**: Estilos utilitarios y diseño responsivo.
+- **TanStack Table**: Renderizado y ordenamiento de tablas.
+- **Recharts**: Visualización de series temporales y comparativas.
+- **Zustand**: Gestión de estado para UI (sidebar, filtros).
 
-## Arquitectura (screaming)
+## Decisiones de negocio y técnicas
 
-```text
-src/
-  app/
-    (dashboard)/
-      error.tsx
-      layout.tsx
-      overview/page.tsx
-      rankings/page.tsx
-    layout.tsx
-    page.tsx
-    globals.css
-  shared/
-    components/
-      route-error-panel.tsx
-      skeleton.tsx
-      theme-toggle.tsx
-    config/
-      env.ts
-    store/
-      dashboard-ui.store.ts
-  features/
-    dashboard/
-      api/
-        dashboard-api.ts
-      components/
-        api-debug-panel.tsx
-        dashboard-shell.tsx
-        dashboard-sidebar.tsx
-        data-block-error.tsx
-        global-filters-form.tsx
-        global-filters-skeleton.tsx
-        overview/
-          kpi-section.tsx
-          kpi-section-skeleton.tsx
-          trend-section.tsx
-          trend-section-skeleton.tsx
-          overview-api-debug.tsx
-        rankings/
-          ranking-table.tsx
-          ranking-table-skeleton.tsx
-          rankings-api-debug.tsx
-      config/
-        routes.ts
-      lib/
-        dashboard-filters.ts
-        format.ts
-      types/
-        dashboard.ts
-```
+- **Arquitectura screaming**: Separación clara entre dominio (dashboard) y componentes transversales (`shared`). El código específico de negocio reside en `features/dashboard`.
+- **Filtros globales por URL**: Los filtros (rango de fechas, estado, categoría, región) se gestionan por query string y se comparten entre vistas, garantizando consistencia y navegación fluida.
+- **Cache Components**: La metadata (estados, categorías) se cachea con `cacheLife("hours")` y tags, evitando llamadas redundantes y permitiendo invalidación controlada.
+- **Tolerancia a fallos**: Cada bloque de datos (KPIs, tendencia, rankings) maneja errores de API de forma aislada, mostrando estados de error sin romper la ruta completa.
+- **Dark mode persistente**: El modo de visualización se selecciona y persiste en localStorage, con script temprano para evitar flash visual.
 
-## Rutas implementadas
+## Estructura del proyecto
 
-- `/overview`: KPIs + tendencia (Revenue/Orders)
-- `/rankings`: tabla de top productos
-- `/`: redirección a `/overview`
-
-Archivo de rutas central:
-
-- `src/features/dashboard/config/routes.ts`
+- `src/app/(dashboard)`: Vistas principales (`overview`, `rankings`), layout, error boundary.
+- `src/features/dashboard`: Lógica de negocio, API tipada, componentes de visualización, filtros, utilidades.
+- `src/shared`: Componentes transversales (skeleton, error panel, theme toggle), configuración y store de UI.
 
 ## Integración con backend
 
-Se consumen estos endpoints (base `NEXT_PUBLIC_API_URL`):
+- Endpoints consumidos: `/kpis`, `/trend/revenue`, `/rankings/products`, `/meta/order-statuses`, `/meta/customer-states`, `/meta/product-categories`.
+- Cliente tipado en `src/features/dashboard/api/dashboard-api.ts`, con timeout y manejo de errores para SSR.
 
-- `/kpis`
-- `/trend/revenue`
-- `/rankings/products`
-- `/meta/order-statuses`
-- `/meta/customer-states`
-- `/meta/product-categories`
+## Filtros y navegación
 
-Cliente tipado:
+- Filtros aplicados: `from`, `to`, `customer_state`, `order_status`, `product_category_name`, `grain`, `metric`, `limit`.
+- El sidebar y la navegación preservan los filtros actuales, permitiendo compartir estado entre vistas.
+- El formulario de filtros se sincroniza con la URL y permite reinicio al estado inicial.
 
-- `src/features/dashboard/api/dashboard-api.ts`
-- Incluye timeout y manejo de fallo de red para evitar bloqueos largos en SSR.
 
-Cache Components para metadata:
+## Tablas y visualización de datos
 
-- `getOrderStatuses`, `getCustomerStates` y `getProductCategories` usan `use cache`.
-- Se aplica `cacheLife("hours")` para vida útil de caché.
-- Se aplican tags con `cacheTag` por recurso de metadata.
-- En esas funciones no se usa `fetch(..., { next: { revalidate } })` para evitar mezclar políticas de caché; la expiración se controla únicamente con `cacheLife` y la invalidación on-demand por tags.
+Se implementaron dos tipos de tablas según el volumen y la lógica requerida:
 
-Tags usadas:
+- **TanStack Table**: Utilizada en la vista de rankings (`src/features/dashboard/components/rankings/ranking-table.tsx`) y auditoría, permite ordenamiento, paginación y manejo avanzado de datos. Es adecuada para conjuntos de datos medianos a grandes donde se requiere interacción y lógica de UI.
+- **Tabla nativa simple**: Usada en la vista de tendencia cuando el usuario selecciona la opción "Tabla" (`src/features/dashboard/components/overview/trend-section.tsx`). Esta tabla no implementa lógica adicional, ya que el volumen de datos es bajo y se prioriza la simplicidad y velocidad de renderizado.
 
-- `dashboard:meta:order-statuses`
-- `dashboard:meta:customer-states`
-- `dashboard:meta:product-categories`
+Esta decisión permite optimizar la experiencia según el caso de uso: TanStack Table para rankings/auditoría y tabla nativa para visualización rápida de series temporales.
 
-No se expone endpoint de revalidación on-demand en el frontend en esta versión; la metadata se refresca por política de `cacheLife("hours")`.
+## UX y diseño
 
-## Filtros globales
+- Skeletons y `Suspense` para loading en bloques de datos.
+- Responsive global: sidebar colapsable, header adaptable, controles apilables en móvil/tablet.
+- Selector de visualización en tendencia (gráfico/tabla), con chart combinado (Revenue + Orders).
 
-Se aplican por query string y se envían al backend:
+## Manejo de errores
 
-- `from`
-- `to`
-- `customer_state`
-- `order_status`
-- `product_category_name`
-- `grain`
-- `metric`
-- `limit`
-
-Comportamiento global entre rutas:
-
-- La navegación del sidebar preserva los query params actuales, por lo que los filtros se comparten entre `/overview` y `/rankings`.
-- Se añadió botón `Reiniciar filtros globales` en el formulario para volver al estado inicial (rango default + filtros extra vacíos + controles de ranking por defecto).
-- El formulario de filtros se sincroniza visualmente con la URL al navegar o cambiar query params (evita desalineación entre estado visible y estado aplicado).
-- Se corrigió el bloque de acciones del formulario para móvil (botones en columna con ancho completo) evitando overflow horizontal.
-- Se reforzó responsive global del dashboard en móvil: header adaptable, toggle de tema sin desborde y encabezados de bloques (tendencia/rankings) apilables.
-- Se corrigió y reaplicó el layout responsive del dashboard (`app/(dashboard)/layout.tsx`) con contención horizontal (`overflow-x-clip`) y `min-w-0` en el contenedor principal.
-- Se corrigió el error de navegación bloqueada en Next.js envolviendo `DashboardSidebar` en `Suspense` con fallback en `app/(dashboard)/layout.tsx`.
-- Se mejoró la distribución de filtros en tablet (`md/lg`) y se corrigió el toggle de expandir/ocultar filtros para evitar doble disparo de eventos.
-- Se unificó el formulario de filtros en una sola grilla (sin separación por secciones) para mantener continuidad visual en tablet y evitar cortes de layout.
-- Se implementó sidebar colapsable global con Zustand para móvil y desktop, con botón en header y expansión del contenido al ocultar el menú.
-- Se ajustó el sidebar para UX de urgencia: toggle ícono-only a la izquierda del header, drawer overlay en móvil con backdrop y cierre, y ocultado desktop sin parpadeo.
-- Se corrigió el warning de `blocking-route` envolviendo también en `Suspense` el `DashboardSidebar` del drawer móvil.
-- Se añadió selector de visualización en tendencia (`Gráfico | Tabla`) con `Gráfico` por defecto y tabla disponible como vista alternativa.
-- La vista `Gráfico` ahora usa Recharts en un chart combinado (Revenue + Orders) con doble eje Y para comparación directa.
-
-Los filtros de catálogo se renderizan con `select` y usan `code` como valor enviado al backend:
-
-- Estado de orden (`order_status`)
-- Estado de cliente (`customer_state`)
-- Categoría de producto (`product_category_name`)
-
-Rango inicial por defecto al entrar al dashboard:
-
-- `from = 2016-08-31`
-- `to = fecha actual`
-
-Este rango inicial asegura que la primera carga muestre datos históricos del dataset.
-
-Formulario implementado con `useActionState` (sin `useState` para submit de formulario):
-
-- `src/features/dashboard/components/global-filters-form.tsx`
-- Utilidad de query unificada: `filtersToQuery` en `src/features/dashboard/lib/dashboard-filters.ts`.
-
-## Loading UX
-
-Se usa `Suspense` con skeletons en bloques de datos:
-
-- KPIs (overview)
-- Tendencia (overview)
-- Tabla de rankings
-
-Componente reutilizable:
-
-- `src/shared/components/skeleton.tsx`
-- `src/features/dashboard/components/global-filters-skeleton.tsx`
-
-Nota de criterio arquitectónico:
-
-- `shared` queda reservado para piezas realmente transversales (tema, skeleton base, route error panel, hooks genéricos).
-- Todo lo específico del dominio dashboard vive en `features/dashboard/*`.
-
-Tolerancia a fallos de API por bloque:
-
-- Los componentes de `features/dashboard/components/overview` y `features/dashboard/components/rankings` encapsulan su `try/catch`.
-- Si un endpoint falla, se muestra estado de error en el bloque (`DataBlockError`) sin romper la ruta completa.
-
-Manejo de error por ruta:
-
-- Se añadió `src/app/(dashboard)/error.tsx` como error boundary del segmento.
-- El panel de error es ocultable y permite `Reintentar` usando `reset()`.
-- Componente reutilizable: `src/shared/components/route-error-panel.tsx`.
-
-Debug temporal de API (inspección de payload):
-
-- Puedes activar paneles de depuración agregando `debug_api=1` en la URL.
-- Ejemplo: `/overview?debug_api=1` o `/rankings?debug_api=1`.
-- Muestra URL consultada + JSON devuelto por backend o mensaje de error.
-
-## Dark mode
-
-- Modo por defecto: `system`
-- Selección manual: claro/oscuro/sistema
-- Persistencia en `localStorage`
-- Script temprano en layout para evitar flash visual
-- Lógica local en `theme-toggle` (sin store/provider global)
+- Error boundaries por ruta (`src/app/(dashboard)/error.tsx`).
+- Panel de error ocultable y opción de reintentar.
+- Debug API: panel de inspección activable por query param (`debug_api=1`).
 
 ## Variables de entorno
 
-Se valida la configuración en:
+- Configuración validada en `src/shared/config/env.ts`.
+- Variables: `NEXT_PUBLIC_API_URL`, `NEXT_SERVER_API_URL` (SSR en Docker), `NEXT_PUBLIC_FRONTEND_PORT`.
 
-- `src/shared/config/env.ts`
+## Comandos principales
 
-Variables usadas:
-
-- `NEXT_PUBLIC_API_URL`
-- `NEXT_SERVER_API_URL` (opcional; recomendado en Docker para SSR, por ejemplo `http://backend:8000/api`)
-- `NEXT_PUBLIC_FRONTEND_PORT` (opcional, default `3000`)
-
-Nota de resolución de URL:
-
-- En server-side rendering se usa `SERVER_API_URL` para evitar llamadas a `localhost` dentro del contenedor de frontend.
-- En cliente/navegador se usa `NEXT_PUBLIC_API_URL`.
-
-## Comandos
-
-En carpeta `frontend`:
+Desde la carpeta `frontend`:
 
 ```bash
-pnpm dev
-pnpm lint
-pnpm build
+pnpm dev      # Desarrollo local
+pnpm lint     # Linting
+pnpm build    # Build de producción
 ```
 
